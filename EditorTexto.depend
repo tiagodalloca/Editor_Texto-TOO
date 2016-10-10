@@ -1,0 +1,24 @@
+# depslib dependency file v1.0
+1475752212 source:c:\users\u15191\documents\codeblocks programs\editortexto\main.cpp
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	"String.h"
+
+1475751231 c:\users\u15191\documents\codeblocks programs\editortexto\string.h
+
+1475752026 source:c:\users\u15191\documents\codeblocks programs\editortexto\string.cpp
+	"String.h"
+
+1476096148 source:f:\segundo semestre\ensino técnico\tópicos em orientação a objetos\editortexto\main.cpp
+	<iostream>
+	<stdlib.h>
+	<stdio.h>
+	"String.h"
+
+1476095834 f:\segundo semestre\ensino técnico\tópicos em orientação a objetos\editortexto\string.h
+
+1476096010 source:f:\segundo semestre\ensino técnico\tópicos em orientação a objetos\editortexto\string.cpp
+	"String.h"
+	<stdlib.h>
+
