@@ -1,13 +1,11 @@
 #include <iostream>
 #include <stdlib.h>
 #include <stdio.h>
-#include "String.h"
+#include <conio.h>
 using namespace std;
 
 int main()
 {
-    char* r = (char*)malloc(3*sizeof(char));
-    r = "123";
-    printf("%c", *(r + 2));
-    return 0;
+  printf("%i" , getch());
+  return 2;
 }
