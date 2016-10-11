@@ -16,6 +16,12 @@ class String
         void insere(unsigned int pos, char c);
         char& operator[](unsigned int pos) const;
         char* toString() const;
+        void append(char c);
+        bool operator >(String oso);
+        bool operator >=(String oso);
+        bool operator ==(String oso);
+        bool operator <(String oso);
+        bool operator !=(String oso);
         void operator=(char *c);
 
 

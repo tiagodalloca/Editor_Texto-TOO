@@ -39,12 +39,100 @@ int String::length() const
 
 void String::deleta(unsigned int posIni, unsigned int posFinal)
 {
-    for(int i = posIni; i<=posFinal; i++)
+    int diferenca = posFinal - posIni + 1;
+    for(int i = 1; i<=diferenca; i++)
     {
-        deletaCharAt(i);
+        deletaCharAt(posIni);
     }
 }
 
+bool String::operator!=(String oso)
+{
+    String s(this->conteudo);
+    if(oso == s)
+        return false;
+    return true;
+
+}
+bool String::operator>(String oso)
+{
+    int menor;
+    if(this->length() < oso.length())
+        menor = this->length();
+    else
+        menor = oso.length();
+    for(int i = 0; i <menor;i++)
+    {
+        if(*(this->conteudo + i)!= oso[i])
+        {
+            if((*(this->conteudo + i) > oso[i]))
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+    return this->length() > oso.length();
+}
+
+bool String::operator>=(String oso)
+{
+    String s(this->conteudo);
+    if(s==oso)
+    return true;
+
+    return s>oso;
+}
+
+bool String::operator<(String oso)
+{
+    int menor;
+    if(this->length() < oso.length())
+        menor = this->length();
+    else
+        menor = oso.length();
+    for(int i = 0; i <menor;i++)
+    {
+        if(*(this->conteudo + i)!= oso[i])
+        {
+            if((*(this->conteudo + i) < oso[i]))
+            {
+                return true;
+            }
+            return false;
+        }
+    }
+    return this->length() < oso.length();
+}
+
+bool String::operator<=(String oso)
+{
+    String s(this->conteudo);
+    if(s == oso)
+        return true;
+    return s < oso;
+}
+
+
+
+bool String::operator==(String oso)
+{
+    if(oso.length()!=this->length())
+        return false;
+
+    for(int i = 0; i <this->length();i++)
+    if(*(this->conteudo + i) != oso[i])
+        return false;
+
+    return true;
+
+
+}
+void String::append(char c)
+{
+    int dpsDoFim = length();
+    *(conteudo + dpsDoFim) = c;
+}
 char& String::operator[](unsigned int pos) const
 {
     return *(conteudo + pos);
@@ -52,7 +140,6 @@ char& String::operator[](unsigned int pos) const
 
 void String::deletaCharAt(unsigned int pos)
 {
-    *(conteudo + pos) = ' ';
     int i;
     for(i = pos;i<length();i++)
     {
