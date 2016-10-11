@@ -1,6 +1,11 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 3.1)
 
-project(Editor-Texto)
-add_executable(Editor_Texto main.cpp)
-include_directories ("${PROJECT_SOURCE_DIR}/header")
-include_directories ("${PROJECT_SOURCE_DIR}/src")
+set(CMAKE_USE_RELATIVE_PATHS TRUE)
+
+file(GLOB SRC
+    "*.cpp"
+    "./header/*.h"
+    "./src/*.cpp"
+)
+
+add_executable(Editor_Texto ${SRC})
