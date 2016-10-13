@@ -27,6 +27,7 @@ void ListaSimples::adicionarFinal(T info){
   this.*ultimo->prox = no;
 }
 
+
 template<class T>
 void ListaSimples::percorrer(void(*f)(T)){
   struct NoLista *atual = new NoLista;
