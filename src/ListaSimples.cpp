@@ -12,6 +12,7 @@ unsigned int ListaSimples::quantos(){
   return this.quantos;
 }
 
+template<class T>
 void ListaSimples::adicionarComeço(T info){
   struct *NoLista no;
   *no->info = T;
@@ -19,10 +20,9 @@ void ListaSimples::adicionarComeço(T info){
   this.primeiro = no;
 }
 
+template<class T>
 void ListaSimples::adicionarFinal(T info){
   struct *NoLista no;
   *no->info = T;
   this.*ultimo->prox = no;
 }
-
-#endif

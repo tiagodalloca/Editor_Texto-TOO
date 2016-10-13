@@ -1,11 +1,10 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.3)
+
+project(Editor CXX)
 
 set(CMAKE_USE_RELATIVE_PATHS TRUE)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-file(GLOB SRC
-    "*.cpp"
-    "./header/*.h"
-    "./src/*.cpp"
-)
-
-add_executable(Editor_Texto ${SRC})
+add_subdirectory("${CMAKE_SOURCE_DIR}/src")
