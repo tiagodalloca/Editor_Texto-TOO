@@ -1,8 +1,11 @@
-include_directories ("${CMAKE_SOURCE_DIR}/header")
+cmake_minimum_required(VERSION 3.3)
 
-#[[file(GLOB SRC
-  *.cpp
+file(GLOB HEADERS
+  "${PROJECT_SOURCE_DIR}/header/*.h"
 )
-add_library(src ${SRC})]]
-add_executable(et main.cpp)
-#xtarget_link_libraries(et src)
+
+file(GLOB SRC
+  "${PROJECT_SOURCE_DIR}/src/*.cpp"
+)
+
+add_executable(et ${SRC} ${HEADERS})
