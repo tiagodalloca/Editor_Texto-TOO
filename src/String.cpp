@@ -24,7 +24,7 @@ String::String (unsigned int len)
 
 String::~String ()
 {
-    free(conteudo);
+    delete conteudo;
 }
 
 
@@ -164,7 +164,17 @@ char* String::toString() const
     return conteudo;
 }
 
-void String::operator=(char *c)
+String& String::operator=(const String &oso)
 {
-    conteudo = c;
+    String s(oso);
+    return s;
+}
+
+String::String(const String &oso)
+{
+    this->conteudo = new char;
+    for(int i = 0; i < oso.length();i++)
+    {
+        *(this->conteudo + i) = oso[i];
+    }
 }

@@ -21,8 +21,10 @@ class String
         bool operator >=(String oso);
         bool operator ==(String oso);
         bool operator <(String oso);
+        bool operator <=(String oso);
         bool operator !=(String oso);
-        void operator=(char *c);
+        String& operator=(const String& oso);
+        String(const String& oso);
 
 
 };
