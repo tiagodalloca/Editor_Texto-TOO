@@ -8,13 +8,13 @@ ListaSimples::ListaSimples(){
   this.quantos = 0;
 }
 
-unsigned int ListaSimples::quantos(){
+unsigned int ListaSimples::getQuantos(){
   return this.quantos;
 }
 
 template<class T>
 void ListaSimples::adicionarComeço(T info){
-  struct *NoLista no;
+  struct NoLista *no = new NoLista;
   *no->info = T;
   *no->prox = this.primeiro;
   this.primeiro = no;
@@ -22,7 +22,16 @@ void ListaSimples::adicionarComeço(T info){
 
 template<class T>
 void ListaSimples::adicionarFinal(T info){
-  struct *NoLista no;
+  struct NoLista *no = new NoLista;
   *no->info = T;
   this.*ultimo->prox = no;
+}
+
+template<class T>
+void ListaSimples::percorrer(void(*f)(T)){
+  struct NoLista *atual = new NoLista;
+  while (atual != this.ultimo){
+    *f(*atual->info);
+    atual = *atual->prox;
+  }
 }

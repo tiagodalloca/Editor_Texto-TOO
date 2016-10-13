@@ -8,6 +8,5 @@ using namespace std;
 int main()
 {
   printf("%i" , getch());
-  return 0;
-  
+  return 0;  
 }
