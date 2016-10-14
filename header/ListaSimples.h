@@ -39,7 +39,7 @@ template<typename T>
 ListaSimples<T>::~ListaSimples(){
   struct NoLista<T> *atual;
   atual = primeiro;
-  while(atual != ultimo){
+  while(*atual != *ultimo){
     struct NoLista<T> *aux;
     aux = atual;
     atual = *atual->prox;
@@ -56,39 +56,53 @@ template<typename T>
 void ListaSimples<T>::adicionarComeco(T info){
   struct NoLista<T> *no = new NoLista<T>(info, primeiro);
   primeiro = no;
+  if (ultimo == NULL)
+    ultimo = primeiro;
 }
 
 template<typename T>
 void ListaSimples<T>::adicionarFinal(T info){
-  struct NoLista<T> *no = new NoLista<T>(info, NULL);
-  *ultimo->prox = no;
+  if (ultimo == NULL)
+    adicionarComeco(info);
+  else{
+    struct NoLista<T> *no = new NoLista<T>(info, NULL);
+    *ultimo->prox = no;
+  }
 }
 
 template<typename T>
 T ListaSimples<T>::retirarComeco(){
-  struct NoLista<T> *aux;
-  aux = this->primeiro;
-  this->primeiro = this->*primeiro->prox;
-  T ret = *aux->info;
-  delete aux;
-  return ret;
+  if (primeiro == NULL){
+    struct NoLista<T> *aux;
+    aux = this->primeiro;
+    this->primeiro = this->*primeiro->prox;
+    T ret = *aux->info;
+    delete aux;
+    return ret;
+  }
+  else
+    return 0;
 }
 
 template<typename T>
 T ListaSimples<T>::retirarFinal(){
-  struct NoLista<T> *atual;
-  struct NoLista<T> *anterior;
-  atual = primeiro;
-  while(atual != ultimo){
-    anterior = atual;
-    atual = *atual->prox;
+  if (ultimo != NULL){
+    struct NoLista<T> *atual;
+    struct NoLista<T> *anterior;
+    atual = primeiro;
+    while(*atual != *ultimo){
+      anterior = atual;
+      atual = *atual->prox;
+    }
+    // atual vai ser último
+    // anterior vai ser antepenúltimo
+    T ret = *atual->info;
+    delete atual;
+    this->ultimo = anterior;
+    return ret; 
   }
-  // atual vai ser último
-  // anterior vai ser antepenúltimo
-  T ret = *atual->info;
-  delete atual;
-  this->ultimo = anterior;
-  return ret;
+  else
+    return 0;
 }
 
 template<typename T>
@@ -105,7 +119,7 @@ template<typename T>
 void ListaSimples<T>::percorrer(void(*f)(T)){
   struct NoLista<T> *atual;
   atual = primeiro;
-  while (atual != ultimo){
+  while (*atual != *ultimo){
     *f(*atual->info);
     atual = *atual->prox;
   }
