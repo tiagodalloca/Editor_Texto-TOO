@@ -4,7 +4,7 @@
 template<class T>
 struct NoLista{
   T info;
-  struct NoLista<T>* prox;
+  struct NoLista<T> *prox;
 };
 
 
@@ -23,8 +23,8 @@ public:
   T getUltimo();
   void percorrer(void (*f)(T));
  private:
-  struct NoLista<T>* primeiro;
-  struct NoLista<T>* ultimo;
+  struct NoLista<T> *primeiro;
+  struct NoLista<T> *ultimo;
   unsigned int quantos;
 };
 
@@ -37,12 +37,12 @@ ListaSimples<T>::ListaSimples(){
 
 template<typename T>
 ListaSimples<T>::~ListaSimples(){
-  struct NoLista<T> *atual;
+  struct NoLista<T> *atual = new NoLista<T>();
   atual = primeiro;
-  while(*atual != *ultimo){
+  while(atual != ultimo){
     struct NoLista<T> *aux;
     aux = atual;
-    atual = *atual->prox;
+    atual = atual->prox;
     delete aux;
   }
 }
@@ -54,7 +54,9 @@ unsigned int ListaSimples<T>::getQuantos(){
 
 template<typename T>
 void ListaSimples<T>::adicionarComeco(T info){
-  struct NoLista<T> *no = new NoLista<T>(info, primeiro);
+  struct NoLista<T> *no = new NoLista<T>();
+  no->info = info;
+  no->prox = primeiro;
   primeiro = no;
   if (ultimo == NULL)
     ultimo = primeiro;
@@ -65,8 +67,9 @@ void ListaSimples<T>::adicionarFinal(T info){
   if (ultimo == NULL)
     adicionarComeco(info);
   else{
-    struct NoLista<T> *no = new NoLista<T>(info, NULL);
-    *ultimo->prox = no;
+    struct NoLista<T> *no = new NoLista<T>();
+    no->info = info;
+    ultimo->prox = no;
   }
 }
 
@@ -75,8 +78,8 @@ T ListaSimples<T>::retirarComeco(){
   if (primeiro == NULL){
     struct NoLista<T> *aux;
     aux = this->primeiro;
-    this->primeiro = this->*primeiro->prox;
-    T ret = *aux->info;
+    this->primeiro = this->primeiro->prox;
+    T ret = aux->info;
     delete aux;
     return ret;
   }
@@ -90,39 +93,40 @@ T ListaSimples<T>::retirarFinal(){
     struct NoLista<T> *atual;
     struct NoLista<T> *anterior;
     atual = primeiro;
-    while(*atual != *ultimo){
+    while(atual != ultimo){
       anterior = atual;
       atual = *atual->prox;
     }
     // atual vai ser último
     // anterior vai ser antepenúltimo
-    T ret = *atual->info;
+    T ret = atual->info;
     delete atual;
     this->ultimo = anterior;
     return ret; 
   }
   else
-    return 0;
+   return 0;
 }
 
 template<typename T>
 T ListaSimples<T>::getPrimeiro(){
-  return this->*primeiro->info;
+  return this->primeiro->info;
 }
 
 template<typename T>
 T ListaSimples<T>::getUltimo(){
-  return this->*ultimo->info;  
+  return this->ultimo->info;  
 }
 
 template<typename T>
 void ListaSimples<T>::percorrer(void(*f)(T)){
   struct NoLista<T> *atual;
   atual = primeiro;
-  while (*atual != *ultimo){
-    *f(*atual->info);
-    atual = *atual->prox;
+  while (atual != ultimo){
+    f(atual->info);
+    atual = atual->prox;
   }
+  f(atual->info);
 }
   
   
