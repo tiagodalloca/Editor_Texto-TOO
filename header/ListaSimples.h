@@ -22,7 +22,7 @@ public:
   T getPrimeiro();
   T getUltimo();
   void percorrer(void (*f)(T));
- private:
+ protected:
   struct NoLista<T> *primeiro;
   struct NoLista<T> *ultimo;
   unsigned int quantos;
@@ -60,6 +60,7 @@ void ListaSimples<T>::adicionarComeco(T info){
   primeiro = no;
   if (ultimo == NULL)
     ultimo = primeiro;
+  quantos++;
 }
 
 template<typename T>
@@ -71,6 +72,7 @@ void ListaSimples<T>::adicionarFinal(T info){
     no->info = info;
     ultimo->prox = no;
   }
+  quantos++;
 }
 
 template<typename T>
@@ -81,6 +83,7 @@ T ListaSimples<T>::retirarComeco(){
     this->primeiro = this->primeiro->prox;
     T ret = aux->info;
     delete aux;
+    quantos++;
     return ret;
   }
   else
@@ -102,6 +105,7 @@ T ListaSimples<T>::retirarFinal(){
     T ret = atual->info;
     delete atual;
     this->ultimo = anterior;
+    quantos++;
     return ret; 
   }
   else
