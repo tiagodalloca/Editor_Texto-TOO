@@ -77,17 +77,17 @@ void ListaSimples<T>::adicionarFinal(T info){
 
 template<typename T>
 T ListaSimples<T>::retirarComeco(){
-  if (primeiro == NULL){
+  if (primeiro != NULL){
     struct NoLista<T> *aux;
     aux = this->primeiro;
     this->primeiro = this->primeiro->prox;
     T ret = aux->info;
-    delete aux;
+    free(aux);
     quantos++;
     return ret;
   }
   else
-    return 0;
+    throw std::out_of_range("underflow");
 }
 
 template<typename T>
@@ -109,7 +109,7 @@ T ListaSimples<T>::retirarFinal(){
     return ret; 
   }
   else
-   return 0;
+    throw std::out_of_range("underflow");
 }
 
 template<typename T>

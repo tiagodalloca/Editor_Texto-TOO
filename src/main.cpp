@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <conio.h>
 #include "ListaSimples.h"
+#include "Pilha.h"
+#include "String.h"
 using namespace std;
 
 void printi(int i){
@@ -11,6 +13,10 @@ void printi(int i){
 
 int main(){
   ListaSimples<int> *l = new ListaSimples<int>();
+  Pilha<String> p = Pilha<String>();
+
+  printf("Teste com a lista: \n");
+
   l->adicionarComeco(1);
   l->adicionarComeco(2);
   l->adicionarComeco(3);
@@ -24,7 +30,16 @@ int main(){
   l->adicionarFinal(2);
   l->adicionarFinal(3);
   l->percorrer(&printi);
-  
-  return 0;
-}
 
+  printf("Teste com a pilha: \n");
+
+  p.push(String("12345"));
+  p.push(String("1234"));
+  p.push(String("123"));
+  p.push(String("12"));
+  p.push(String("1"));
+
+  while(!p.vazia()){
+    printf("%s", p.pop().toString());
+  }
+}

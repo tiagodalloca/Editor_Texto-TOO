@@ -9,9 +9,10 @@ public:
   Pilha();
   ~Pilha();
   unsigned int getQuantos();
-  T getTopo();
+  T peek();
   T pop();
   void push(T info);
+  bool vazia();
 private:
   ListaSimples<T> lista;
 };
@@ -23,7 +24,7 @@ Pilha<T>::Pilha(){
 
 template<typename T>
 Pilha<T>::~Pilha(){
-  delete lista;
+  lista.~ListaSimples<T>();
 }
 
 template<typename T>
@@ -32,18 +33,26 @@ unsigned int Pilha<T>::getQuantos(){
 }
 
 template<typename T>
-T Pilha<T>::getTopo(){
+T Pilha<T>::peek(){
   return lista.getPrimeiro();
 }
 
 template<typename T>
 void Pilha<T>::push(T info){
-  lista.adicionarComeco();
+  lista.adicionarComeco(info);
 }
 
 template<typename T>
 T Pilha<T>::pop(){
-  return lista.retirarComeco();
+  if (lista.getQuantos() > 0)
+    return lista.retirarComeco();
+  else
+    throw std::out_of_range("Assim você arrebenta com tudo");
+}
+
+template<typename T>
+bool Pilha<T>::vazia(){
+  return lista.getQuantos() == 0;
 }
 
 #endif
