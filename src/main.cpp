@@ -21,17 +21,20 @@ int main(){
   l->adicionarComeco(2);
   l->adicionarComeco(3);
   l->percorrer(&printi);
-
-  l->retirarComeco();
-  l->retirarComeco();
-  l->retirarComeco();
   
   l->adicionarFinal(1);
   l->adicionarFinal(2);
   l->adicionarFinal(3);
+  l->retirarComeco();
+  printf("\n");
   l->percorrer(&printi);
 
-  printf("Teste com a pilha: \n");
+  l->retirarFinal();
+  l->retirarFinal();
+  printf("\n");
+  l->percorrer(&printi);
+
+  printf("\n\nTeste com a pilha: \n");
 
   p.push(String("12345"));
   p.push(String("1234"));
@@ -40,6 +43,6 @@ int main(){
   p.push(String("1"));
 
   while(!p.vazia()){
-    printf("%s", p.pop().toString());
+    printf("%s\n", p.pop().toString());
   }
 }

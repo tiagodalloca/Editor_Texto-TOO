@@ -52,7 +52,7 @@ T Pilha<T>::pop(){
 
 template<typename T>
 bool Pilha<T>::vazia(){
-  return lista.getQuantos() == 0;
+  return lista.getQuantos() <= 0;
 }
 
 #endif

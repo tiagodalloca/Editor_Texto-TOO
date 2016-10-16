@@ -71,6 +71,7 @@ void ListaSimples<T>::adicionarFinal(T info){
     struct NoLista<T> *no = new NoLista<T>();
     no->info = info;
     ultimo->prox = no;
+    ultimo = no;
   }
   quantos++;
 }
@@ -82,8 +83,8 @@ T ListaSimples<T>::retirarComeco(){
     aux = this->primeiro;
     this->primeiro = this->primeiro->prox;
     T ret = aux->info;
-    free(aux);
-    quantos++;
+    delete aux;
+    quantos--;
     return ret;
   }
   else
@@ -98,14 +99,16 @@ T ListaSimples<T>::retirarFinal(){
     atual = primeiro;
     while(atual != ultimo){
       anterior = atual;
-      atual = *atual->prox;
+      atual = atual->prox;
     }
     // atual vai ser último
     // anterior vai ser antepenúltimo
     T ret = atual->info;
+    ultimo = anterior;
+    ultimo->prox = NULL;
+    anterior = NULL;
     delete atual;
-    this->ultimo = anterior;
-    quantos++;
+    quantos--;
     return ret; 
   }
   else
