@@ -14,14 +14,15 @@ class ListaSimples{
 public:
   ListaSimples();
   ~ListaSimples();
-  unsigned int getQuantos();
+  ListaSimples(const ListaSimples<T> *l);
+  unsigned int getQuantos() const;
   void adicionarComeco(T);
   void adicionarFinal(T);
   T retirarComeco();
   T retirarFinal();
-  T getPrimeiro();
-  T getUltimo();
-  void percorrer(void (*f)(T));
+  T getPrimeiro() const;
+  T getUltimo() const;
+  void percorrer(void (*f)(T)) const;
  protected:
   struct NoLista<T> *primeiro;
   struct NoLista<T> *ultimo;
@@ -37,9 +38,9 @@ ListaSimples<T>::ListaSimples(){
 
 template<typename T>
 ListaSimples<T>::~ListaSimples(){
-  struct NoLista<T> *atual = new NoLista<T>();
+  struct NoLista<T> *atual;
   atual = primeiro;
-  while(atual != ultimo){
+  while(atual != NULL){
     struct NoLista<T> *aux;
     aux = atual;
     atual = atual->prox;
@@ -48,7 +49,18 @@ ListaSimples<T>::~ListaSimples(){
 }
 
 template<typename T>
-unsigned int ListaSimples<T>::getQuantos(){
+ListaSimples<T>::ListaSimples(const ListaSimples<T> *l){
+  struct NoLista<T> *atual;
+  atual = l->primeiro;
+  while(atual != NULL){
+    adicionarFinal(atual->info);
+    atual = atual->prox;
+  }
+}
+
+
+template<typename T>
+unsigned int ListaSimples<T>::getQuantos() const{
   return quantos;
 }
 
@@ -116,17 +128,17 @@ T ListaSimples<T>::retirarFinal(){
 }
 
 template<typename T>
-T ListaSimples<T>::getPrimeiro(){
+T ListaSimples<T>::getPrimeiro() const{
   return this->primeiro->info;
 }
 
 template<typename T>
-T ListaSimples<T>::getUltimo(){
+T ListaSimples<T>::getUltimo() const{
   return this->ultimo->info;  
 }
 
 template<typename T>
-void ListaSimples<T>::percorrer(void(*f)(T)){
+void ListaSimples<T>::percorrer(void(*f)(T)) const{
   struct NoLista<T> *atual;
   atual = primeiro;
   while (atual != ultimo){
