@@ -16,6 +16,7 @@ class String
         void insere(unsigned int pos, char c);
         char& operator[](unsigned int pos) const;
         char* toString() const;
+        void alteraCont(char* outro);
         void append(char c);
         bool operator >(String oso);
         bool operator >=(String oso);
@@ -23,6 +24,7 @@ class String
         bool operator <(String oso);
         bool operator <=(String oso);
         bool operator !=(String oso);
+
         String& operator=(const String& oso);
         String(const String& oso);
 

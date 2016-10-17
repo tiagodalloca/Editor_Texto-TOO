@@ -13,6 +13,11 @@ String::String(char* novoCont)
     conteudo = novoCont;
 }
 
+void String::alteraCont(char* outro)
+{
+    conteudo = outro;
+}
+
 String::String (unsigned int len)
 {
     if(len <= 256)
@@ -24,7 +29,7 @@ String::String (unsigned int len)
 
 String::~String ()
 {
-    delete conteudo;
+    delete[] conteudo;
 }
 
 
