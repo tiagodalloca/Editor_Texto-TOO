@@ -1,6 +1,6 @@
-#include "io.h"
-#include "stdlib.h"
-#include "stdio.h"
+#include <io.h>
+#include <stdlib.h>
+#include <stdio.h>
 #include "conio.h"
 #include "ListaSimples.h"
 #include "Pilha.h"
@@ -15,7 +15,7 @@ int main(){
   ListaSimples<int> *l = new ListaSimples<int>;
   Pilha<String> p = Pilha<String>();
   // Pilha<int> *p = new Pilha<int>;
-
+  
   printf("Teste com a lista: \n");
 
   l->adicionarComeco(1);
