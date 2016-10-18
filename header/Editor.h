@@ -7,7 +7,11 @@
 
 class Editor{
 public:
-  char* linhasAsString();
+  char *linhasAsString();
+  void subirLinha();
+  void descerLinha();
+  void irParaEsquerda();
+  void irParaDireita();
 private:
   ListaCD<String> linhas;
   unsigned int *coluna;
