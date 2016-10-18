@@ -1,7 +1,7 @@
-#include <iostream>
-#include <stdlib.h>
-#include <stdio.h>
-#include <conio.h>
+#include "io.h"
+#include "stdlib.h"
+#include "stdio.h"
+#include "conio.h"
 #include "ListaSimples.h"
 #include "Pilha.h"
 #include "String.h"
