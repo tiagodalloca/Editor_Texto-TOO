@@ -14,18 +14,20 @@ String::String ()
 
 String::String(char* novoCont)
 {
-    for(int i = 0; i < 256;i++)
+   for(int i = 0; i < 256;i++)
     {
-        if(*(novoCont + i) == NULL)
+        if(*(novoCont + i) =='\0')
         {
             tam = i;
             break;
         }
+
     }
 
-    conteudo = (char*) malloc((tam-1) * sizeof(char));
+    conteudo = (char*) malloc((tam+1) * sizeof(char));
 
-    strcpy(conteudo ,novoCont);
+    strncpy(conteudo ,novoCont,tam);
+    conteudo[tam] = '\0';
 
 }
 
@@ -193,7 +195,8 @@ String& String::operator=(const String &oso)
 
 String::String(const String &oso)
 {
-    this->conteudo = new char;
+
+    this->conteudo =(char*)malloc(oso.length()*sizeof(char));
     for(int i = 0; i < oso.length();i++)
     {
         *(this->conteudo + i) = oso[i];

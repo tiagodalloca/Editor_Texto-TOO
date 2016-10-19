@@ -15,11 +15,12 @@ class ListaCD
         ListaCD();
         ~ListaCD();
         ListaCD(const ListaCD& other);
-        ListaCD& operator=(const ListaCD& other);
-        void insiraAntes(Dado novo);
-        void insira(Dado novo);
-        void insiraNoFim(Dado novo);
+        ListaCD operator=(const ListaCD& other);
+        void insiraNoComeco(Dado novo);
         void insiraNoMeio(Dado novo);
+        void insiraNoFim(Dado novo);
+        void insira(Dado novo);
+        void insiraDepois(Dado novo);
         void remova();
         void removaDepois();
         Dado infoAtual();
@@ -55,24 +56,23 @@ ListaCD<Dado>::~ListaCD()
 
 }
 
-
-template <class Dado>
-void ListaCD<Dado>::insiraNoFim(Dado novoDado)
+template<class Dado>
+void ListaCD<Dado>::insiraNoComeco(Dado novoDado)
 {
     struct NoLista<Dado>* aux = new NoLista<Dado>;
     aux->info = novoDado;
-    if (primeiro == NULL)
+    if (estaVazia())       // se a lista está vazia, estamos
     {
-        primeiro = ultimo = aux;
+    ultimo = primeiro = aux; // incluindo o 1o e o último nós!
     }
-    else
-    ultimo->prox = aux;
 
-    quantosNos++;
+    aux->prox = primeiro; // faz o novo nó apontar para o nó
     aux->ant = ultimo;
-    aux->prox = primeiro;
     primeiro->ant = aux;
-    ultimo = aux;
+    ultimo->prox = aux;
+    primeiro = aux;      // atualmente no início da lista
+    quantosNos++;           // (que pode ser null)
+
 }
 
 template <class Dado>
@@ -97,6 +97,25 @@ void ListaCD<Dado>::insiraNoMeio(Dado novoDado)
     quantosNos++;           // incrementa número de nós da lista
 }
 
+template <class Dado>
+void ListaCD<Dado>::insiraNoFim(Dado novoDado)
+{
+    struct NoLista<Dado>* aux = new NoLista<Dado>;
+    aux->info = novoDado;
+    if (estaVazia())
+    {
+        primeiro = ultimo = aux;
+    }
+    else
+    ultimo->prox = aux;
+
+    quantosNos++;
+    aux->ant = ultimo;
+    aux->prox = primeiro;
+    primeiro->ant = aux;
+    ultimo = aux;
+    delete aux;
+}
 
 
 
@@ -104,22 +123,67 @@ template<class Dado>
 void ListaCD<Dado>::insira(Dado novoDado)
 {
     if(posAtual == 0)
-    insiraAntes(novoDado);
+    insiraNoComeco(novoDado);
     else
     insiraNoMeio(novoDado);
+}
+
+template<class Dado>
+void ListaCD<Dado>::insiraDepois(Dado novoDado)
+{
+    if(posAtual == quantosNos - 1)
+    insiraNoFim(novoDado);
+    else
+    {
+        posAtual++;
+        insiraNoMeio(novoDado);
+        posAtual--;
+    }
 
 }
 
+template<class Dado>
+void ListaCD<Dado>::remova()
+{
+    struct NoLista<Dado>* aux = primeiro;
+    for(int i = 0; i <posAtual;i++)
+        aux = aux->prox;
+    if (!estaVazia())
+      {
+        if (aux == primeiro)
+        {
+            primeiro = primeiro->prox;
+            if (estaVazia())
+                ultimo = NULL;
+            else
+            {
+                ultimo->prox = primeiro;
+                primeiro->ant = ultimo;
+            }
+        }
+        else
+            if (aux == ultimo)
+            {
+                ultimo = aux->ant;
+                ultimo->prox = primeiro;
+                primeiro->ant = ultimo;
+            }
+            else
+            {
+                aux->ant->prox = aux->prox;
+                aux->prox->ant = aux->ant;
+            }
+
+        quantosNos--;
+      }
+}
 
 template<class Dado>
 void ListaCD<Dado>::removaDepois()
 {
-    struct NoLista<Dado>* aux = primeiro;
-    for(int i = 0; i < quantosNos; i++)
-
-    ultimo = atual->ant;
-    ultimo.Prox = primeiro;
-    primeiro.Anterior = ultimo;
+    posAtual++;
+    remova();
+    posAtual--;
 }
 
 
@@ -130,24 +194,7 @@ int ListaCD<Dado>::getPos()
 }
 
 
-template<class Dado>
-void ListaCD<Dado>::insiraAntes(Dado novoDado)
-{
-    struct NoLista<Dado>* aux = new NoLista<Dado>;
-    aux->info = novoDado;
-    if (primeiro == NULL)       // se a lista está vazia, estamos
-    {
-    ultimo = primeiro = aux; // incluindo o 1o e o último nós!
-    }
 
-    aux->prox = primeiro; // faz o novo nó apontar para o nó
-    aux->ant = ultimo;
-    primeiro->ant = aux;
-    ultimo->prox = aux;
-    primeiro = aux;      // atualmente no início da lista
-    quantosNos++;           // (que pode ser null)
-
-}
 
 template <class Dado>
 Dado ListaCD<Dado>::infoAtual()
@@ -184,10 +231,43 @@ void ListaCD<Dado>::printarLista()
 {
     int pos = posAtual;
     for(posAtual = 0; posAtual <quantosNos;posAtual++)
+    {
         std::cout << infoAtual();
+        std::cout<<std::endl;
+    }
+
     posAtual = pos;
-    std::cout<<std::endl;
+
 }
+
+template<class Dado>
+bool ListaCD<Dado>::estaVazia()
+{
+    return primeiro == NULL;
+}
+
+
+template<class Dado>
+ListaCD<Dado> ListaCD<Dado>::operator=(const ListaCD& other)
+{
+    ListaCD<Dado> lcd(other);
+    return lcd;
+}
+
+template<class Dado>
+ListaCD<Dado>::ListaCD(const ListaCD& other)
+{
+    this->posAtual = other.posAtual;
+    this->quantosNos= other.quantosNos;
+    primeiro = new char;
+    ultimo = new char;
+    for(int i = 0;i<other.posAtual;i++)
+    {
+        *(this->primeiro+i) = *(other.primeiro + i);
+    }
+
+}
+
 #endif // LISTACD_H
 
 
