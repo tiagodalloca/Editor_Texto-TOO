@@ -1,17 +1,34 @@
 #include "String.h"
 #include <stdlib.h>
-
+#include <stdio.h>
+#include <string.h>
+using namespace std;
 char* conteudo;
+int tam ;
 
 String::String ()
 {
-    conteudo = (char*) malloc(sizeof(char) * 256);
+    tam = 256;
+    conteudo = (char*) malloc(sizeof(char) * tam);
 }
 
 String::String(char* novoCont)
 {
-    conteudo = novoCont;
+    for(int i = 0; i < 256;i++)
+    {
+        if(*(novoCont + i) == NULL)
+        {
+            tam = i;
+            break;
+        }
+    }
+
+    conteudo = (char*) malloc((tam-1) * sizeof(char));
+
+    strcpy(conteudo ,novoCont);
+
 }
+
 
 void String::alteraCont(char* outro)
 {
@@ -171,8 +188,7 @@ char* String::toString() const
 
 String& String::operator=(const String &oso)
 {
-    String s(oso);
-    return s;
+//    return s;
 }
 
 String::String(const String &oso)
@@ -182,4 +198,17 @@ String::String(const String &oso)
     {
         *(this->conteudo + i) = oso[i];
     }
+}
+
+
+ostream& operator<<(ostream& OS, const String& S)
+{
+return (OS << S.conteudo);
+}
+
+istream& operator>> (istream& IS, String& S)
+{
+IS >> S.conteudo;
+
+return IS;
 }
