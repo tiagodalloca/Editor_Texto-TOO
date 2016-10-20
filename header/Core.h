@@ -1,11 +1,11 @@
-#ifndef CORE
-#define CORE
+#ifndef BUFFER
+#define BUFFER
 
 #include "String.h"
 #include "Pilha.h"
 #include "ListaCD.h"
 
-class Core{
+class Buffer{
 public:
   char* linhasAsString();
   void subirLinha();
@@ -16,7 +16,7 @@ public:
   void inserirLinha();
   void deletarADireita();
   void deletarAEsquerda();
-  char* getLinha(int);
+  char* getLinha(unsigned int);
 private:
   ListaCD<String> linhas;
   unsigned int *coluna;

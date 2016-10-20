@@ -7,10 +7,7 @@
 using namespace std;
 
 class KeyResolver{
-  struct Binding{
-    char* key;
-    void(*f)();
-  };
+
 public:
   KeyResolver();
   KeyResolver(const KeyResolver&);
@@ -23,3 +20,10 @@ private:
 };
 
 #endif
+
+/*
+KeyResolver *kr = new KeyResolver;
+kr->mapear("C-s", &salvar);
+kr->start();
+ */
+

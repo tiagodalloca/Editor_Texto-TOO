@@ -4,7 +4,34 @@ Coloque aqui uma descrição super legal para que fique bem evidente o que deve 
 
 Coloque o arquivo maligno
 
-## Descrição
+## Modelagem
+
+### `String`
+
+Vai representar cada linha do buffer (uma string = uma linha)
+
+### `ListaCD`
+
+Vai representar um conjunto de linhas (`String`s)
+
+### Buffer
+
+Guardará o texto que estiver sendo editado
+
+### KeyResolver
+
+Vai "resolver" as teclas pressionadas pelo usuário, fazendo com que as funções certas sejam executadas.
+
+### Editor
+
+O Editor conterá:
+    - `KeyResolver`
+    - `Buffer`
+    - `Métodos`
+    
+Terá que fazer o meio de entre o `Buffer` e o `KeyResolver`
+
+## Descrição MALIGNA
 
 ### String
 
