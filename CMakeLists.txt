@@ -13,8 +13,12 @@ include_directories (
 
 set (HEADERS
   header/ListaSimples.h
+  header/ListaCD.h
   header/String.h
   header/Pilha.h
+
+  header/Core.h
+  header/KeyResolver.h
 )
 
 set (SRC
