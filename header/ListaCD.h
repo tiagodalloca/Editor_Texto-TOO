@@ -257,10 +257,10 @@ ListaCD<Dado> ListaCD<Dado>::operator=(const ListaCD& other)
 template<class Dado>
 ListaCD<Dado>::ListaCD(const ListaCD& other)
 {
-    this->posAtual = other.posAtual;
-    this->quantosNos= other.quantosNos;
+    this->posAtual   = other.posAtual;
+    this->quantosNos = other.quantosNos;
     primeiro = new char;
-    ultimo = new char;
+    ultimo   = new char;
     for(int i = 0;i<other.posAtual;i++)
     {
         *(this->primeiro+i) = *(other.primeiro + i);

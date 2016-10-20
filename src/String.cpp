@@ -24,10 +24,9 @@ String::String(char* novoCont)
 
     }
 
-    conteudo = (char*) malloc((tam+1) * sizeof(char));
+    conteudo = (char*) malloc((tam + 1) * sizeof(char));
 
-    strncpy(conteudo ,novoCont,tam);
-    conteudo[tam] = '\0';
+    strncpy(conteudo ,novoCont, tam + 1);
 
 }
 
@@ -185,7 +184,7 @@ void String::insere(unsigned int pos, char c)
 
 char* String::toString() const
 {
-    return conteudo;
+	return conteudo;
 }
 
 String& String::operator=(const String &oso)
@@ -199,7 +198,7 @@ String::String(const String &oso)
     this->conteudo =(char*)malloc(oso.length()*sizeof(char));
     for(int i = 0; i < oso.length();i++)
     {
-        *(this->conteudo + i) = oso[i];
+        *(this->conteudo + i) = (char)oso[i];
     }
 }
 

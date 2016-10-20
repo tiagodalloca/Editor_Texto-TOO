@@ -1,15 +1,16 @@
 #ifndef LISTA_SIMPLES
 #define LISTA_SIMPLES
 
-template<class T>
-struct NoLista{
-  T info;
-  struct NoLista<T> *prox;
-};
 
+using namespace std;
 
 template<typename T>
 class ListaSimples{
+
+struct NoLista{
+  T info;
+  struct NoLista *prox;
+};
 
 public:
   ListaSimples();
@@ -24,8 +25,8 @@ public:
   T getUltimo() const;
   void percorrer(void (*f)(T)) const;
  protected:
-  struct NoLista<T> *primeiro;
-  struct NoLista<T> *ultimo;
+  struct NoLista *primeiro;
+  struct NoLista *ultimo;
   unsigned int quantos;
 };
 
@@ -38,10 +39,10 @@ ListaSimples<T>::ListaSimples(){
 
 template<typename T>
 ListaSimples<T>::~ListaSimples(){
-  struct NoLista<T> *atual;
+  struct NoLista *atual;
   atual = primeiro;
   while(atual != NULL){
-    struct NoLista<T> *aux;
+    struct NoLista *aux;
     aux = atual;
     atual = atual->prox;
     delete aux;
@@ -50,7 +51,7 @@ ListaSimples<T>::~ListaSimples(){
 
 template<typename T>
 ListaSimples<T>::ListaSimples(const ListaSimples<T> *l){
-  struct NoLista<T> *atual;
+  struct NoLista *atual;
   atual = l->primeiro;
   while(atual != NULL){
     adicionarFinal(atual->info);
@@ -65,8 +66,8 @@ unsigned int ListaSimples<T>::getQuantos() const{
 }
 
 template<typename T>
-void ListaSimples<T>::adicionarComeco(T info){
-  struct NoLista<T> *no = new NoLista<T>();
+void ListaSimples<T>::adicionarComeco(const T info){
+  struct NoLista *no = new NoLista;
   no->info = info;
   no->prox = primeiro;
   primeiro = no;
@@ -76,11 +77,11 @@ void ListaSimples<T>::adicionarComeco(T info){
 }
 
 template<typename T>
-void ListaSimples<T>::adicionarFinal(T info){
+void ListaSimples<T>::adicionarFinal(const T info){
   if (ultimo == NULL)
     adicionarComeco(info);
   else{
-    struct NoLista<T> *no = new NoLista<T>();
+    struct NoLista *no = new NoLista;
     no->info = info;
     ultimo->prox = no;
     ultimo = no;
@@ -91,7 +92,7 @@ void ListaSimples<T>::adicionarFinal(T info){
 template<typename T>
 T ListaSimples<T>::retirarComeco(){
   if (primeiro != NULL){
-    struct NoLista<T> *aux;
+    struct NoLista *aux;
     aux = this->primeiro;
     this->primeiro = this->primeiro->prox;
     T ret = aux->info;
@@ -100,14 +101,14 @@ T ListaSimples<T>::retirarComeco(){
     return ret;
   }
   else
-    throw std::out_of_range("underflow");
+    throw exception("underflow");
 }
 
 template<typename T>
 T ListaSimples<T>::retirarFinal(){
   if (ultimo != NULL){
-    struct NoLista<T> *atual;
-    struct NoLista<T> *anterior;
+    struct NoLista*atual;
+    struct NoLista *anterior;
     atual = primeiro;
     while(atual != ultimo){
       anterior = atual;
@@ -121,10 +122,10 @@ T ListaSimples<T>::retirarFinal(){
     anterior = NULL;
     delete atual;
     quantos--;
-    return ret; 
+    return ret;
   }
   else
-    throw std::out_of_range("underflow");
+    throw exception("underflow");
 }
 
 template<typename T>
@@ -134,12 +135,12 @@ T ListaSimples<T>::getPrimeiro() const{
 
 template<typename T>
 T ListaSimples<T>::getUltimo() const{
-  return this->ultimo->info;  
+  return this->ultimo->info;
 }
 
 template<typename T>
 void ListaSimples<T>::percorrer(void(*f)(T)) const{
-  struct NoLista<T> *atual;
+  struct NoLista *atual;
   atual = primeiro;
   while (atual != ultimo){
     f(atual->info);
@@ -147,6 +148,6 @@ void ListaSimples<T>::percorrer(void(*f)(T)) const{
   }
   f(atual->info);
 }
-  
-  
+
+
 #endif
