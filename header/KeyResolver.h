@@ -26,4 +26,3 @@ KeyResolver *kr = new KeyResolver;
 kr->mapear("C-s", &salvar);
 kr->start();
  */
-
