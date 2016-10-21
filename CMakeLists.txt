@@ -14,15 +14,15 @@ include_directories (
 set (HEADERS
   header/ListaSimples.h
   header/ListaCD.h
-  header/String.h
+  header/MyString.h
   header/Pilha.h
 
-  header/Core.h
+  header/Buffer.h
   header/KeyResolver.h
 )
 
 set (SRC
-  src/String.cpp
+  src/MyString.cpp
 )
 
 set (ALL ${HEADERS} ${SRC})

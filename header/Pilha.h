@@ -47,7 +47,7 @@ T Pilha<T>::pop(){
   if (!this->vazia())
     return lista->retirarComeco();
   else
-    throw std::out_of_range("Assim você arrebenta com tudo");
+    throw "Underflow";
 }
 
 template<typename T>

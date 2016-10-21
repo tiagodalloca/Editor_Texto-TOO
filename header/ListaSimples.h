@@ -1,6 +1,8 @@
 #ifndef LISTA_SIMPLES
 #define LISTA_SIMPLES
 
+#include <stdlib.h>
+#include <excpt.h>
 
 using namespace std;
 
@@ -101,7 +103,7 @@ T ListaSimples<T>::retirarComeco(){
     return ret;
   }
   else
-    throw exception("underflow");
+    throw "Underflow";
 }
 
 template<typename T>
@@ -125,7 +127,7 @@ T ListaSimples<T>::retirarFinal(){
     return ret;
   }
   else
-    throw exception("underflow");
+    throw "Underflow";
 }
 
 template<typename T>

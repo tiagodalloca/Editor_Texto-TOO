@@ -4,7 +4,7 @@
 #include "conio.h"
 #include "ListaSimples.h"
 #include "Pilha.h"
-#include "String.h"
+#include "MyString.h"
 using namespace std;
 
 void printi(int i){
