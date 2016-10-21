@@ -11,6 +11,7 @@ class KeyResolver{
 
 public:
   KeyResolver();
+  ~KeyResolver();
   KeyResolver(const KeyResolver&);
   void resolver();
   void mapear(const char*, void());

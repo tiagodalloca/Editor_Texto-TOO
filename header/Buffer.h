@@ -1,7 +1,7 @@
 #ifndef BUFFER
 #define BUFFER
 
-#include "String.h"
+#include "MyString.h"
 #include "Pilha.h"
 #include "ListaCD.h"
 
