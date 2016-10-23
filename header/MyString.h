@@ -7,6 +7,7 @@ class MyString
 {
     private:
         char* conteudo;
+        int tam;
 
     public:
         MyString();
@@ -21,12 +22,12 @@ class MyString
         char* toString() const;
         void alteraCont(char* outro);
         void append(char c);
-        bool operator >(MyString oso);
-        bool operator >=(MyString oso);
-        bool operator ==(MyString oso);
-        bool operator <(MyString oso);
-        bool operator <=(MyString oso);
-        bool operator !=(MyString oso);
+        bool operator >(const MyString& oso);
+        bool operator >=(const MyString& oso);
+        bool operator ==(const MyString& oso);
+        bool operator <(const MyString& oso) ;
+        bool operator <=(const MyString& oso) ;
+        bool operator !=(const MyString& oso) ;
         MyString& operator=(const MyString& oso);
         MyString(const MyString& oso);
         friend ostream& operator<< (ostream&, const MyString&);
