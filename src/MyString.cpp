@@ -1,18 +1,18 @@
 #include "MyString.h"
 #include <stdlib.h>
 #include <stdio.h>
-#include <string.h>
+#include <String.h>
 using namespace std;
 char* conteudo;
 int tam ;
 
-String::String ()
+MyString::MyString ()
 {
     tam = 256;
     conteudo = (char*) malloc(sizeof(char) * tam);
 }
 
-String::String(char* novoCont)
+MyString::MyString(char* novoCont)
 {
    for(int i = 0; i < 256;i++)
     {
@@ -28,15 +28,17 @@ String::String(char* novoCont)
 
     strncpy(conteudo ,novoCont, tam + 1);
 
+    conteudo[tam] = '\0';
+
 }
 
 
-void String::alteraCont(char* outro)
+void MyString::alteraCont(char* outro)
 {
     conteudo = outro;
 }
 
-String::String (unsigned int len)
+MyString::MyString (unsigned int len)
 {
     if(len <= 256)
         conteudo = (char*) malloc(len * sizeof(char) );
@@ -45,13 +47,13 @@ String::String (unsigned int len)
 }
 
 
-String::~String ()
+MyString::~MyString ()
 {
     delete[] conteudo;
 }
 
 
-int String::length() const
+int MyString::length() const
 {
     for(int i = 0; i < 256;i++)
     {
@@ -60,7 +62,7 @@ int String::length() const
     }
 }
 
-void String::deleta(unsigned int posIni, unsigned int posFinal)
+void MyString::deleta(unsigned int posIni, unsigned int posFinal)
 {
     int diferenca = posFinal - posIni + 1;
     for(int i = 1; i<=diferenca; i++)
@@ -69,15 +71,15 @@ void String::deleta(unsigned int posIni, unsigned int posFinal)
     }
 }
 
-bool String::operator!=(String oso)
+bool MyString::operator!=(MyString oso)
 {
-    String s(this->conteudo);
+    MyString s(this->conteudo);
     if(oso == s)
         return false;
     return true;
 
 }
-bool String::operator>(String oso)
+bool MyString::operator>(MyString oso)
 {
     int menor;
     if(this->length() < oso.length())
@@ -98,16 +100,16 @@ bool String::operator>(String oso)
     return this->length() > oso.length();
 }
 
-bool String::operator>=(String oso)
+bool MyString::operator>=(MyString oso)
 {
-    String s(this->conteudo);
+    MyString s(this->conteudo);
     if(s==oso)
     return true;
 
     return s>oso;
 }
 
-bool String::operator<(String oso)
+bool MyString::operator<(MyString oso)
 {
     int menor;
     if(this->length() < oso.length())
@@ -128,9 +130,9 @@ bool String::operator<(String oso)
     return this->length() < oso.length();
 }
 
-bool String::operator<=(String oso)
+bool MyString::operator<=(MyString oso)
 {
-    String s(this->conteudo);
+    MyString s(this->conteudo);
     if(s == oso)
         return true;
     return s < oso;
@@ -138,7 +140,7 @@ bool String::operator<=(String oso)
 
 
 
-bool String::operator==(String oso)
+bool MyString::operator==(MyString oso)
 {
     if(oso.length()!=this->length())
         return false;
@@ -151,17 +153,17 @@ bool String::operator==(String oso)
 
 
 }
-void String::append(char c)
+void MyString::append(char c)
 {
     int dpsDoFim = length();
     *(conteudo + dpsDoFim) = c;
 }
-char& String::operator[](unsigned int pos) const
+char& MyString::operator[](unsigned int pos) const
 {
     return *(conteudo + pos);
 }
 
-void String::deletaCharAt(unsigned int pos)
+void MyString::deletaCharAt(unsigned int pos)
 {
     int i;
     for(i = pos;i<length();i++)
@@ -170,7 +172,7 @@ void String::deletaCharAt(unsigned int pos)
     }
     *(conteudo + i) = NULL;
 }
-void String::insere(unsigned int pos, char c)
+void MyString::insere(unsigned int pos, char c)
 {
     int i = length();
     for(i = length();i>pos;i--)
@@ -182,17 +184,17 @@ void String::insere(unsigned int pos, char c)
     *(conteudo + length()-1)=NULL;
 }
 
-char* String::toString() const
+char* MyString::toString() const
 {
-	return conteudo;
+    return conteudo;
 }
 
-String& String::operator=(const String &oso)
+MyString& MyString::operator=(const MyString &oso)
 {
 //    return s;
 }
 
-String::String(const String &oso)
+MyString::MyString(const MyString &oso)
 {
 
     this->conteudo =(char*)malloc(oso.length()*sizeof(char));
@@ -200,15 +202,16 @@ String::String(const String &oso)
     {
         *(this->conteudo + i) = (char)oso[i];
     }
+    *(this->conteudo + oso.length()) = '\0';
 }
 
 
-ostream& operator<<(ostream& OS, const String& S)
+ostream& operator<<(ostream& OS, const MyString& S)
 {
 return (OS << S.conteudo);
 }
 
-istream& operator>> (istream& IS, String& S)
+istream& operator>> (istream& IS, MyString& S)
 {
 IS >> S.conteudo;
 

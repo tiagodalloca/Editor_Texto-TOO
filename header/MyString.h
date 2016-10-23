@@ -1,18 +1,18 @@
-#ifndef STRING_H_INCLUDED
-#define STRING_H_INCLUDED
+#ifndef MyString_H_INCLUDED
+#define MyString_H_INCLUDED
 #include <iostream>
 using namespace std;
 
-class String
+class MyString
 {
     private:
         char* conteudo;
 
     public:
-        String();
-        String(unsigned int len);
-        String(char* contNovo);
-        ~String();
+        MyString();
+        MyString(unsigned int len);
+        MyString(char* contNovo);
+        ~MyString();
         int length() const;
         void deleta(unsigned int posIni, unsigned int posFinal);
         void deletaCharAt(unsigned int pos);
@@ -21,17 +21,17 @@ class String
         char* toString() const;
         void alteraCont(char* outro);
         void append(char c);
-        bool operator >(String oso);
-        bool operator >=(String oso);
-        bool operator ==(String oso);
-        bool operator <(String oso);
-        bool operator <=(String oso);
-        bool operator !=(String oso);
-        String& operator=(const String& oso);
-        String(const String& oso);
-        friend ostream& operator<< (ostream&, const String&);
-        friend istream& operator>> (istream&, String&);
+        bool operator >(MyString oso);
+        bool operator >=(MyString oso);
+        bool operator ==(MyString oso);
+        bool operator <(MyString oso);
+        bool operator <=(MyString oso);
+        bool operator !=(MyString oso);
+        MyString& operator=(const MyString& oso);
+        MyString(const MyString& oso);
+        friend ostream& operator<< (ostream&, const MyString&);
+        friend istream& operator>> (istream&, MyString&);
 };
 
 
-#endif // STRING_H_INCLUDED
+#endif // MyString_H_INCLUDED

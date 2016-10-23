@@ -2,15 +2,17 @@
 #define LISTACD_H
 #include "String.h"
 
-template <class Dado>
-struct NoLista{
-  Dado info;
-  struct NoLista<Dado> *prox;
-  struct NoLista<Dado> *ant;
-};
+
+
 template<class Dado>
 class ListaCD
 {
+    struct NoLista{
+    Dado info;
+    struct NoLista *prox;
+    struct NoLista *ant;
+    };
+
     public:
         ListaCD();
         ~ListaCD();
@@ -18,7 +20,7 @@ class ListaCD
         ListaCD operator=(const ListaCD& other);
         void insiraNoComeco(Dado novo);
         void insiraNoMeio(Dado novo);
-        void insiraNoFim(Dado novo);
+        void insiraNoFim(const Dado &novo);
         void insira(Dado novo);
         void insiraDepois(Dado novo);
         void remova();
@@ -29,14 +31,17 @@ class ListaCD
         int getPos();
         bool estaVazia();
         void printarLista();
+        void adicionarFinal(const Dado info);
+        void adicionarComeco(const Dado info);
+        Dado getPrimeiro() const;
 
     protected:
 
     private:
         int posAtual = 0;
         int quantosNos = 0;
-        NoLista<Dado> *primeiro;
-        NoLista<Dado> *ultimo;
+        NoLista *primeiro;
+        NoLista *ultimo;
 };
 
 template <class Dado>
@@ -57,65 +62,100 @@ ListaCD<Dado>::~ListaCD()
 }
 
 template<class Dado>
+void ListaCD<Dado>::adicionarComeco(const Dado info){
+  struct NoLista *no = new NoLista;
+  no->info = info;
+  no->prox = primeiro;
+  primeiro = no;
+  if (ultimo == NULL)
+    ultimo = primeiro;
+  quantosNos++;
+}
+
+template<class Dado>
 void ListaCD<Dado>::insiraNoComeco(Dado novoDado)
 {
-    struct NoLista<Dado>* aux = new NoLista<Dado>;
+    struct NoLista* aux = new NoLista;
     aux->info = novoDado;
-    if (estaVazia())       // se a lista está vazia, estamos
+    if (estaVazia())
     {
-    ultimo = primeiro = aux; // incluindo o 1o e o último nós!
+    ultimo = primeiro = aux;
     }
 
-    aux->prox = primeiro; // faz o novo nó apontar para o nó
+    aux->prox = primeiro;
     aux->ant = ultimo;
     primeiro->ant = aux;
     ultimo->prox = aux;
-    primeiro = aux;      // atualmente no início da lista
-    quantosNos++;           // (que pode ser null)
+    primeiro = aux;
+    quantosNos++;
 
 }
+
+template<class Dado>
+Dado ListaCD<Dado>::getPrimeiro() const{
+  return this->primeiro->info;
+}
+
+
+template<class Dado>
+void ListaCD<Dado>::adicionarFinal(const Dado info){
+  if (ultimo == NULL)
+    adicionarComeco(info);
+  else{
+    struct NoLista *no = new NoLista;
+    no->info = info;
+    ultimo->prox = no;
+    ultimo = no;
+  }
+  quantosNos++;
+}
+
+
+template <class Dado>
+void ListaCD<Dado>::insiraNoFim(const Dado &novoDado)
+{
+    if (estaVazia())
+    {
+        insiraNoComeco(novoDado);
+    }
+    else
+    {
+        struct NoLista* aux = new NoLista;
+        aux->info = novoDado;
+        ultimo->prox = aux;
+        quantosNos++;
+        aux->ant = ultimo;
+        aux->prox = primeiro;
+        primeiro->ant = aux;
+        ultimo = aux;
+        delete aux;
+    }
+}
+
 
 template <class Dado>
 void ListaCD<Dado>::insiraNoMeio(Dado novoDado)
 {
-    struct NoLista<Dado>* aux  = new NoLista<Dado>;
+    struct NoLista* aux  = new NoLista;
     aux->info = novoDado;
-    struct NoLista<Dado>* onde = primeiro;
+    struct NoLista* onde = primeiro;
     for(int i = 0; i<posAtual;i++)
     {
         onde = onde->prox;
     }
-    onde->ant->prox = aux;   // liga anterior ao novo
-    aux->prox = onde;      // e novo no atual
+    onde->ant->prox = aux;
+    aux->prox = onde;
     aux->ant = onde->ant;
     onde->ant = aux;
 
 
-    if (onde == primeiro)  // se incluiu antes do início da lista,
-       primeiro = aux;     // atualiza o apontador primeiro
-
-    quantosNos++;           // incrementa número de nós da lista
-}
-
-template <class Dado>
-void ListaCD<Dado>::insiraNoFim(Dado novoDado)
-{
-    struct NoLista<Dado>* aux = new NoLista<Dado>;
-    aux->info = novoDado;
-    if (estaVazia())
-    {
-        primeiro = ultimo = aux;
-    }
-    else
-    ultimo->prox = aux;
+    if (onde == primeiro)
+       primeiro = aux;
 
     quantosNos++;
-    aux->ant = ultimo;
-    aux->prox = primeiro;
-    primeiro->ant = aux;
-    ultimo = aux;
-    delete aux;
 }
+
+
 
 
 
@@ -145,7 +185,7 @@ void ListaCD<Dado>::insiraDepois(Dado novoDado)
 template<class Dado>
 void ListaCD<Dado>::remova()
 {
-    struct NoLista<Dado>* aux = primeiro;
+    struct NoLista* aux = primeiro;
     for(int i = 0; i <posAtual;i++)
         aux = aux->prox;
     if (!estaVazia())
@@ -199,9 +239,9 @@ int ListaCD<Dado>::getPos()
 template <class Dado>
 Dado ListaCD<Dado>::infoAtual()
 {
-    struct NoLista<Dado> *aux;
+    struct NoLista *aux;
     aux = primeiro;
-    for(int i = 0; i <posAtual;i++)
+    for(int i = 0; i < this->posAtual;i++)
     {
         aux = aux->prox;
     }
@@ -229,11 +269,11 @@ void ListaCD<Dado>::retroceda()
 template<class Dado>
 void ListaCD<Dado>::printarLista()
 {
-    int pos = posAtual;
+    int pos = this->posAtual;
     for(posAtual = 0; posAtual <quantosNos;posAtual++)
     {
         std::cout << infoAtual();
-        std::cout<<std::endl;
+        std::cout << std::endl;
     }
 
     posAtual = pos;
@@ -250,7 +290,7 @@ bool ListaCD<Dado>::estaVazia()
 template<class Dado>
 ListaCD<Dado> ListaCD<Dado>::operator=(const ListaCD& other)
 {
-    ListaCD<Dado> lcd(other);
+    ListaCD lcd(other);
     return lcd;
 }
 
