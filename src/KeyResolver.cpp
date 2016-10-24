@@ -16,9 +16,15 @@ KeyResolver::~KeyResolver(){
 }
 
 void KeyResolver::resolver(){
-  
+  iterator it;
+  int i = getch();
+  it = associacoes.find(i);
+  if (it != associacoes.end()){
+    it->second();
+    ungetch(i);
+  }
 }
 
-void KeyResolver::mapear(const char *c, void (*f)()){
-
+void KeyResolver::mapear(const unsigned int i, void (*f)()){
+  associacoes[i] = f;
 }
