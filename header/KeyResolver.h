@@ -9,6 +9,8 @@ using namespace std;
 
 class KeyResolver{
 
+typedef std::map<char,int>::iterator iterator;
+  
 public:
   KeyResolver();
   ~KeyResolver();
