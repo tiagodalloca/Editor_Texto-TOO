@@ -1,18 +1,19 @@
 #include "KeyResolver.h"
 
-map<char*, void()> associacoes;
+map<unsigned int, void(*)()> associacoes;
+void (*defaultAction)(unsigned int);
 
-KeyResolver::KeyResolver(){
-  associacoes = map<char*, void()>();
+KeyResolver::KeyResolver(void (*f)(unsigned int)) : defaultAction(f){
+  associacoes = map<unsigned int, void(*)()>();
 }
 
 KeyResolver::KeyResolver(const KeyResolver& oso){
-  
+  associacoes = map<unsigned int, void(*)()>(oso.associacoes);
 }
 
 
 KeyResolver::~KeyResolver(){
-  delete associacoes;
+
 }
 
 void KeyResolver::resolver(){
@@ -21,8 +22,9 @@ void KeyResolver::resolver(){
   it = associacoes.find(i);
   if (it != associacoes.end()){
     it->second();
-    ungetch(i);
   }
+  else
+    defaultAction(i);
 }
 
 void KeyResolver::mapear(const unsigned int i, void (*f)()){
