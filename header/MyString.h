@@ -21,6 +21,7 @@ class MyString
         char& operator[](unsigned int pos) const;
         char* toString() const;
         void alteraCont(char* outro);
+        char* copiarChar(char* outro) const;
         void append(char c);
         bool operator >(const MyString& oso);
         bool operator >=(const MyString& oso);
