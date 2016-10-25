@@ -18,7 +18,15 @@ int main(int argsc, char** args){
 
   KeyResolver k = KeyResolver(&g);
 
-  k.mapear(4, &f);
+  k.mapear((unsigned int) 4, &f);
+  k.mapear('p', []()->void{
+      cout << "Vc pressionou pezinho!";
+    });
+
+  k.mapear('z', []()->void{
+      cout << "Vc pressionou zezinho";
+    });
+  
   
   while(true){
     // int i = getch();

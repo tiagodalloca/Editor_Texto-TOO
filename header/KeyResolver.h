@@ -17,6 +17,7 @@ public:
   KeyResolver(const KeyResolver&);
   void resolver();
   void mapear(const unsigned int, void(*)());
+  void mapear(const char, void(*)());
 
 private:
   map<unsigned int, void(*)()>associacoes;

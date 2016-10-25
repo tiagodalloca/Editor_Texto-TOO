@@ -30,3 +30,7 @@ void KeyResolver::resolver(){
 void KeyResolver::mapear(const unsigned int i, void (*f)()){
   associacoes[i] = f;
 }
+
+void KeyResolver::mapear(const char c, void (*f)()){
+  mapear((unsigned int) c, f);
+}
