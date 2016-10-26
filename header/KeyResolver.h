@@ -9,19 +9,21 @@ using namespace std;
 
 class KeyResolver{
 
-  typedef std::map<unsigned int, void(*)()>::iterator iterator;
+  typedef std::map<unsigned short int, void(*)()>::iterator iterator;
+  typedef void (*f)();
   
 public:
-  KeyResolver(void (*)(unsigned int));
+  KeyResolver(void (*)(unsigned short int));
   ~KeyResolver();
   KeyResolver(const KeyResolver&);
   void resolver();
-  void mapear(const unsigned int, void(*)());
-  void mapear(const char, void(*)());
+  void mapear(const unsigned short int, void(*)());
+  f& operator[](const unsigned short int&);
+  f& operator[](unsigned short int&);
 
 private:
-  map<unsigned int, void(*)()>associacoes;
-  void (*defaultAction)(unsigned int);
+  map<unsigned short int, void(*)()>associacoes;
+  void (*defaultAction)(unsigned short int);
 };
 
 #endif
