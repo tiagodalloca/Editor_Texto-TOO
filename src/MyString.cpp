@@ -51,7 +51,7 @@ int MyString::length() const
 {
     for(int i = 0; i < 256;i++)
     {
-        if(*(this->conteudo + i) == NULL)
+        if(*(this->conteudo + i) == '\0')
             return i;
     }
 }
@@ -64,6 +64,7 @@ void MyString::deleta(unsigned int posIni, unsigned int posFinal)
         deletaCharAt(posIni);
     }
 }
+
 
 bool MyString::operator!=(const MyString& oso)
 {

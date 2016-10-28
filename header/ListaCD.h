@@ -1,7 +1,7 @@
 #ifndef LISTACD_H
 #define LISTACD_H
-#include "String.h"
-
+#include "MyString.h"
+#include <stdlib.h>
 
 
 template<class Dado>
@@ -35,6 +35,7 @@ class ListaCD
         void printarLista();
         void adicionarFinal(const Dado info,int pode);
         void adicionarComeco(const Dado info, int pode);
+        char* todasAsStrings() ;
         Dado getPrimeiro() const;
 
     protected:
@@ -45,6 +46,7 @@ class ListaCD
         bool primeiroAcesso = true;
         NoLista *primeiro;
         NoLista *ultimo;
+        int tam = 0;
 };
 
 template <class Dado>
@@ -65,6 +67,39 @@ ListaCD<Dado>::~ListaCD()
 }
 
 template <class Dado>
+char* ListaCD<Dado>::todasAsStrings()
+{
+    char* laStr = (char*)malloc(2*sizeof(char));
+    char c;
+    this->posAtual = 0;
+    while(this->posAtual != quantosNos)
+    {
+        int len = this->infoAtual()->length();
+        laStr = (char*)malloc((tam)*sizeof(char));
+        *(laStr + tam) = '\0';
+        tam+=len;
+        for(int i = 0; i < len;i++)
+        {
+            MyString s(laStr);
+            int dpsDoFim = s.length();
+            c = *(this->infoAtual()->toString() + i);
+            *(laStr + dpsDoFim) = c;
+            *(laStr + dpsDoFim + 1) = '\0';
+        }
+        MyString s2(laStr);
+        *(laStr + s2.length()) = '\n';
+        *(laStr + s2.length()+1) = '\0';
+        tam++;
+
+        this->posAtual++;
+    }
+
+    return laStr;
+
+}
+
+
+template <class Dado>
 bool ListaCD<Dado>:: naoChegouAoFim()  //percorrer lista
 {
     if(primeiroAcesso)
@@ -83,8 +118,6 @@ bool ListaCD<Dado>:: naoChegouAoFim()  //percorrer lista
         primeiroAcesso = true;
         return false;
     }
-
-
 }
 
 template<class Dado>
@@ -159,7 +192,6 @@ void ListaCD<Dado>::insiraNoFim(const Dado &novoDado)
         aux->prox = primeiro;
         primeiro->ant = aux;
         ultimo = aux;
-        delete aux;
     }
 }
 
@@ -276,6 +308,7 @@ Dado ListaCD<Dado>::infoAtual()
     {
         aux = aux->prox;
     }
+    char* c = aux->info->toString();
     return aux->info;
 }
 

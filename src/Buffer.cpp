@@ -1,6 +1,7 @@
 #include "Buffer.h"
 #include <stdlib.h>
 #include "MyString.h"
+#include <string.h>
 
 Buffer::Buffer()
 {
@@ -15,15 +16,14 @@ Buffer::Buffer(ListaCD<MyString*>* novaLista)
 }
 
 
-char* Buffer::linhasAsString()
+std::string Buffer::linhasAsString()
 {
     char* laStr = (char*)malloc(2*sizeof(char));
     char c;
     while(linhas->naoChegouAoFim())
     {
         int len = linhas->infoAtual()->length();
-        laStr = (char*)malloc((tam+1)*sizeof(char));
-        *(laStr ) = '\0';
+        *(laStr + tam) = '\0';
         tam+=len;
         for(int i = 0; i < len;i++)
         {
@@ -34,9 +34,12 @@ char* Buffer::linhasAsString()
             *(laStr + dpsDoFim + 1) = '\0';
         }
         MyString s2(laStr);
-        *(laStr + s2.length()) = '\n';
-        *(laStr + s2.length()+1) = '\0';
+        *(laStr + tam) = '\n';
+        *(laStr + tam+1) = '\0';
+        tam++;
     }
+    tam--;
+    *(laStr + tam) = '\0';
 
     return laStr;
 }
