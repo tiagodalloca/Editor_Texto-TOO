@@ -25,14 +25,16 @@ class ListaCD
         void insiraDepois(Dado novo);
         void remova();
         void removaDepois();
+        bool naoChegouAoFim();
         Dado infoAtual();
         void avance();
         void retroceda();
         int getPos();
+        int quantos();
         bool estaVazia();
         void printarLista();
-        void adicionarFinal(const Dado info);
-        void adicionarComeco(const Dado info);
+        void adicionarFinal(const Dado info,int pode);
+        void adicionarComeco(const Dado info, int pode);
         Dado getPrimeiro() const;
 
     protected:
@@ -40,6 +42,7 @@ class ListaCD
     private:
         int posAtual = 0;
         int quantosNos = 0;
+        bool primeiroAcesso = true;
         NoLista *primeiro;
         NoLista *ultimo;
 };
@@ -61,14 +64,39 @@ ListaCD<Dado>::~ListaCD()
 
 }
 
+template <class Dado>
+bool ListaCD<Dado>:: naoChegouAoFim()  //percorrer lista
+{
+    if(primeiroAcesso)
+    {
+        posAtual = 0;
+        primeiroAcesso = false;
+        return true;
+    }
+    if(posAtual != quantosNos-1)
+    {
+        posAtual++;
+        return true;
+    }
+    else
+    {
+        primeiroAcesso = true;
+        return false;
+    }
+
+
+}
+
 template<class Dado>
-void ListaCD<Dado>::adicionarComeco(const Dado info){
+void ListaCD<Dado>::adicionarComeco(const Dado info, int pode){
   struct NoLista *no = new NoLista;
   no->info = info;
   no->prox = primeiro;
   primeiro = no;
   if (ultimo == NULL)
     ultimo = primeiro;
+
+  if(pode)
   quantosNos++;
 }
 
@@ -98,16 +126,19 @@ Dado ListaCD<Dado>::getPrimeiro() const{
 
 
 template<class Dado>
-void ListaCD<Dado>::adicionarFinal(const Dado info){
+void ListaCD<Dado>::adicionarFinal(const Dado info, int pode){
   if (ultimo == NULL)
-    adicionarComeco(info);
+    adicionarComeco(info,0);
   else{
     struct NoLista *no = new NoLista;
     no->info = info;
     ultimo->prox = no;
     ultimo = no;
   }
-  quantosNos++;
+
+  if(pode)
+    quantosNos++;
+
 }
 
 
@@ -284,6 +315,12 @@ template<class Dado>
 bool ListaCD<Dado>::estaVazia()
 {
     return primeiro == NULL;
+}
+
+template<class Dado>
+int ListaCD<Dado>::quantos()
+{
+    return quantosNos;
 }
 
 

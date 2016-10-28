@@ -6,7 +6,7 @@ using namespace std;
 
 MyString::MyString ()
 {
-   this->tam = 256;
+    this->tam = 256;
     this->conteudo = (char*) malloc(sizeof(char) * this->tam);
 }
 
@@ -152,6 +152,8 @@ void MyString::append(char c)
     int dpsDoFim = length();
     *(this->conteudo + dpsDoFim) = c;
 }
+
+
 char& MyString::operator[](unsigned int pos) const
 {
     return *(this->conteudo + pos);

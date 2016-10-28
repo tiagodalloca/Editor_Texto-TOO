@@ -14,13 +14,14 @@ public:
     void irParaEsquerda();
     void irParaDireita();
     void inserirCaracter(char);
-    void inserirLinha();
+    void inserirLinha(MyString* linha);
     void deletarADireita();
     void deletarAEsquerda();
     char* getLinha(unsigned int);
 private:
     ListaCD<MyString*>* linhas;
     unsigned int *coluna;
+    int tam = 0;
 };
 
 #endif
