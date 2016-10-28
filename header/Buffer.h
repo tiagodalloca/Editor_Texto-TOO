@@ -20,7 +20,7 @@ public:
     char* getLinha(unsigned int);
 private:
     ListaCD<MyString*>* linhas;
-    unsigned int *coluna;
+    unsigned int coluna;
     int tam = 0;
 };
 

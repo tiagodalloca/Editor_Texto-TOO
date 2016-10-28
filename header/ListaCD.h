@@ -2,6 +2,7 @@
 #define LISTACD_H
 #include "MyString.h"
 #include <stdlib.h>
+#include <stdexcept>
 
 
 template<class Dado>
@@ -35,8 +36,9 @@ class ListaCD
         void printarLista();
         void adicionarFinal(const Dado info,int pode);
         void adicionarComeco(const Dado info, int pode);
-        char* todasAsStrings() ;
+        char* todasAsStrings();
         Dado getPrimeiro() const;
+        Dado getInfo(unsigned int);
 
     protected:
 
@@ -47,6 +49,7 @@ class ListaCD
         NoLista *primeiro;
         NoLista *ultimo;
         int tam = 0;
+        int posAnt;
 };
 
 template <class Dado>
@@ -104,6 +107,7 @@ bool ListaCD<Dado>:: naoChegouAoFim()  //percorrer lista
 {
     if(primeiroAcesso)
     {
+        posAnt = posAtual;
         posAtual = 0;
         primeiroAcesso = false;
         return true;
@@ -116,6 +120,7 @@ bool ListaCD<Dado>:: naoChegouAoFim()  //percorrer lista
     else
     {
         primeiroAcesso = true;
+        posAtual = posAnt;
         return false;
     }
 }
@@ -375,6 +380,23 @@ ListaCD<Dado>::ListaCD(const ListaCD& other)
     {
         *(this->primeiro+i) = *(other.primeiro + i);
     }
+
+}
+
+template<class Dado>
+Dado ListaCD<Dado>::getInfo(unsigned int pos)
+{
+
+    if(pos < this->quantosNos)
+    {
+        posAnt = posAtual;
+        posAtual = pos;
+        Dado d = this->infoAtual();
+        posAtual = posAnt;
+        return d;
+    }
+    else
+        throw std::invalid_argument( "overflow exception: a posicao ultrapassou o limite da lista" );
 
 }
 
