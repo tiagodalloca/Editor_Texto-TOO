@@ -10,16 +10,17 @@ using namespace std;
 class KeyResolver{
 
   typedef std::map<unsigned short int, void(*)()>::iterator iterator;
-  typedef void (*f)();
+  typedef void(*ponteiro_f)();
   
 public:
+  KeyResolver();
   KeyResolver(void (*)(unsigned short int));
   ~KeyResolver();
   KeyResolver(const KeyResolver&);
   void resolver();
   void mapear(const unsigned short int, void(*)());
-  f& operator[](const unsigned short int&);
-  f& operator[](unsigned short int&);
+  ponteiro_f operator[](const unsigned short int&);
+  ponteiro_f operator[](unsigned short int&);
 
 private:
   map<unsigned short int, void(*)()>associacoes;

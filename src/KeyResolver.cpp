@@ -1,18 +1,23 @@
 #include "KeyResolver.h"
 
-map<unsigned int, void(*)()> associacoes;
-void (*defaultAction)(unsigned int);
+typedef void(*ponteiro_f)();
 
-KeyResolver::KeyResolver(void (*f)(unsigned int)) : defaultAction(f){
-  associacoes = map<unsigned int, void(*)()>();
-}
+map<unsigned short int, void(*)()> associacoes;
+void (*defaultAction)(unsigned short int);
 
-KeyResolver::KeyResolver(const KeyResolver& oso){
-  associacoes = map<unsigned int, void(*)()>(oso.associacoes);
+KeyResolver::KeyResolver(void (*f)(unsigned short int)) : defaultAction(f){
+  associacoes = map<unsigned short int, void(*)()>();
 }
 
 
 KeyResolver::~KeyResolver(){
+  associacoes = map<unsigned short int, void(*)()>();
+}
+
+KeyResolver::KeyResolver(const KeyResolver& oso){
+}
+
+KeyResolver::KeyResolver(){
 
 }
 
@@ -27,10 +32,14 @@ void KeyResolver::resolver(){
     defaultAction(i);
 }
 
-void KeyResolver::mapear(const unsigned int i, void (*f)()){
+void KeyResolver::mapear(const unsigned short int i, void (*f)()){
   associacoes[i] = f;
 }
 
-void KeyResolver::mapear(const char c, void (*f)()){
-  mapear((unsigned int) c, f);
+ponteiro_f KeyResolver::operator[](const unsigned short int& i){
+  return associacoes[i];
+}
+
+ponteiro_f KeyResolver::operator[](unsigned short int& i){
+  return associacoes[i];
 }

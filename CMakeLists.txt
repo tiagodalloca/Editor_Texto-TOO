@@ -19,10 +19,14 @@ set (HEADERS
 
   header/Buffer.h
   header/KeyResolver.h
+  header/Editor.h
 )
 
 set (SRC
   src/MyString.cpp
+  src/Buffer.cpp
+  src/KeyResolver.cpp
+  src/Editor.cpp
 )
 
 set (ALL ${HEADERS} ${SRC})
