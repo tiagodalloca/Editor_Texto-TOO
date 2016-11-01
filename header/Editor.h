@@ -14,7 +14,7 @@ class Editor{
     inserirCaracter,
     descer, subir,
     novaLinha
-  }Comentario;
+  }Acao;
 
   typedef std::map<Comentario, void(*)()> Acoes;
 
@@ -29,7 +29,7 @@ private:
   Buffer buf;
   KeyResolver kr;
   Acoes acoes;
-  Pilha<Acoes> pilha_acoes;
+  Pilha<Acao> pilha_acoes;
   char parar;
 
 };

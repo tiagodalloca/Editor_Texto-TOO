@@ -2,25 +2,17 @@
 
 using namespace std;
 
-typedef enum{
-  esquerda, direita,
-  inserirCaracter,
-  descer, subir,
-  novaLinha
-}Acao;
-
-typedef map<Acao, void(*)()> Acoes;
-
-Buffer buf;
-KeyResolver kr([&buf](unsigned short int i)->void{
-      buf.inserirCaracter((char) i);
-    });
-Acoes acoes;
-Pilha<Acoes> pilha_acoes;
-char parar;
-
 static void _direita(){
   buf.irParaDireita();
+  pilha_acoes.push(direita);
+  //...
+  //Acao a = pilha_acoes.pop();
+  //acoes[a]();
+}
+
+static void _desfazer(){
+  Acao a = pilha_acoes.pop();
+  acoes[a]();
 }
 
 static void _esquerda(){
@@ -35,15 +27,23 @@ static void _subir(){
   buf.subirLinha();
 }
 
-static void _inserirCaracter(){
-  // buf.inserirCaracter();
-}
+// static void _inserirCaracter(){
+//   // buf.inserirCaracter();
+// }
 
 static void _deletarCaracter(){
   buf.deletarADireita();
 }
 
+static void _default(unsigned short int i){
+  buf.inserirCaracter((char) i);
+}
+
 Editor::Editor(){
+
+  kr = KeyResolver(&_default);
+  kr[26] = &_desfazer; // control-z desfaz
+
   acoes = Acoes();
   acoes[esquerda] = &_direita;
   acoes[direita] = &_esquerda;

@@ -1,9 +1,7 @@
 #include "KeyResolver.h"
 
-typedef void(*ponteiro_f)();
-
-map<unsigned short int, void(*)()> associacoes;
-void (*defaultAction)(unsigned short int);
+static _default(unsigned short int i){
+}
 
 KeyResolver::KeyResolver(void (*f)(unsigned short int)) : defaultAction(f){
   associacoes = map<unsigned short int, void(*)()>();
@@ -18,7 +16,7 @@ KeyResolver::KeyResolver(const KeyResolver& oso){
 }
 
 KeyResolver::KeyResolver(){
-
+  defaultAction = &_default;
 }
 
 void KeyResolver::resolver(){
