@@ -1,5 +1,8 @@
 #include "Pilha.h"
 #include <stdlib.h>
+#include <map>
+
+using namespace std;
 
 typedef enum{
   esquerda, direita,
@@ -8,5 +11,5 @@ typedef enum{
   novaLinha
 }Acao;
 
-typedef std::map<Acoes, void(*)()> AcoesRelacionais;
+typedef map<Acao, void(*)()> AcoesRelacionais;
 typedef Pilha<Acao> PilhaAcao;
