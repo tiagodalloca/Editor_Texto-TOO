@@ -3,9 +3,13 @@
 #include "MyString.h"
 #include <string.h>
 
+
 Buffer::Buffer()
 {
+    coluna = 0;
     linhas  = new ListaCD<MyString*>;
+    MyString* ms = new MyString();
+    linhas->insiraNoFim(ms);
 }
 
 Buffer::Buffer(ListaCD<MyString*>* novaLista)

@@ -16,7 +16,7 @@ MyString::MyString(char* novoCont)
     {
         if(*(novoCont + i) =='\0')
         {
-          this->tam = i;
+           this->tam = i;
             break;
         }
     }
@@ -43,7 +43,7 @@ MyString::MyString (unsigned int len)
 
 MyString::~MyString ()
 {
-  delete[] this->conteudo;
+    delete[] this->conteudo;
 }
 
 
