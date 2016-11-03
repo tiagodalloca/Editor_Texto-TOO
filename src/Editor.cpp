@@ -1,8 +1,8 @@
-#include "Editor.h";
+#include "Editor.h"
 
 using namespace std;
 
-static void _direita(){
+void Editor::_direita(){
   buf.irParaDireita();
   pilha_acoes.push(direita);
   //...
@@ -10,38 +10,38 @@ static void _direita(){
   //acoes[a]();
 }
 
-static void _desfazer(){
+void Editor::_desfazer(){
   Acao a = pilha_acoes.pop();
   acoes[a]();
 }
 
-static void _esquerda(){
+void Editor::_esquerda(){
   buf.irParaEsquerda();
 }
 
-static void _descer(){
+void Editor::_descer(){
   buf.descerLinha();
 }
 
-static void _subir(){
+void Editor::_subir(){
   buf.subirLinha();
 }
 
-// static void _inserirCaracter(){
+// static void Editor::_inserirCaracter(){
 //   // buf.inserirCaracter();
 // }
 
-static void _deletarCaracter(){
+void Editor::_deletarCaracter(){
   buf.deletarADireita();
 }
 
-static void _default(unsigned short int i){
+void Editor::_default(unsigned short int i){
   buf.inserirCaracter((char) i);
 }
 
 Editor::Editor(){
 
-  kr = KeyResolver(&_default);
+  kr = KeyResolver<Editor>(&_default);
   kr[26] = &_desfazer; // control-z desfaz
 
   acoes = Acoes();
@@ -54,7 +54,6 @@ Editor::Editor(){
   
   buf = Buffer();
   parar = 0;
-
 }
 
 
@@ -63,7 +62,7 @@ Editor::~Editor(){
 
 Editor::Editor(const Editor& oso){
   // this->acoes = Pilha<Acoes>(oso.acoes);
-  this->kr = KeyResolver(oso.kr);
+  this->kr = KeyResolver<Editor>(oso.kr);
   this->parar = oso.parar;
 }
 

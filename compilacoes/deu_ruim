@@ -1,0 +1,52 @@
+-*- mode: compilation; default-directory: "~/Documents/Programacao/C/Editor_Texto-TOO/" -*-
+Compilation started at Wed Nov  2 16:13:52
+
+cmake --build .
+Scanning dependencies of target lib
+[ 16%] Building CXX object CMakeFiles/lib.dir/src/Editor.cpp.obj
+In file included from C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/Buffer.h:5:0,
+                 from C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/Editor.h:5,
+                 from C:\Users\Tiago\Documents\Programacao\C\Editor_Texto-TOO\src\Editor.cpp:1:
+C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/ListaCD.h:46:24: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11
+         int posAtual = 0;
+                        ^
+C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/ListaCD.h:47:26: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11
+         int quantosNos = 0;
+                          ^
+C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/ListaCD.h:48:31: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11
+         bool primeiroAcesso = true;
+                               ^
+C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/ListaCD.h:51:19: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11
+         int tam = 0;
+                   ^
+In file included from C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/Editor.h:5:0,
+                 from C:\Users\Tiago\Documents\Programacao\C\Editor_Texto-TOO\src\Editor.cpp:1:
+C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/Buffer.h:24:15: warning: non-static data member initializers only available with -std=c++11 or -std=gnu++11
+     int tam = 0;
+               ^
+C:\Users\Tiago\Documents\Programacao\C\Editor_Texto-TOO\src\Editor.cpp: In member function 'void Editor::_desfazer()':
+C:\Users\Tiago\Documents\Programacao\C\Editor_Texto-TOO\src\Editor.cpp:15:12: error: must use '.*' or '->*' to call pointer-to-member function in '((Editor*)this)->Editor::acoes.std::map<_Key, _Tp, _Compare, _Alloc>::operator[]<Editor::Acao, void (Editor::*)(), std::less<Editor::Acao>, std::allocator<std::pair<const Editor::Acao, void (Editor::*)()> > >(a) (...)', e.g. '(... ->* ((Editor*)this)->Editor::acoes.std::map<_Key, _Tp, _Compare, _Alloc>::operator[]<Editor::Acao, void (Editor::*)(), std::less<Editor::Acao>, std::allocator<std::pair<const Editor::Acao, void (Editor::*)()> > >(a)) (...)'
+   acoes[a]();
+            ^
+C:\Users\Tiago\Documents\Programacao\C\Editor_Texto-TOO\src\Editor.cpp: In constructor 'Editor::Editor()':
+C:\Users\Tiago\Documents\Programacao\C\Editor_Texto-TOO\src\Editor.cpp:45:10: error: lvalue required as left operand of assignment
+   kr[26] = &_desfazer; // control-z desfaz
+          ^
+In file included from C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/Editor.h:6:0,
+                 from C:\Users\Tiago\Documents\Programacao\C\Editor_Texto-TOO\src\Editor.cpp:1:
+C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/KeyResolver.h: In instantiation of 'void KeyResolver<C>::resolver() [with C = Editor]':
+C:\Users\Tiago\Documents\Programacao\C\Editor_Texto-TOO\src\Editor.cpp:75:17:   required from here
+C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/KeyResolver.h:51:5: error: must use '.*' or '->*' to call pointer-to-member function in 'it.std::_Rb_tree_iterator<_Tp>::operator-><std::pair<const short unsigned int, void (Editor::*)()> >()->std::pair<const short unsigned int, void (Editor::*)()>::second (...)', e.g. '(... ->* it.std::_Rb_tree_iterator<_Tp>::operator-><std::pair<const short unsigned int, void (Editor::*)()> >()->std::pair<const short unsigned int, void (Editor::*)()>::second) (...)'
+     it->second();
+     ^
+C:/Users/Tiago/Documents/Programacao/C/Editor_Texto-TOO/header/KeyResolver.h:54:5: error: must use '.*' or '->*' to call pointer-to-member function in '((KeyResolver<Editor>*)this)->KeyResolver<Editor>::defaultAction (...)', e.g. '(... ->* ((KeyResolver<Editor>*)this)->KeyResolver<Editor>::defaultAction) (...)'
+     defaultAction(i);
+     ^
+CMakeFiles\lib.dir\build.make:112: recipe for target 'CMakeFiles/lib.dir/src/Editor.cpp.obj' failed
+mingw32-make.exe[2]: *** [CMakeFiles/lib.dir/src/Editor.cpp.obj] Error 1
+CMakeFiles\Makefile2:66: recipe for target 'CMakeFiles/lib.dir/all' failed
+mingw32-make.exe[1]: *** [CMakeFiles/lib.dir/all] Error 2
+Makefile:82: recipe for target 'all' failed
+mingw32-make.exe: *** [all] Error 2
+
+Compilation exited abnormally with code 2 at Wed Nov  2 16:13:53

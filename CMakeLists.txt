@@ -25,7 +25,6 @@ set (HEADERS
 set (SRC
   src/MyString.cpp
   src/Buffer.cpp
-  src/KeyResolver.cpp
   src/Editor.cpp
 )
 

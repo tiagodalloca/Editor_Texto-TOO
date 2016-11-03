@@ -1,6 +1,8 @@
 #include "KeyResolver.h"
 
-static _default(unsigned short int i){
+typedef void(*ponteiro_f)();
+
+static void _default(unsigned short int i){
 }
 
 KeyResolver::KeyResolver(void (*f)(unsigned short int)) : defaultAction(f){
