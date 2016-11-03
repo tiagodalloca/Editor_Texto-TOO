@@ -1,9 +1,20 @@
+#include "Pilha.h"
+#include "KeyResolver.h"
+#include "Buffer.h"
+#include "Misc.h"
+
 #include <stdlib.h>
-#include "Editor.h"
+#include <iostream>
+#include <stdio.h>
 
-using namespace std;
+KeyResolver kr_g;
+Buffer b_g;
+PilhaAcao pilha_acoes;
+AcoesRelacionais acoes_opostas_g;
 
-int main(){
-  Editor e = Editor();
-  e.iniciar();
+int main(int argc, char **args){
+  kr_g = KeyResolver(_defualt);
+  b_g = Buffer();
+  pilha_acoes = PilhaAcoes();
+  acoes_opoes_g = AcoesRelacionais();
 }
