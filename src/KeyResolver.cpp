@@ -36,10 +36,6 @@ void KeyResolver::mapear(const unsigned short int i, void (*f)()){
   associacoes[i] = f;
 }
 
-ponteiro_f KeyResolver::operator[](const unsigned short int& i){
-  return associacoes[i];
-}
-
-ponteiro_f KeyResolver::operator[](unsigned short int& i){
+ponteiro_f& KeyResolver::operator[](const unsigned short int i){
   return associacoes[i];
 }

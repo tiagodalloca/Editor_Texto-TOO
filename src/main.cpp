@@ -3,9 +3,11 @@
 #include "Buffer.h"
 #include "Misc.h"
 
+#include <string.h>
 #include <stdlib.h>
 #include <iostream>
 #include <stdio.h>
+#include <windows.h>
 
 KeyResolver kr_g;
 Buffer buf_g;
@@ -39,13 +41,50 @@ void _deletarCaracter(){
 }
 
 void _default(unsigned short int i){
-  buf_g.inserirCaracter((char) i);
+  buf_g.inserirCaracter(i);
+  cout << (char) i;
+}
+
+char* _saveFileDialog(){
+  char filename[ MAX_PATH ];
+
+  OPENFILENAME ofn;
+  ZeroMemory( &filename, sizeof( filename ) );
+  ZeroMemory( &ofn,      sizeof( ofn ) );
+  ofn.lStructSize  = sizeof( ofn );
+  ofn.hwndOwner    = NULL;  // If you have a window to center over, put its HANDLE here
+  ofn.lpstrFilter  = "Text Files\0*.txt\0Any File\0*.*\0";
+  ofn.lpstrFile    = filename;
+  ofn.nMaxFile     = MAX_PATH;
+  ofn.lpstrTitle   = "Select a File, yo!";
+  ofn.Flags        = OFN_DONTADDTORECENT;
+
+  if (GetSaveFileName( &ofn ))
+    return filename;
+
+  return 0;
+}
+
+void _salvar(){
+  char *filename;
+  strcpy(filename, _saveFileDialog());
+  if (*filename){
+    FILE *f;
+    f = fopen(filename, "w");
+    fprintf(f, "%s", buf_g.linhasAsString());
+    fclose(f);
+  }
 }
 
 int main(int argc, char **args){
   kr_g = KeyResolver(&_default);
+  kr_g[19] = &_salvar;
   buf_g = Buffer();
   pilha_acoes = PilhaAcao();
   acoes_opostas_g = AcoesRelacionais();
+
+  while(true){
+    kr_g.resolver();
+  }
 }
 

@@ -19,8 +19,7 @@ public:
   KeyResolver(const KeyResolver&);
   void resolver();
   void mapear(const unsigned short int, void(*)());
-  ponteiro_f operator[](const unsigned short int&);
-  ponteiro_f operator[](unsigned short int&);
+  ponteiro_f& operator[](const unsigned short int);
 
 private:
   map<unsigned short int, void(*)()>associacoes;
