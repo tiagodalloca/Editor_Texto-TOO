@@ -18,7 +18,10 @@ public:
     void deletarADireita();
     void deletarAEsquerda();
     char* getLinha(unsigned int);
-private:
+    int getPosY();
+    void voltarAoInicio();
+    int getPosX();
+    private:
     ListaCD<MyString*>* linhas;
     unsigned int coluna;
     int tam = 0;

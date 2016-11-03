@@ -47,12 +47,29 @@ std::string Buffer::linhasAsString()
 }
 void  Buffer::subirLinha()
 {
-    linhas->avance();
+    linhas->retroceda();
 }
 void  Buffer::descerLinha()
 {
-    linhas->retroceda();
+    linhas->avance();
+    voltarAoInicio();
 }
+
+void Buffer::voltarAoInicio()
+{
+    coluna = 0;
+}
+
+int Buffer::getPosY()
+{
+    return linhas->getPos();
+}
+
+int Buffer::getPosX()
+{
+    return coluna;
+}
+
 void  Buffer::irParaEsquerda()
 {
     if(coluna >0)
@@ -65,6 +82,7 @@ void  Buffer::irParaDireita()
 }
 void  Buffer::inserirCaracter(char c)
 {
+    coluna++;
     linhas->infoAtual()->insere(coluna,c);
 }
 void  Buffer::inserirLinha(MyString* linha)
