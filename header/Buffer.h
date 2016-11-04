@@ -13,7 +13,7 @@ public:
     void descerLinha();
     void irParaEsquerda();
     void irParaDireita();
-    void inserirCaracter(char);
+    bool inserirCaracter(char);
     void inserirLinha(MyString* linha);
     void deletarADireita();
     void deletarAEsquerda();

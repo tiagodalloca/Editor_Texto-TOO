@@ -36,6 +36,8 @@ void  Buffer::subirLinha()
 }
 void  Buffer::descerLinha()
 {
+    MyString* ms = new MyString();
+    linhas->insiraNoFim(ms);
     linhas->avance();
     voltarAoInicioDaLinha();
 }
@@ -71,12 +73,14 @@ bool  Buffer::inserirCaracter(char c)
     {
         linhas->infoAtual()->insere(coluna,c);
         coluna++;
-        cout << coluna;
         return true;
     }
     return false;
 
 }
+
+
+
 void  Buffer::inserirLinha(MyString* linha)
 {
     linhas->insiraNoFim(linha);
