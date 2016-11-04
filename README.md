@@ -95,22 +95,22 @@ lugar via métodos que faremos
 ## COMANDOS
 
 ### MÍNIMOS:
-- [ ] sobe linha (normalmente, seta)
-- [ ] desce linha (normalmente, seta)
-- [ ] vai para a esquerda (normalmente, seta)
-- [ ] vai para a direita (normalmente, seta)
+- [x] sobe linha (normalmente, seta)
+- [x] desce linha (normalmente, seta)
+- [x] vai para a esquerda (normalmente, seta)
+- [x] vai para a direita (normalmente, seta)
 - [ ] sobe página (normalmente, PAGE UP)
 - [ ] desce página (normalmente, PAGE DOWN)
 - [ ] vai para o inicio da linha (normalmente, HOME)
 - [ ] vai para o fim da linha (normalmente, END)
 - [ ] apaga char no cursor (normalmente, DELETE)
-- [ ] apaga char antes do cursor (normalmente, BACKSPACE)
+- [x] apaga char antes do cursor (normalmente, BACKSPACE)
 - [ ] desfazer (normalmente, CONTROL Z)
 - [ ] refazer (normalmente, CONTROL Y)
-- [ ] salvar (normalmente, CONTROL S)
-- [ ] salvar como
+- [x] salvar (normalmente, CONTROL S)
+- [x] salvar como
   perguntar se quer sobrescrever arquivo existente
-- [ ] sair (normalmente, ESC)
+- [x] sair (normalmente, ESC)
  perguntar se quer sair sem salvar
 
 ### OPCIONAIS:
