@@ -20,30 +20,15 @@ Buffer::Buffer(ListaCD<MyString*>* novaLista)
 
 char* Buffer::linhasAsString()
 {
-    char* laStr = (char*)malloc(256*sizeof(char));
-    char c;
-    while(linhas->naoChegouAoFim())
-    {
-        int len = linhas->infoAtual()->length();
-        *(laStr + tam) = '\0';
-        tam+=len;
-        for(int i = 0; i < len;i++)
-        {
-            MyString s(laStr);
-            int dpsDoFim = s.length();
-            c = *(linhas->infoAtual()->toString() + i);
-            *(laStr + dpsDoFim) = c;
-            *(laStr + dpsDoFim + 1) = '\0';
-        }
-        MyString s2(laStr);
-        *(laStr + tam) = '\n';
-        *(laStr + tam+1) = '\0';
-        tam++;
-    }
-    tam--;
-    *(laStr + tam) = '\0';
+  char* laStr = (char*)malloc(tam*(256+1)*sizeof(char));
+  *(laStr) = '\0';
 
-    return laStr;
+  while(linhas->naoChegouAoFim()){
+    char* temp = linhas->infoAtual()->toString();
+    strcat(laStr, temp);
+    strcat(laStr, "\r\n");
+  }
+  return laStr;
 }
 void  Buffer::subirLinha()
 {
@@ -82,8 +67,8 @@ void  Buffer::irParaDireita()
 }
 void  Buffer::inserirCaracter(char c)
 {
-    coluna++;
     linhas->infoAtual()->insere(coluna,c);
+    coluna++;
 }
 void  Buffer::inserirLinha(MyString* linha)
 {

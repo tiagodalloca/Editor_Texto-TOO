@@ -46,11 +46,11 @@ void _default(unsigned short int i){
 }
 
 char* _saveFileDialog(){
-  char filename[ MAX_PATH ];
-
+  char *filename = (char*) malloc(MAX_PATH*sizeof(char));
+  // char filename[MAX_PATH];
   OPENFILENAME ofn;
-  ZeroMemory( &filename, sizeof( filename ) );
   ZeroMemory( &ofn,      sizeof( ofn ) );
+  ZeroMemory( filename,  sizeof( filename ) );
   ofn.lStructSize  = sizeof( ofn );
   ofn.hwndOwner    = NULL;  // If you have a window to center over, put its HANDLE here
   ofn.lpstrFilter  = "Text Files\0*.txt\0Any File\0*.*\0";
@@ -59,15 +59,16 @@ char* _saveFileDialog(){
   ofn.lpstrTitle   = "Select a File, yo!";
   ofn.Flags        = OFN_DONTADDTORECENT;
 
-  if (GetSaveFileName( &ofn ))
+  if (GetSaveFileName( &ofn )){
     return filename;
+  }
 
   return 0;
 }
 
 void _salvar(){
   char *filename;
-  strcpy(filename, _saveFileDialog());
+  filename = _saveFileDialog();
   if (*filename){
     FILE *f;
     f = fopen(filename, "w");
@@ -79,7 +80,9 @@ void _salvar(){
 int main(int argc, char **args){
   kr_g = KeyResolver(&_default);
   kr_g[19] = &_salvar;
+  kr_g[8] = &_deletarCaracter;
   buf_g = Buffer();
+  
   pilha_acoes = PilhaAcao();
   acoes_opostas_g = AcoesRelacionais();
 

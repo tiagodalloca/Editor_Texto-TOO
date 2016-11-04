@@ -8,6 +8,7 @@ MyString::MyString ()
 {
     this->tam = 256;
     this->conteudo = (char*) malloc(sizeof(char) * this->tam);
+    *conteudo = '\0';
 }
 
 MyString::MyString(char* novoCont)
@@ -171,20 +172,17 @@ void MyString::deletaCharAt(unsigned int pos)
 }
 void MyString::insere(unsigned int pos, char c)
 {
-    int i = length();
-    for(i = length();i>pos;i--)
+    for(int i = length() + 1;i>pos;i--)
     {
         *(this->conteudo + i) = *(this->conteudo + i - 1);
     }
     *(this->conteudo + pos) = c;
-
-    *(this->conteudo + length()-1)=NULL;
 }
 
 char* MyString::copiarChar(char* outro) const
 {
     char* ret = (char*)malloc(strlen(outro)+1*sizeof(char));
-    for(int i = 0; i < strlen(outro);i++)
+    for(int i = 0; i <= strlen(outro);i++)
     {
         *(ret + i) = *(outro + i);
     }
