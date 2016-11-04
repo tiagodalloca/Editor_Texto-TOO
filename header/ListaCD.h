@@ -198,7 +198,6 @@ void ListaCD<Dado>::insiraNoFim(const Dado &novoDado)
         primeiro->ant = aux;
         ultimo = aux;
     }
-    posAtual++;
 }
 
 
@@ -301,9 +300,6 @@ int ListaCD<Dado>::getPos()
 {
     return posAtual;
 }
-
-
-
 
 template <class Dado>
 Dado ListaCD<Dado>::infoAtual()

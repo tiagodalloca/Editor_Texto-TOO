@@ -69,7 +69,7 @@ int Buffer::getPosX()
 
 void  Buffer::irParaEsquerda()
 {
-  if(coluna >0)
+  if(coluna > 0)
     coluna--;
 }
 void  Buffer::irParaDireita()
