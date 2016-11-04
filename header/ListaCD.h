@@ -198,6 +198,7 @@ void ListaCD<Dado>::insiraNoFim(const Dado &novoDado)
         primeiro->ant = aux;
         ultimo = aux;
     }
+    posAtual++;
 }
 
 
@@ -313,14 +314,17 @@ Dado ListaCD<Dado>::infoAtual()
     {
         aux = aux->prox;
     }
-    char* c = aux->info->toString();
+    if(aux == NULL)
+        aux = new NoLista;
+
+
     return aux->info;
 }
 
 template <class Dado>
 void ListaCD<Dado>::avance()
 {
-    if(posAtual == quantosNos-1)
+    if(posAtual == quantosNos - 1)
         posAtual = 0;
     else
     posAtual++;

@@ -8,7 +8,7 @@ class Buffer{
 public:
     Buffer();
     Buffer(ListaCD<MyString*>* novaLista);
-    std::string linhasAsString();
+    char* linhasAsString();
     void subirLinha();
     void descerLinha();
     void irParaEsquerda();
@@ -19,8 +19,10 @@ public:
     void deletarAEsquerda();
     char* getLinha(unsigned int);
     int getPosY();
-    void voltarAoInicio();
+    void voltarAoInicioDaLinha();
     int getPosX();
+
+
     private:
     ListaCD<MyString*>* linhas;
     unsigned int coluna;

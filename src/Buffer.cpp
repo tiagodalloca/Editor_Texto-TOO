@@ -18,9 +18,9 @@ Buffer::Buffer(ListaCD<MyString*>* novaLista)
 }
 
 
-std::string Buffer::linhasAsString()
+char* Buffer::linhasAsString()
 {
-    char* laStr = (char*)malloc(2*sizeof(char));
+    char* laStr = (char*)malloc(256*sizeof(char));
     char c;
     while(linhas->naoChegouAoFim())
     {
@@ -52,10 +52,10 @@ void  Buffer::subirLinha()
 void  Buffer::descerLinha()
 {
     linhas->avance();
-    voltarAoInicio();
+    voltarAoInicioDaLinha();
 }
 
-void Buffer::voltarAoInicio()
+void Buffer::voltarAoInicioDaLinha()
 {
     coluna = 0;
 }
