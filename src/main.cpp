@@ -13,6 +13,7 @@ KeyResolver kr_g;
 Buffer buf_g;
 PilhaAcao pilha_acoes;
 AcoesRelacionais acoes_opostas_g;
+char quit;
 
 void gotoXY(int x, int y)
 {
@@ -23,7 +24,7 @@ void gotoXY(int x, int y)
 }
 
 void atualizarCursor(){
-  gotoXY(buf_g.getPosX() - 1, buf_g.getPosY() - 1);
+  gotoXY(buf_g.getPosX(), buf_g.getPosY());
 }
 
 void _direita(){
@@ -56,8 +57,8 @@ void _subir(){
 }
 
 void _breakLine(){
-  buf_g.inserirLinha(new MyString());
-  atualizarCursor();
+  buf_g.inserirLinha();
+  cout << '\n';
 }
 
 void _deletarCaracter(){
@@ -105,6 +106,10 @@ void _salvar(){
   }
 }
 
+void _exit(){
+  quit = 1;
+}
+
 int main(int argc, char **args){
   kr_g = KeyResolver(&_default);
   kr_g[19] = &_salvar;
@@ -115,6 +120,7 @@ int main(int argc, char **args){
   kr_g[9] = &_subir;
   kr_g[12] = &_direita;
   kr_g[26] = &_desfazer;
+  kr_g[17] = &_exit;
   buf_g = Buffer();
   
   pilha_acoes = PilhaAcao();
@@ -126,8 +132,10 @@ int main(int argc, char **args){
   acoes_opostas_g[direita] = &_esquerda;
   acoes_opostas_g[inserirCaracter] = &_deletarCaracter;  
 
-  while(true){
+  while(!quit){
     kr_g.resolver();
   }
+
+  return 0;
 }
 

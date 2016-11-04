@@ -11,10 +11,10 @@ KeyResolver::KeyResolver(void (*f)(unsigned short int)) : defaultAction(f){
 
 
 KeyResolver::~KeyResolver(){
-  associacoes = map<unsigned short int, void(*)()>();
 }
 
 KeyResolver::KeyResolver(const KeyResolver& oso){
+  associacoes = oso.associacoes;
 }
 
 KeyResolver::KeyResolver(){

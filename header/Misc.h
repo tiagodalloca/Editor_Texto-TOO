@@ -11,5 +11,5 @@ typedef enum{
   novaLinha
 }Acao;
 
-typedef map<Acao, void(*)()> AcoesRelacionais;
+typedef map<const Acao, void(*)()> AcoesRelacionais;
 typedef Pilha<Acao> PilhaAcao;
