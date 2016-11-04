@@ -14,9 +14,22 @@ Buffer buf_g;
 PilhaAcao pilha_acoes;
 AcoesRelacionais acoes_opostas_g;
 
+void gotoXY(int x, int y)
+{
+    static HANDLE h = NULL;
+    if(!h)
+        h=GetStdHandle(STD_OUTPUT_HANDLE);
+    COORD c = {x , y}; SetConsoleCursorPosition(h,c);
+}
+
+void atualizarCursor(){
+  gotoXY(buf_g.getPosX() - 1, buf_g.getPosY() - 1);
+}
+
 void _direita(){
   buf_g.irParaDireita();
   pilha_acoes.push(direita);
+  atualizarCursor();
 }
 
 void _desfazer(){
@@ -26,22 +39,37 @@ void _desfazer(){
 
 void _esquerda(){
   buf_g.irParaEsquerda();
+  pilha_acoes.push(esquerda);
+  atualizarCursor();
 }
 
 void _descer(){
   buf_g.descerLinha();
+  pilha_acoes.push(descer);
+  atualizarCursor();
 }
 
 void _subir(){
   buf_g.subirLinha();
+  pilha_acoes.push(subir);
+  atualizarCursor();
+}
+
+void _breakLine(){
+  buf_g.inserirLinha(new MyString());
+  atualizarCursor();
 }
 
 void _deletarCaracter(){
   buf_g.deletarADireita();
+  atualizarCursor();
+  cout << " ";
+  atualizarCursor();
 }
 
 void _default(unsigned short int i){
   buf_g.inserirCaracter(i);
+  pilha_acoes.push(inserirCaracter);
   cout << (char) i;
 }
 
@@ -81,10 +109,22 @@ int main(int argc, char **args){
   kr_g = KeyResolver(&_default);
   kr_g[19] = &_salvar;
   kr_g[8] = &_deletarCaracter;
+  kr_g[13] = &_breakLine;
+  kr_g[10] = &_esquerda;
+  kr_g[11] = &_descer;
+  kr_g[9] = &_subir;
+  kr_g[12] = &_direita;
+  kr_g[26] = &_desfazer;
   buf_g = Buffer();
   
   pilha_acoes = PilhaAcao();
   acoes_opostas_g = AcoesRelacionais();
+
+  acoes_opostas_g[subir] = &_descer;
+  acoes_opostas_g[descer] = &_subir;
+  acoes_opostas_g[esquerda] = &_direita;
+  acoes_opostas_g[direita] = &_esquerda;
+  acoes_opostas_g[inserirCaracter] = &_deletarCaracter;  
 
   while(true){
     kr_g.resolver();

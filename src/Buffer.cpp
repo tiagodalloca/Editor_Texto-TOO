@@ -88,8 +88,10 @@ void  Buffer::inserirLinha(MyString* linha)
 }
 void  Buffer::deletarADireita()
 {
-    if(coluna < linhas->infoAtual()->length())
-    linhas->infoAtual()->deletaCharAt(coluna);
+    if(coluna <= linhas->infoAtual()->length()){
+      linhas->infoAtual()->deletaCharAt(coluna);
+      coluna--;
+    }
 }
 void  Buffer::deletarAEsquerda()
 {
