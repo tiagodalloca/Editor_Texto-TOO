@@ -95,31 +95,31 @@ lugar via métodos que faremos
 ## COMANDOS
 
 ### MÍNIMOS:
-[ ] sobe linha (normalmente, seta)
-[ ] desce linha (normalmente, seta)
-[ ] vai para a esquerda (normalmente, seta)
-[ ] vai para a direita (normalmente, seta)
-[ ] sobe página (normalmente, PAGE UP)
-[ ] desce página (normalmente, PAGE DOWN)
-[ ] vai para o inicio da linha (normalmente, HOME)
-[ ] vai para o fim da linha (normalmente, END)
-[ ] apaga char no cursor (normalmente, DELETE)
-[ ] apaga char antes do cursor (normalmente, BACKSPACE)
-[ ] desfazer (normalmente, CONTROL Z)
-[ ] refazer (normalmente, CONTROL Y)
-[ ] salvar (normalmente, CONTROL S)
-[ ] salvar como
+- [ ] sobe linha (normalmente, seta)
+- [ ] desce linha (normalmente, seta)
+- [ ] vai para a esquerda (normalmente, seta)
+- [ ] vai para a direita (normalmente, seta)
+- [ ] sobe página (normalmente, PAGE UP)
+- [ ] desce página (normalmente, PAGE DOWN)
+- [ ] vai para o inicio da linha (normalmente, HOME)
+- [ ] vai para o fim da linha (normalmente, END)
+- [ ] apaga char no cursor (normalmente, DELETE)
+- [ ] apaga char antes do cursor (normalmente, BACKSPACE)
+- [ ] desfazer (normalmente, CONTROL Z)
+- [ ] refazer (normalmente, CONTROL Y)
+- [ ] salvar (normalmente, CONTROL S)
+- [ ] salvar como
   perguntar se quer sobrescrever arquivo existente
-[ ] sair (normalmente, ESC)
+- [ ] sair (normalmente, ESC)
  perguntar se quer sair sem salvar
 
 ### OPCIONAIS:
-[ ] marcar inicio de selecao
-[ ] marcar fim de selecao
-[ ] mover a selecao para a posicao do cursor
-[ ] copiar a selecao para a posicao do cursor
-[ ] procurar
-[ ] substituir
-[ ] etc
+- [ ] marcar inicio de selecao
+- [ ] marcar fim de selecao
+- [ ] mover a selecao para a posicao do cursor
+- [ ] copiar a selecao para a posicao do cursor
+- [ ] procurar
+- [ ] substituir
+- [ ] etc
 
 
