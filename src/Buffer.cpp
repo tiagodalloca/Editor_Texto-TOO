@@ -65,14 +65,22 @@ void  Buffer::irParaDireita()
     if(coluna<255 && coluna < linhas->infoAtual()->length())
         coluna++;
 }
-void  Buffer::inserirCaracter(char c)
+bool  Buffer::inserirCaracter(char c)
 {
-    linhas->infoAtual()->insere(coluna,c);
-    coluna++;
+    if(coluna < 255)
+    {
+        linhas->infoAtual()->insere(coluna,c);
+        coluna++;
+        cout << coluna;
+        return true;
+    }
+    return false;
+
 }
 void  Buffer::inserirLinha(MyString* linha)
 {
     linhas->insiraNoFim(linha);
+    linhas->avance();
 }
 void  Buffer::deletarADireita()
 {
