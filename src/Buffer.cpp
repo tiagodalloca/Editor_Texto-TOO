@@ -49,12 +49,37 @@ void Buffer::inserirLinha(){
   MyString* ms = new MyString();
   linhas->insiraNoFim(ms);
   linhas->avance();
-  voltarAoInicioDaLinha(); 
+  voltarAoInicioDaLinha();
 }
 
 void Buffer::voltarAoInicioDaLinha()
 {
   coluna = 0;
+}
+
+void Buffer::irAoFimDaLinha()
+{
+    coluna = linhas->infoAtual()->length();
+}
+
+void Buffer:: subirPagina()
+{
+    for(int i = 0;i<5;i++)
+    {
+        if(linhas->getPos() == 0)
+            break;
+        linhas->retroceda();
+    }
+}
+
+void Buffer:: descerPagina()
+{
+    for(int i =0; i<5;i++)
+    {
+        if(linhas->getPos() == linhas->quantos() - 1)
+            break;
+        linhas->avance();
+    }
 }
 
 int Buffer::getPosY()

@@ -22,6 +22,9 @@ public:
   int getPosY();
   void voltarAoInicioDaLinha();
   int getPosX();
+  void irAoFimDaLinha();
+  void descerPagina();
+  void subirPagina();
 
 private:
   ListaCD<MyString*>* linhas;

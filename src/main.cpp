@@ -86,11 +86,11 @@ char* _saveFileDialog(){
   ofn.lpstrFile    = filename;
   ofn.nMaxFile     = MAX_PATH;
   ofn.lpstrTitle   = "Select a File, yo!";
-  ofn.Flags        = OFN_DONTADDTORECENT;
+  //ofn.Flags        = OFN_DONTADDTORECENT;
 
-  if (GetSaveFileName( &ofn )){
+//  if (GetSaveFileName( &ofn )){
     return filename;
-  }
+  //}
 
   return 0;
 }
@@ -110,6 +110,30 @@ void _exit(){
   quit = 1;
 }
 
+void _begin()
+{
+    buf_g.voltarAoInicioDaLinha();
+    atualizarCursor();
+}
+
+void _pgDown()
+{
+    buf_g.descerPagina();
+    atualizarCursor();
+}
+
+void _pgUp()
+{
+    buf_g.subirPagina();
+    atualizarCursor();
+}
+
+void _end()
+{
+    buf_g.irAoFimDaLinha();
+    atualizarCursor();
+}
+
 int main(int argc, char **args){
   kr_g = KeyResolver(&_default);
   kr_g[19] = &_salvar;
@@ -121,8 +145,12 @@ int main(int argc, char **args){
   kr_g[12] = &_direita;
   kr_g[26] = &_desfazer;
   kr_g[17] = &_exit;
+  kr_g[14] = &_end;
+  kr_g[2]  = &_begin;
+  kr_g[28]  = &_pgDown;
+  kr_g[1] = &_pgUp;
   buf_g = Buffer();
-  
+
   pilha_acoes = PilhaAcao();
   acoes_opostas_g = AcoesRelacionais();
 
@@ -130,7 +158,7 @@ int main(int argc, char **args){
   acoes_opostas_g[descer] = &_subir;
   acoes_opostas_g[esquerda] = &_direita;
   acoes_opostas_g[direita] = &_esquerda;
-  acoes_opostas_g[inserirCaracter] = &_deletarCaracter;  
+  acoes_opostas_g[inserirCaracter] = &_deletarCaracter;
 
   while(!quit){
     kr_g.resolver();
