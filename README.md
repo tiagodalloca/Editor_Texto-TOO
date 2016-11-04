@@ -1,8 +1,6 @@
 # Editor de texto
 
-Coloque aqui uma descrição super legal para que fique bem evidente o que deve ser feito.
-
-Coloque o arquivo maligno
+Super editor de texto básico feito em C++
 
 ## Modelagem
 
