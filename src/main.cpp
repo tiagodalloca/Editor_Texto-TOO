@@ -23,10 +23,7 @@ void gotoXY(int x, int y)
     COORD c = {x , y}; SetConsoleCursorPosition(h,c);
 }
 
-void setX(int i)
-{
 
-}
 
 void atualizarCursor(){
   gotoXY(buf_g.getPosX(), buf_g.getPosY());
@@ -50,19 +47,22 @@ void _esquerda(){
 }
 
 void _descer(){
-  buf_g.descerLinha();
-  pilha_acoes.push(descer);
-  atualizarCursor();
+  if(buf_g.getPosY() < buf_g.quantasLinhas() - 1)
+  {
+    buf_g.descerLinha();
+    pilha_acoes.push(descer);
+    atualizarCursor();
+  }
+
 }
 
 void _subir(){
-  if(buf_g.coluna > 0)
+  if(buf_g.getPosY() > 0)
   {
       buf_g.subirLinha();
       pilha_acoes.push(subir);
       atualizarCursor();
   }
-
 }
 
 void _breakLine(){

@@ -27,6 +27,8 @@ public:
   void subirPagina();
   int tamanhoLinha();
   void setX(int i);
+  void setY(int i);
+  int quantasLinhas();
 
 private:
   ListaCD<MyString*>* linhas;

@@ -151,12 +151,16 @@ void Buffer::setX(int i)
 }
 void Buffer::setY(int i)
 {
-    while(linhas->naoChegouAoFim)
+    while(linhas->naoChegouAoFim())
     {
         linhas->avance();
     }
 }
 
+int Buffer::quantasLinhas()
+{
+    return linhas->quantos();
+}
 
 void  Buffer::inserirLinha(MyString* linha)
 {
