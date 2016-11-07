@@ -14,6 +14,7 @@ Buffer buf_g;
 PilhaAcao pilha_acoes;
 AcoesRelacionais acoes_opostas_g;
 char quit;
+bool insertAtivo = false;
 
 void gotoXY(int x, int y)
 {
@@ -100,12 +101,51 @@ void _backspace()
     cout << buf_g.getLinha(buf_g.getPosY());
     gotoXY(x-1,y);
 }
-
-
+//
+//void tent1()
+//{
+//  int len = buf_g.tamanhoLinha();
+//  int y = buf_g.getPosY();
+//  int x = buf_g.getPosX();
+//  gotoXY(x,y);
+//  for(int i = x;i<len+1;i++)
+//  {
+//    cout << " ";
+//  }
+//  buf_g.inserirCaracter(i);
+//  atualizarCursor();
+//  cout << buf_g.getLinha(buf_g.getPosY())[x];
+//  gotoXY(x+1,y);
+//
+//
+//  pilha_acoes.push(inserirCaracter);
+//}
 void _default(unsigned short int i){
-  buf_g.inserirCaracter(i);
-  pilha_acoes.push(inserirCaracter);
-  cout << (char) i;
+
+   if(!insertAtivo)
+  {
+      int len = buf_g.tamanhoLinha();
+      int y = buf_g.getPosY();
+      int x = buf_g.getPosX();
+      gotoXY(0,y);
+      for(int i = X;i<len+1;i++)
+      {
+        cout << " ";
+      }
+      buf_g.inserirCaracter(i);
+      gotoXY(0,y);
+      cout << buf_g.getLinha(buf_g.getPosY());
+      gotoXY(x+1,y);
+
+
+      pilha_acoes.push(inserirCaracter);
+   }
+   else
+   {
+        buf_g.inserirCaracter(i);
+        pilha_acoes.push(inserirCaracter);
+        cout << (char) i;
+   }
 }
 
 char* _saveFileDialog(){
@@ -120,11 +160,11 @@ char* _saveFileDialog(){
   ofn.lpstrFile    = filename;
   ofn.nMaxFile     = MAX_PATH;
   ofn.lpstrTitle   = "Select a File, yo!";
-  ofn.Flags        = OFN_DONTADDTORECENT;
-
-  if (GetSaveFileName( &ofn )){
-    return filename;
-  }
+//  ofn.Flags        = OFN_DONTADDTORECENT;
+//
+//  if (GetSaveFileName( &ofn )){
+//    return filename;
+//  }
 
   return 0;
 }
@@ -139,6 +179,15 @@ void _salvar(){
     fclose(f);
   }
 }
+
+void _insert()
+{
+    if(insertAtivo)
+        insertAtivo = false;
+    else
+        insertAtivo = true;
+}
+
 
 void _exit(){
   quit = 1;
@@ -184,6 +233,7 @@ int main(int argc, char **args){
   kr_g[1] = &_pgUp;      //Ctrl + 'a'
   kr_g[28]  = &_pgDown;  //Ctrl + '\'
   kr_g[15] = &_delete;   //Ctrl + 'o'
+  kr_g[16] = &_insert;   //Ctrl + 'p'
   buf_g = Buffer();
 
   pilha_acoes = PilhaAcao();
