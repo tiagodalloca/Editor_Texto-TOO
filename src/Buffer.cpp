@@ -62,23 +62,53 @@ void Buffer::irAoFimDaLinha()
     coluna = linhas->infoAtual()->length();
 }
 
+int Buffer::tamanhoLinha()
+{
+    return linhas->infoAtual()->length();
+}
+
 void Buffer:: subirPagina()
 {
-    for(int i = 0;i<5;i++)
+    int i = 0;
+    for(;i<5;i++)
     {
         if(linhas->getPos() == 0)
+        {
+            unsigned int novaColuna = linhas->infoAtual()->length();
+            if (coluna > novaColuna)
+                coluna = novaColuna;
             break;
+        }
         linhas->retroceda();
+    }
+    if(i == 5)
+    {
+        unsigned int novaColuna = linhas->infoAtual()->length();
+        if (coluna > novaColuna)
+            coluna = novaColuna;
     }
 }
 
 void Buffer:: descerPagina()
 {
-    for(int i =0; i<5;i++)
+    int i = 0;
+    for(; i<5;i++)
     {
         if(linhas->getPos() == linhas->quantos() - 1)
+        {
+            unsigned int novaColuna = linhas->infoAtual()->length();
+            if (coluna > novaColuna)
+                coluna = novaColuna;
             break;
+        }
+
         linhas->avance();
+    }
+    if(i == 5)
+    {
+        unsigned int novaColuna = linhas->infoAtual()->length();
+        if (coluna > novaColuna)
+            coluna = novaColuna;
     }
 }
 
@@ -114,6 +144,18 @@ bool  Buffer::inserirCaracter(char c)
 
 }
 
+void Buffer::setX(int i)
+{
+    if(i >=0 && i<linhas->infoAtual()->length())
+        coluna = i;
+}
+void Buffer::setY(int i)
+{
+    while(linhas->naoChegouAoFim)
+    {
+        linhas->avance();
+    }
+}
 
 
 void  Buffer::inserirLinha(MyString* linha)
@@ -125,7 +167,6 @@ void  Buffer::deletarADireita()
 {
   if(coluna <= linhas->infoAtual()->length()){
     linhas->infoAtual()->deletaCharAt(coluna);
-    coluna--;
   }
 }
 void  Buffer::deletarAEsquerda()

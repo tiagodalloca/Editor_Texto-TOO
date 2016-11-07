@@ -25,6 +25,8 @@ public:
   void irAoFimDaLinha();
   void descerPagina();
   void subirPagina();
+  int tamanhoLinha();
+  void setX(int i);
 
 private:
   ListaCD<MyString*>* linhas;

@@ -23,6 +23,11 @@ void gotoXY(int x, int y)
     COORD c = {x , y}; SetConsoleCursorPosition(h,c);
 }
 
+void setX(int i)
+{
+
+}
+
 void atualizarCursor(){
   gotoXY(buf_g.getPosX(), buf_g.getPosY());
 }
@@ -51,9 +56,13 @@ void _descer(){
 }
 
 void _subir(){
-  buf_g.subirLinha();
-  pilha_acoes.push(subir);
-  atualizarCursor();
+  if(buf_g.coluna > 0)
+  {
+      buf_g.subirLinha();
+      pilha_acoes.push(subir);
+      atualizarCursor();
+  }
+
 }
 
 void _breakLine(){
@@ -61,12 +70,37 @@ void _breakLine(){
   cout << '\n';
 }
 
-void _deletarCaracter(){
+void _delete(){
+  int len = buf_g.tamanhoLinha();
+  int y = buf_g.getPosY();
+  int x = buf_g.getPosX();
+  gotoXY(0,y);
+  for(int i = 0;i<len;i++)
+  {
+      cout << " ";
+  }
   buf_g.deletarADireita();
-  atualizarCursor();
-  cout << " ";
-  atualizarCursor();
+  gotoXY(0,y);
+  cout << buf_g.getLinha(buf_g.getPosY());
+  gotoXY(x,y);
 }
+
+void _backspace()
+{
+    int len = buf_g.tamanhoLinha();
+    int y = buf_g.getPosY();
+    int x = buf_g.getPosX();
+    gotoXY(0,y);
+    for(int i = 0;i<len;i++)
+    {
+        cout << " ";
+    }
+    buf_g.deletarAEsquerda();
+    gotoXY(0,y);
+    cout << buf_g.getLinha(buf_g.getPosY());
+    gotoXY(x-1,y);
+}
+
 
 void _default(unsigned short int i){
   buf_g.inserirCaracter(i);
@@ -86,11 +120,11 @@ char* _saveFileDialog(){
   ofn.lpstrFile    = filename;
   ofn.nMaxFile     = MAX_PATH;
   ofn.lpstrTitle   = "Select a File, yo!";
-  //ofn.Flags        = OFN_DONTADDTORECENT;
+//  ofn.Flags        = OFN_DONTADDTORECENT;
 
-//  if (GetSaveFileName( &ofn )){
-    return filename;
-  //}
+ // if (GetSaveFileName( &ofn )){
+ //   return filename;
+ // }
 
   return 0;
 }
@@ -136,19 +170,20 @@ void _end()
 
 int main(int argc, char **args){
   kr_g = KeyResolver(&_default);
-  kr_g[19] = &_salvar;
-  kr_g[8] = &_deletarCaracter;
-  kr_g[13] = &_breakLine;
-  kr_g[10] = &_esquerda;
-  kr_g[11] = &_descer;
-  kr_g[9] = &_subir;
-  kr_g[12] = &_direita;
-  kr_g[26] = &_desfazer;
-  kr_g[17] = &_exit;
-  kr_g[14] = &_end;
-  kr_g[2]  = &_begin;
-  kr_g[28]  = &_pgDown;
-  kr_g[1] = &_pgUp;
+  kr_g[19] = &_salvar;   //Ctrl + 's'
+  kr_g[8] = &_backspace; //Backspace
+  kr_g[13] = &_breakLine;//Enter
+  kr_g[10] = &_esquerda; //Ctrl + 'j'
+  kr_g[11] = &_descer;   //Ctrl + 'k'
+  kr_g[9] = &_subir;     //Ctrl + 'i'
+  kr_g[12] = &_direita;  //Ctrl + 'l'
+  kr_g[26] = &_desfazer; //Ctrl + 'z'
+  kr_g[17] = &_exit;     //Ctrl + 'q'
+  kr_g[2]  = &_begin;    //Ctrl + 'b'
+  kr_g[14] = &_end;      //Ctrl + 'n'
+  kr_g[1] = &_pgUp;      //Ctrl + 'a'
+  kr_g[28]  = &_pgDown;  //Ctrl + '\'
+  kr_g[15] = &_delete;   //Ctrl + 'o'
   buf_g = Buffer();
 
   pilha_acoes = PilhaAcao();
@@ -158,7 +193,7 @@ int main(int argc, char **args){
   acoes_opostas_g[descer] = &_subir;
   acoes_opostas_g[esquerda] = &_direita;
   acoes_opostas_g[direita] = &_esquerda;
-  acoes_opostas_g[inserirCaracter] = &_deletarCaracter;
+  acoes_opostas_g[inserirCaracter] = &_backspace;
 
   while(!quit){
     kr_g.resolver();
