@@ -120,11 +120,11 @@ char* _saveFileDialog(){
   ofn.lpstrFile    = filename;
   ofn.nMaxFile     = MAX_PATH;
   ofn.lpstrTitle   = "Select a File, yo!";
-//  ofn.Flags        = OFN_DONTADDTORECENT;
+  ofn.Flags        = OFN_DONTADDTORECENT;
 
- // if (GetSaveFileName( &ofn )){
- //   return filename;
- // }
+  if (GetSaveFileName( &ofn )){
+    return filename;
+  }
 
   return 0;
 }
