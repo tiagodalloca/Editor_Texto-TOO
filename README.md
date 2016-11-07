@@ -1,4 +1,4 @@
-﻿# Editor de texto
+# Editor de texto
 
 Super editor de texto básico feito em C++
 
@@ -103,7 +103,7 @@ lugar via métodos que faremos
 - [x] desce página (normalmente, PAGE DOWN)
 - [x] vai para o inicio da linha (normalmente, HOME)
 - [x] vai para o fim da linha (normalmente, END)
-- [ ] apaga char no cursor (normalmente, DELETE)
+- [x] apaga char no cursor (normalmente, DELETE)
 - [x] apaga char antes do cursor (normalmente, BACKSPACE)
 - [ ] desfazer (normalmente, CONTROL Z)
 - [ ] refazer (normalmente, CONTROL Y)
