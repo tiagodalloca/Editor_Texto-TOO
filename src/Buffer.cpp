@@ -162,21 +162,32 @@ int Buffer::quantasLinhas()
     return linhas->quantos();
 }
 
-void  Buffer::inserirLinha(MyString* linha)
+void Buffer::inserirLinha(MyString* linha)
 {
   linhas->insiraNoFim(linha);
   linhas->avance();
 }
-void  Buffer::deletarADireita()
+char Buffer::deletarADireita()
 {
   if(coluna <= linhas->infoAtual()->length()){
+    char ret = (*(linhas->infoAtual()))[coluna - 1];
     linhas->infoAtual()->deletaCharAt(coluna);
+    coluna--;
+    return ret;
   }
+
+  return 0;
 }
-void  Buffer::deletarAEsquerda()
+char Buffer::deletarAEsquerda()
 {
-  if(coluna > 0)
+  if(coluna > 0){
+    char ret = (*(linhas->infoAtual()))[coluna - 1];
+    //char ret = linhas->infoAtual()->operator[](coluna);
     linhas->infoAtual()->deletaCharAt(--coluna);
+    return ret;
+  }
+
+  return 0;
 }
 char* Buffer::getLinha(unsigned int i)
 {

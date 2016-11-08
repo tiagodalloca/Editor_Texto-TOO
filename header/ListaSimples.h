@@ -19,8 +19,8 @@ public:
   ~ListaSimples();
   ListaSimples(const ListaSimples<T> *l);
   unsigned int getQuantos() const;
-  void adicionarComeco(T);
-  void adicionarFinal(T);
+  void adicionarComeco(T&);
+  void adicionarFinal(T&);
   T retirarComeco();
   T retirarFinal();
   T getPrimeiro() const;
@@ -68,7 +68,7 @@ unsigned int ListaSimples<T>::getQuantos() const{
 }
 
 template<typename T>
-void ListaSimples<T>::adicionarComeco(const T info){
+void ListaSimples<T>::adicionarComeco(T& info){
   struct NoLista *no = new NoLista;
   no->info = info;
   no->prox = primeiro;
@@ -79,7 +79,7 @@ void ListaSimples<T>::adicionarComeco(const T info){
 }
 
 template<typename T>
-void ListaSimples<T>::adicionarFinal(const T info){
+void ListaSimples<T>::adicionarFinal(T& info){
   if (ultimo == NULL)
     adicionarComeco(info);
   else{

@@ -30,39 +30,126 @@ void atualizarCursor(){
   gotoXY(buf_g.getPosX(), buf_g.getPosY());
 }
 
-void _direita(){
-  buf_g.irParaDireita();
-  pilha_acoes.push(direita);
+void _voltar(void **args){
+  int *x = (int*) args[0];
+  int *y = (int*) args[1];
+  gotoXY(*x, *y);
+  // buf_g.setX();
+  // buf_g.setY(); 
+}
+
+void _desfazerInserir(void **args){
+  buf_g.deletarADireita();
+  atualizarCursor();
+  cout << " ";
   atualizarCursor();
 }
 
-void _desfazer(){
-  Acao a = pilha_acoes.pop();
-  acoes_opostas_g[a]();
+void _desfazerBackDel(void **args){
+  char *i = (char*) args[0];
+  buf_g.inserirCaracter(*i);
+  cout << *i;
 }
 
+void _desfazerFrontDel(void **args){
+  char *i = (char*) args[0];
+  buf_g.inserirCaracter(*i);
+  cout << *i;
+}
+
+void _desfazer(){
+  if (pilha_acoes.getQuantos() > 0){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    acoes_opostas_g[a->acao](a->args);
+  }
+}
+
+
+void _direita(){
+  void **args = (void**) malloc(sizeof(int*)*2);
+  int x = buf_g.getPosX();
+  int y = buf_g.getPosY();
+
+  args[0] = (void*) malloc(sizeof(int));
+  args[1] = (void*) malloc(sizeof(int));
+
+
+  *((int*) args[0]) = x;
+  *((int*) args[1]) = y;
+
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = direita;
+  a->args = args;
+  
+  pilha_acoes.push(a);
+  buf_g.irParaDireita();
+  atualizarCursor();
+}
+
+
 void _esquerda(){
+  void **args = (void**) malloc(sizeof(int*)*2);
+  int x = buf_g.getPosX();
+  int y = buf_g.getPosY();
+
+  args[0] = (void*) malloc(sizeof(int));
+  args[1] = (void*) malloc(sizeof(int));
+  
+  *((int*) args[0]) = x;
+  *((int*) args[1]) = y;
+
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = esquerda;
+  a->args = args;
+  
+  pilha_acoes.push(a);
   buf_g.irParaEsquerda();
-  pilha_acoes.push(esquerda);
   atualizarCursor();
 }
 
 void _descer(){
-  if(buf_g.getPosY() < buf_g.quantasLinhas() - 1)
-  {
+  if(buf_g.getPosY() < buf_g.quantasLinhas() - 1){
+    void **args = (void**) malloc(sizeof(int*)*2);
+    int x = buf_g.getPosX();
+    int y = buf_g.getPosY();
+
+    args[0] = (void*) malloc(sizeof(int));
+    args[1] = (void*) malloc(sizeof(int));
+  
+    *((int*) args[0]) = x;
+    *((int*) args[1]) = y;
+
+    AcaoEncapsulada *a = new AcaoEncapsulada;
+    a->acao = subir;
+    a->args = args;
+  
+    pilha_acoes.push(a);
+    
     buf_g.descerLinha();
-    pilha_acoes.push(descer);
     atualizarCursor();
   }
-
 }
 
 void _subir(){
-  if(buf_g.getPosY() > 0)
-  {
-      buf_g.subirLinha();
-      pilha_acoes.push(subir);
-      atualizarCursor();
+  if(buf_g.getPosY() > 0){
+    void **args = (void**) malloc(sizeof(int*)*2);
+    int x = buf_g.getPosX();
+    int y = buf_g.getPosY();
+
+    args[0] = (void*) malloc(sizeof(int));
+    args[1] = (void*) malloc(sizeof(int));
+  
+    *((int*) args[0]) = x;
+    *((int*) args[1]) = y;
+
+    AcaoEncapsulada *a = new AcaoEncapsulada;
+    a->acao = subir;
+    a->args = args;
+  
+    pilha_acoes.push(a);
+      
+    buf_g.subirLinha();
+    atualizarCursor();
   }
 }
 
@@ -71,19 +158,30 @@ void _breakLine(){
   cout << '\n';
 }
 
+
 void _delete(){
   int len = buf_g.tamanhoLinha();
   int y = buf_g.getPosY();
   int x = buf_g.getPosX();
   gotoXY(0,y);
   for(int i = 0;i<len;i++)
-  {
-      cout << " ";
-  }
-  buf_g.deletarADireita();
+    cout << " ";
+
+  char c = buf_g.deletarADireita();
   gotoXY(0,y);
   cout << buf_g.getLinha(buf_g.getPosY());
   gotoXY(x,y);
+
+  void **args = (void**) malloc(sizeof(char*));
+  args[0] = (void*) malloc(sizeof(char));
+
+  *((char*)args[0]) = c;
+    
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = frontdel;
+  a->args = args;
+
+  pilha_acoes.push(a);
 }
 
 void _backspace()
@@ -92,59 +190,61 @@ void _backspace()
     int y = buf_g.getPosY();
     int x = buf_g.getPosX();
     gotoXY(0,y);
+
     for(int i = 0;i<len;i++)
-    {
-        cout << " ";
-    }
-    buf_g.deletarAEsquerda();
+      cout << " ";
+    
+    char c = buf_g.deletarAEsquerda();
     gotoXY(0,y);
     cout << buf_g.getLinha(buf_g.getPosY());
     gotoXY(x-1,y);
+
+    void **args = (void**) malloc(sizeof(char*));
+    args[0] = (void*) malloc(sizeof(char));
+
+    *((char*)args[0]) = c;
+    
+    AcaoEncapsulada *a = new AcaoEncapsulada;
+    a->acao = backdel;
+    a->args = args;
+
+    pilha_acoes.push(a);
 }
-//
-//void tent1()
-//{
-//  int len = buf_g.tamanhoLinha();
-//  int y = buf_g.getPosY();
-//  int x = buf_g.getPosX();
-//  gotoXY(x,y);
-//  for(int i = x;i<len+1;i++)
-//  {
-//    cout << " ";
-//  }
-//  buf_g.inserirCaracter(i);
-//  atualizarCursor();
-//  cout << buf_g.getLinha(buf_g.getPosY())[x];
-//  gotoXY(x+1,y);
-//
-//
-//  pilha_acoes.push(inserirCaracter);
-//}
+
 void _default(unsigned short int i){
+  if(!insertAtivo){
+    int len = buf_g.tamanhoLinha();
+    int y = buf_g.getPosY();
+    int x = buf_g.getPosX();
+    gotoXY(0,y);
 
-   if(!insertAtivo)
-  {
-      int len = buf_g.tamanhoLinha();
-      int y = buf_g.getPosY();
-      int x = buf_g.getPosX();
-      gotoXY(0,y);
-      for(int i = X;i<len+1;i++)
-      {
-        cout << " ";
-      }
-      buf_g.inserirCaracter(i);
-      gotoXY(0,y);
-      cout << buf_g.getLinha(buf_g.getPosY());
-      gotoXY(x+1,y);
+    for(int i = x;i<len+1;i++)
+      cout << " ";
 
+    buf_g.inserirCaracter(i);
+    gotoXY(0,y);
+    cout << buf_g.getLinha(buf_g.getPosY());
+    gotoXY(x+1,y);
 
-      pilha_acoes.push(inserirCaracter);
-   }
-   else
-   {
-        buf_g.inserirCaracter(i);
-        pilha_acoes.push(inserirCaracter);
-        cout << (char) i;
+    void **args = {};
+
+    AcaoEncapsulada *a = new AcaoEncapsulada;
+    a->acao = inserirCaracter;
+    a->args = args;
+  
+    pilha_acoes.push(a);
+  }
+  else {
+    buf_g.inserirCaracter(i);
+    
+    void **args = {};
+
+    AcaoEncapsulada *a = new AcaoEncapsulada;
+    a->acao = inserirCaracter;
+    a->args = args;
+      
+    pilha_acoes.push(a);
+    cout << (char) i;
    }
 }
 
@@ -155,17 +255,16 @@ char* _saveFileDialog(){
   ZeroMemory( &ofn,      sizeof( ofn ) );
   ZeroMemory( filename,  sizeof( filename ) );
   ofn.lStructSize  = sizeof( ofn );
-  ofn.hwndOwner    = NULL;  // If you have a window to center over, put its HANDLE here
+  ofn.hwndOwner    = NULL;
   ofn.lpstrFilter  = "Text Files\0*.txt\0Any File\0*.*\0";
   ofn.lpstrFile    = filename;
   ofn.nMaxFile     = MAX_PATH;
-  ofn.lpstrTitle   = "Select a File, yo!";
-//  ofn.Flags        = OFN_DONTADDTORECENT;
-//
-//  if (GetSaveFileName( &ofn )){
-//    return filename;
-//  }
+  ofn.lpstrTitle   = "Selecione um arquivo";
+  ofn.Flags        = OFN_DONTADDTORECENT;
 
+  if (GetSaveFileName( &ofn )){
+    return filename;
+  }
   return 0;
 }
 
@@ -182,10 +281,10 @@ void _salvar(){
 
 void _insert()
 {
-    if(insertAtivo)
-        insertAtivo = false;
-    else
-        insertAtivo = true;
+  if(insertAtivo)
+    insertAtivo = false;
+  else
+    insertAtivo = true;
 }
 
 
@@ -239,16 +338,17 @@ int main(int argc, char **args){
   pilha_acoes = PilhaAcao();
   acoes_opostas_g = AcoesRelacionais();
 
-  acoes_opostas_g[subir] = &_descer;
-  acoes_opostas_g[descer] = &_subir;
-  acoes_opostas_g[esquerda] = &_direita;
-  acoes_opostas_g[direita] = &_esquerda;
-  acoes_opostas_g[inserirCaracter] = &_backspace;
+  acoes_opostas_g[subir] = &_voltar;
+  acoes_opostas_g[descer] = &_voltar;
+  acoes_opostas_g[esquerda] = &_voltar;
+  acoes_opostas_g[direita] = &_voltar;
+  acoes_opostas_g[inserirCaracter] = &_desfazerInserir;
+  acoes_opostas_g[backdel] = &_desfazerBackDel;
+  acoes_opostas_g[frontdel] = &_desfazerFrontDel;
 
   while(!quit){
     kr_g.resolver();
   }
-
   return 0;
 }
 

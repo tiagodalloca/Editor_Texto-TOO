@@ -16,8 +16,8 @@ public:
   bool inserirCaracter(char);
   void inserirLinha(MyString* linha);
   void inserirLinha();
-  void deletarADireita();
-  void deletarAEsquerda();
+  char deletarADireita();
+  char deletarAEsquerda();
   char* getLinha(unsigned int);
   int getPosY();
   void voltarAoInicioDaLinha();

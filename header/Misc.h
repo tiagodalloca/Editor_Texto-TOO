@@ -1,15 +1,21 @@
 #include "Pilha.h"
 #include <stdlib.h>
 #include <map>
+#include <stdlib.h>
 
 using namespace std;
 
 typedef enum{
   esquerda, direita,
-  inserirCaracter,
+  inserirCaracter, backdel, frontdel,
   descer, subir,
   novaLinha
 }Acao;
 
-typedef map<const Acao, void(*)()> AcoesRelacionais;
-typedef Pilha<Acao> PilhaAcao;
+typedef struct{
+  Acao acao;
+  void **args;
+}AcaoEncapsulada;
+
+typedef map<const Acao, void(*)(void**)> AcoesRelacionais;
+typedef Pilha<AcaoEncapsulada*> PilhaAcao;
