@@ -165,9 +165,8 @@ void MyString::deletaCharAt(unsigned int pos)
 {
     int i;
     for(i = pos;i<length();i++)
-    {
         *(this->conteudo + i) = *(this->conteudo + i + 1);
-    }
+
     *(this->conteudo + i) = NULL;
 }
 void MyString::insere(unsigned int pos, char c)

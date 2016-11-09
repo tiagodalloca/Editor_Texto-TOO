@@ -26,10 +26,10 @@ public:
   void descerPagina();
   void subirPagina();
   int tamanhoLinha();
-  void setX(int i);
-  void setY(int i);
   int quantasLinhas();
-
+  void setX(unsigned int i);
+  void setY(unsigned int i);
+  
 private:
   ListaCD<MyString*>* linhas;
   unsigned int coluna;

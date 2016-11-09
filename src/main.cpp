@@ -16,6 +16,9 @@ AcoesRelacionais acoes_opostas_g;
 char quit;
 bool insertAtivo = false;
 
+void _default(unsigned short int i);
+void _backspace();
+
 void gotoXY(int x, int y)
 {
     static HANDLE h = NULL;
@@ -34,33 +37,53 @@ void _voltar(void **args){
   int *x = (int*) args[0];
   int *y = (int*) args[1];
   gotoXY(*x, *y);
-  // buf_g.setX();
-  // buf_g.setY(); 
+  buf_g.setX(*x);
+  buf_g.setY(*y);
+  free(x);
+  free(y);
 }
 
 void _desfazerInserir(void **args){
-  buf_g.deletarADireita();
-  atualizarCursor();
-  cout << " ";
-  atualizarCursor();
+  _backspace();
+
+  AcaoEncapsulada *a = pilha_acoes.pop();
+  free(a->args);
+  free(a);
+  
+  free(args);
 }
 
 void _desfazerBackDel(void **args){
   char *i = (char*) args[0];
-  buf_g.inserirCaracter(*i);
-  cout << *i;
+
+  bool aux = insertAtivo;
+  insertAtivo = true;
+  _default(*i);
+  insertAtivo = aux;
+  AcaoEncapsulada *a = pilha_acoes.pop();
+  free(a->args);
+  free(a);
+  free(i);
+  free(args);
 }
 
 void _desfazerFrontDel(void **args){
   char *i = (char*) args[0];
-  buf_g.inserirCaracter(*i);
-  cout << *i;
+
+  bool aux = insertAtivo;
+  insertAtivo = true;
+  _default(*i);
+  insertAtivo = aux;
+  
+  free(i);
+  free(args);
 }
 
 void _desfazer(){
   if (pilha_acoes.getQuantos() > 0){
     AcaoEncapsulada *a = pilha_acoes.pop();
     acoes_opostas_g[a->acao](a->args);
+    free(a);
   }
 }
 
@@ -189,15 +212,21 @@ void _backspace()
     int len = buf_g.tamanhoLinha();
     int y = buf_g.getPosY();
     int x = buf_g.getPosX();
-    gotoXY(0,y);
 
+    //Apaga tudo
+    gotoXY(0,y);
     for(int i = 0;i<len;i++)
       cout << " ";
-    
+
+    //Deleta o caracter no buffer
     char c = buf_g.deletarAEsquerda();
+
+    //Escreve a linha 
     gotoXY(0,y);
     cout << buf_g.getLinha(buf_g.getPosY());
-    gotoXY(x-1,y);
+
+    //Põe o cursor no lugar certo
+    atualizarCursor();
 
     void **args = (void**) malloc(sizeof(char*));
     args[0] = (void*) malloc(sizeof(char));

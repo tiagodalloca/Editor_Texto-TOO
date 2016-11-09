@@ -1,7 +1,6 @@
 #include "Pilha.h"
 #include <stdlib.h>
 #include <map>
-#include <stdlib.h>
 
 using namespace std;
 
@@ -19,3 +18,4 @@ typedef struct{
 
 typedef map<const Acao, void(*)(void**)> AcoesRelacionais;
 typedef Pilha<AcaoEncapsulada*> PilhaAcao;
+

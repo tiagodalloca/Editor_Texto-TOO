@@ -59,56 +59,56 @@ void Buffer::voltarAoInicioDaLinha()
 
 void Buffer::irAoFimDaLinha()
 {
-    coluna = linhas->infoAtual()->length();
+  coluna = linhas->infoAtual()->length();
 }
 
 int Buffer::tamanhoLinha()
 {
-    return linhas->infoAtual()->length();
+  return linhas->infoAtual()->length();
 }
 
 void Buffer:: subirPagina()
 {
-    int i = 0;
-    for(;i<5;i++)
+  int i = 0;
+  for(;i<5;i++)
     {
-        if(linhas->getPos() == 0)
+      if(linhas->getPos() == 0)
         {
-            unsigned int novaColuna = linhas->infoAtual()->length();
-            if (coluna > novaColuna)
-                coluna = novaColuna;
-            break;
-        }
-        linhas->retroceda();
-    }
-    if(i == 5)
-    {
-        unsigned int novaColuna = linhas->infoAtual()->length();
-        if (coluna > novaColuna)
+          unsigned int novaColuna = linhas->infoAtual()->length();
+          if (coluna > novaColuna)
             coluna = novaColuna;
+          break;
+        }
+      linhas->retroceda();
+    }
+  if(i == 5)
+    {
+      unsigned int novaColuna = linhas->infoAtual()->length();
+      if (coluna > novaColuna)
+        coluna = novaColuna;
     }
 }
 
 void Buffer:: descerPagina()
 {
-    int i = 0;
-    for(; i<5;i++)
+  int i = 0;
+  for(; i<5;i++)
     {
-        if(linhas->getPos() == linhas->quantos() - 1)
+      if(linhas->getPos() == linhas->quantos() - 1)
         {
-            unsigned int novaColuna = linhas->infoAtual()->length();
-            if (coluna > novaColuna)
-                coluna = novaColuna;
-            break;
+          unsigned int novaColuna = linhas->infoAtual()->length();
+          if (coluna > novaColuna)
+            coluna = novaColuna;
+          break;
         }
 
-        linhas->avance();
+      linhas->avance();
     }
-    if(i == 5)
+  if(i == 5)
     {
-        unsigned int novaColuna = linhas->infoAtual()->length();
-        if (coluna > novaColuna)
-            coluna = novaColuna;
+      unsigned int novaColuna = linhas->infoAtual()->length();
+      if (coluna > novaColuna)
+        coluna = novaColuna;
     }
 }
 
@@ -144,22 +144,31 @@ bool  Buffer::inserirCaracter(char c)
 
 }
 
-void Buffer::setX(int i)
+void Buffer::setX(unsigned int i)
 {
-    if(i >=0 && i<linhas->infoAtual()->length())
-        coluna = i;
+  if(i<=linhas->infoAtual()->length())
+    coluna = i;
 }
-void Buffer::setY(int i)
+void Buffer::setY(unsigned int i)
 {
-    while(linhas->naoChegouAoFim())
-    {
-        linhas->avance();
+  unsigned int posAtual = linhas->getPos();
+  int delta = i - posAtual;
+  
+  while(delta != 0) {
+    if (delta > 0){
+      linhas->avance();
+      delta--;
     }
+    else{
+      linhas->retroceda();
+      delta++;
+    }
+  } 
 }
 
 int Buffer::quantasLinhas()
 {
-    return linhas->quantos();
+  return linhas->quantos();
 }
 
 void Buffer::inserirLinha(MyString* linha)
