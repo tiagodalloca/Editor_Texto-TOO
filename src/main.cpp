@@ -15,7 +15,7 @@ Buffer buf_g;
 PilhaAcao pilha_acoes;
 AcoesRelacionais acoes_opostas_g;
 char quit;
-bool insertAtivo = false;
+bool insertAtivo;
 
 void _default(unsigned short int i);
 void _backspace();
@@ -56,11 +56,13 @@ void _desfazerInserir(void **args){
 
 void _desfazerBackDel(void **args){
   char *i = (char*) args[0];
-
   bool aux = insertAtivo;
+  
   insertAtivo = true;
   _default(*i);
+
   insertAtivo = aux;
+  
   AcaoEncapsulada *a = pilha_acoes.pop();
   free(a->args);
   free(a);
@@ -70,12 +72,19 @@ void _desfazerBackDel(void **args){
 
 void _desfazerFrontDel(void **args){
   char *i = (char*) args[0];
-
   bool aux = insertAtivo;
+
   insertAtivo = true;
   _default(*i);
-  insertAtivo = aux;
+
+  buf_g.irParaEsquerda();
+  atualizarCursor();
+
+  insertAtivo = aux; 
   
+  AcaoEncapsulada *a = pilha_acoes.pop();
+  free(a->args);
+  free(a);
   free(i);
   free(args);
 }
@@ -205,7 +214,7 @@ int len = buf_g.tamanhoLinha();
     *((char*)args[0]) = c;
     
     AcaoEncapsulada *a = new AcaoEncapsulada;
-    a->acao = backdel;
+    a->acao = frontdel;
     a->args = args;
 
     pilha_acoes.push(a);
@@ -246,7 +255,7 @@ void _backspace()
 }
 
 void _default(unsigned short int i){
-  if(!insertAtivo){
+  if(insertAtivo){
     int len = buf_g.tamanhoLinha();
     int y = buf_g.getPosY() + 1;
     int x = buf_g.getPosX() + 1;
@@ -373,7 +382,8 @@ int main(int argc, char **args){
 
   pilha_acoes = PilhaAcao();
   acoes_opostas_g = AcoesRelacionais();
-
+  insertAtivo = true;
+  
   acoes_opostas_g[subir] = &_voltar;
   acoes_opostas_g[descer] = &_voltar;
   acoes_opostas_g[esquerda] = &_voltar;

@@ -179,8 +179,9 @@ void Buffer::inserirLinha(MyString* linha)
 char Buffer::deletarADireita()
 {
   if(coluna <= linhas->infoAtual()->length()){
-    char ret = (*(linhas->infoAtual()))[coluna - 1];
-    linhas->infoAtual()->deletaCharAt(coluna);
+    MyString *infoAtual = linhas->infoAtual();
+    char ret = (*infoAtual)[coluna];
+    infoAtual->deletaCharAt(coluna);
     return ret;
   }
 
