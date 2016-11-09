@@ -89,6 +89,11 @@ void _desfazerFrontDel(void **args){
   free(args);
 }
 
+
+void _desfazerNovaLinha(void **args){
+  // aqui é a parte difícil do bagui
+}
+
 void _desfazer(){
   if (pilha_acoes.getQuantos() > 0){
     AcaoEncapsulada *a = pilha_acoes.pop();
@@ -189,6 +194,7 @@ void _subir(){
 void _breakLine(){
   buf_g.inserirLinha();
   cout << '\n';
+  
 }
 
 
@@ -391,6 +397,7 @@ int main(int argc, char **args){
   acoes_opostas_g[inserirCaracter] = &_desfazerInserir;
   acoes_opostas_g[backdel] = &_desfazerBackDel;
   acoes_opostas_g[frontdel] = &_desfazerFrontDel;
+  acoes_opostas_g[novaLinha] = &_desfazerNovaLinha;
 
   while(!quit){
     kr_g.resolver();

@@ -8,7 +8,7 @@ typedef enum{
   esquerda, direita,
   inserirCaracter, backdel, frontdel,
   descer, subir,
-  novaLinha
+  novaLinha, excluirLinha
 }Acao;
 
 typedef struct{
@@ -18,4 +18,3 @@ typedef struct{
 
 typedef map<const Acao, void(*)(void**)> AcoesRelacionais;
 typedef Pilha<AcaoEncapsulada*> PilhaAcao;
-
