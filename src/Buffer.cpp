@@ -181,7 +181,6 @@ char Buffer::deletarADireita()
   if(coluna <= linhas->infoAtual()->length()){
     char ret = (*(linhas->infoAtual()))[coluna - 1];
     linhas->infoAtual()->deletaCharAt(coluna);
-    coluna--;
     return ret;
   }
 

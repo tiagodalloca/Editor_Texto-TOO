@@ -8,6 +8,7 @@
 #include <iostream>
 #include <stdio.h>
 #include <windows.h>
+#include "conio2.h"
 
 KeyResolver kr_g;
 Buffer buf_g;
@@ -183,48 +184,51 @@ void _breakLine(){
 
 
 void _delete(){
-  int len = buf_g.tamanhoLinha();
-  int y = buf_g.getPosY();
-  int x = buf_g.getPosX();
-  gotoXY(0,y);
-  for(int i = 0;i<len;i++)
-    cout << " ";
+int len = buf_g.tamanhoLinha();
+  int y = buf_g.getPosY() + 1;
+  int x = buf_g.getPosX() + 1;
 
+  //Deleta o caracter no buffer
   char c = buf_g.deletarADireita();
-  gotoXY(0,y);
-  cout << buf_g.getLinha(buf_g.getPosY());
-  gotoXY(x,y);
 
-  void **args = (void**) malloc(sizeof(char*));
-  args[0] = (void*) malloc(sizeof(char));
+  if (c){
+    movetext(x + 1,
+             y,
+             len + 1,
+             y,
+             x,
+             y);
 
-  *((char*)args[0]) = c;
+    void **args = (void**) malloc(sizeof(char*));
+    args[0] = (void*) malloc(sizeof(char));
+
+    *((char*)args[0]) = c;
     
-  AcaoEncapsulada *a = new AcaoEncapsulada;
-  a->acao = frontdel;
-  a->args = args;
+    AcaoEncapsulada *a = new AcaoEncapsulada;
+    a->acao = backdel;
+    a->args = args;
 
-  pilha_acoes.push(a);
+    pilha_acoes.push(a);
+  }
 }
 
 void _backspace()
 {
-    int len = buf_g.tamanhoLinha();
-    int y = buf_g.getPosY();
-    int x = buf_g.getPosX();
+  int len = buf_g.tamanhoLinha();
+  int y = buf_g.getPosY() + 1;
+  int x = buf_g.getPosX() + 1;
 
-    //Apaga tudo
-    gotoXY(0,y);
-    for(int i = 0;i<len;i++)
-      cout << " ";
+  //Deleta o caracter no buffer
+  char c = buf_g.deletarAEsquerda();
 
-    //Deleta o caracter no buffer
-    char c = buf_g.deletarAEsquerda();
-
-    //Escreve a linha 
-    gotoXY(0,y);
-    cout << buf_g.getLinha(buf_g.getPosY());
-
+  if (c){
+    movetext(x,
+             y,
+             len + 1,
+             y,
+             x - 1,
+             y);
+      
     //Põe o cursor no lugar certo
     atualizarCursor();
 
@@ -238,22 +242,25 @@ void _backspace()
     a->args = args;
 
     pilha_acoes.push(a);
+  }    
 }
 
 void _default(unsigned short int i){
   if(!insertAtivo){
     int len = buf_g.tamanhoLinha();
-    int y = buf_g.getPosY();
-    int x = buf_g.getPosX();
-    gotoXY(0,y);
-
-    for(int i = x;i<len+1;i++)
-      cout << " ";
+    int y = buf_g.getPosY() + 1;
+    int x = buf_g.getPosX() + 1;
 
     buf_g.inserirCaracter(i);
-    gotoXY(0,y);
-    cout << buf_g.getLinha(buf_g.getPosY());
-    gotoXY(x+1,y);
+
+    movetext(x,
+             y,
+             len + 1,
+             y,
+             x + 1,
+             y);
+    gotoXY(x - 1, y - 1);
+    cout << (char) i;
 
     void **args = {};
 
