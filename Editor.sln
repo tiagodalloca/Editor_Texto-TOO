@@ -1,0 +1,40 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "et", "et.vcxproj", "{2D814446-C76E-33C7-A5A2-82604440410E}"
+	ProjectSection(ProjectDependencies) = postProject
+		{B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D} = {B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "lib", "lib.vcxproj", "{B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		MinSizeRel|x64 = MinSizeRel|x64
+		Release|x64 = Release|x64
+		RelWithDebInfo|x64 = RelWithDebInfo|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{2D814446-C76E-33C7-A5A2-82604440410E}.Debug|x64.ActiveCfg = Debug|x64
+		{2D814446-C76E-33C7-A5A2-82604440410E}.Debug|x64.Build.0 = Debug|x64
+		{2D814446-C76E-33C7-A5A2-82604440410E}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{2D814446-C76E-33C7-A5A2-82604440410E}.MinSizeRel|x64.Build.0 = MinSizeRel|x64
+		{2D814446-C76E-33C7-A5A2-82604440410E}.Release|x64.ActiveCfg = Release|x64
+		{2D814446-C76E-33C7-A5A2-82604440410E}.Release|x64.Build.0 = Release|x64
+		{2D814446-C76E-33C7-A5A2-82604440410E}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{2D814446-C76E-33C7-A5A2-82604440410E}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+		{B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D}.Debug|x64.ActiveCfg = Debug|x64
+		{B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D}.Debug|x64.Build.0 = Debug|x64
+		{B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D}.MinSizeRel|x64.ActiveCfg = MinSizeRel|x64
+		{B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D}.MinSizeRel|x64.Build.0 = MinSizeRel|x64
+		{B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D}.Release|x64.ActiveCfg = Release|x64
+		{B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D}.Release|x64.Build.0 = Release|x64
+		{B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D}.RelWithDebInfo|x64.ActiveCfg = RelWithDebInfo|x64
+		{B63CDAAA-9FEC-3FF5-89C6-E3AB3648061D}.RelWithDebInfo|x64.Build.0 = RelWithDebInfo|x64
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
