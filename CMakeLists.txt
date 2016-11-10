@@ -22,7 +22,7 @@ set (HEADERS
   header/KeyResolver.h
   header/Misc.h
 
-  include/conio.c
+  include/conio2.h
 )
 
 set (SRC
@@ -30,7 +30,7 @@ set (SRC
   src/Buffer.cpp
   src/KeyResolver.cpp
 
-  include/conio2.h
+  include/conio.c
 )
 
 set (ALL ${HEADERS} ${SRC})
