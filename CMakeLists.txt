@@ -21,12 +21,16 @@ set (HEADERS
   header/Buffer.h
   header/KeyResolver.h
   header/Misc.h
+
+  include/conio.c
 )
 
 set (SRC
   src/MyString.cpp
   src/Buffer.cpp
   src/KeyResolver.cpp
+
+  include/conio2.h
 )
 
 set (ALL ${HEADERS} ${SRC})
@@ -38,5 +42,5 @@ foreach (FILE ${ALL})
   message (${FILE}) 
 endforeach (FILE)
 
-add_executable(et src/main.cpp include/conio.o)
+add_executable(et src/main.cpp)
 target_link_libraries(et lib)
