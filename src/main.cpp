@@ -45,8 +45,24 @@ void _voltar(void **args){
 }
 
 void _desfazerInserir(void **args){
-  _backspace();
+  bool* insert = (bool*)args[0];
+  if (*insert)
+    _backspace();
+  else{
+    char* c = (char*)args[1];
 
+    bool aux = insertAtivo;
+    insertAtivo = false;
+
+    buf_g.irParaEsquerda();
+    atualizarCursor();
+    _default(*c);
+    insertAtivo = aux;
+
+    buf_g.irParaEsquerda();
+    atualizarCursor();
+  }
+  
   AcaoEncapsulada *a = pilha_acoes.pop();
   free(a->args);
   free(a);
@@ -261,6 +277,7 @@ void _backspace()
 }
 
 void _default(unsigned short int i){
+  char c = 0;
   if(insertAtivo){
     int len = buf_g.tamanhoLinha();
     int y = buf_g.getPosY() + 1;
@@ -275,28 +292,26 @@ void _default(unsigned short int i){
              x + 1,
              y);
     gotoXY(x - 1, y - 1);
-    cout << (char) i;
 
-    void **args = {};
-
-    AcaoEncapsulada *a = new AcaoEncapsulada;
-    a->acao = inserirCaracter;
-    a->args = args;
-  
-    pilha_acoes.push(a);
   }
   else {
+    c = buf_g.deletarADireita();
     buf_g.inserirCaracter(i);
-    
-    void **args = {};
-
-    AcaoEncapsulada *a = new AcaoEncapsulada;
-    a->acao = inserirCaracter;
-    a->args = args;
-      
-    pilha_acoes.push(a);
-    cout << (char) i;
    }
+
+  void **args = (void**) malloc(sizeof(bool*) + sizeof(char*));
+  args[0] = (void*)malloc(sizeof(bool));
+  args[1] = (void*)malloc(sizeof(char));
+  *((bool*)args[0]) = insertAtivo;
+  *((char*)args[1]) = c;
+
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = inserirCaracter;
+  a->args = args;
+
+  pilha_acoes.push(a);
+
+  cout << (char)i;
 }
 
 char* _saveFileDialog(){
