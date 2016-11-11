@@ -7,6 +7,7 @@
 class Buffer{
 public:
   Buffer();
+  Buffer(int tam);
   Buffer(ListaCD<MyString*>* novaLista);
   char* linhasAsString();
   void subirLinha();
@@ -25,6 +26,8 @@ public:
   void irAoFimDaLinha();
   void descerPagina();
   void subirPagina();
+  void inserirLinhaDepois();
+  int tamanhoMax();
   int tamanhoLinha();
   int quantasLinhas();
   void setX(unsigned int i);
@@ -34,6 +37,7 @@ private:
   ListaCD<MyString*>* linhas;
   unsigned int coluna;
   int tam = 0;
+  int tamMax = 0;
 };
 
 #endif

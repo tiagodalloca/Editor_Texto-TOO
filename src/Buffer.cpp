@@ -10,6 +10,17 @@ Buffer::Buffer()
   linhas  = new ListaCD<MyString*>;
   MyString* ms = new MyString();
   linhas->insiraNoFim(ms);
+  tamMax = 0;
+}
+
+Buffer::Buffer(int tam)
+{
+  coluna = 0;
+  linhas = new ListaCD<MyString*>;
+  MyString* ms = new MyString();
+  linhas->insiraNoFim(ms);
+  tamMax = tam;
+
 }
 
 Buffer::Buffer(ListaCD<MyString*>* novaLista)
@@ -67,6 +78,17 @@ int Buffer::tamanhoLinha()
   return linhas->infoAtual()->length();
 }
 
+int Buffer::tamanhoMax()
+{
+  return this->tamMax;
+}
+
+void Buffer::inserirLinhaDepois()
+{
+  MyString* ms = new MyString(' ');
+  linhas->insiraDepois(ms);
+}
+
 void Buffer:: subirPagina()
 {
   int i = 0;
@@ -88,6 +110,7 @@ void Buffer:: subirPagina()
         coluna = novaColuna;
     }
 }
+
 
 void Buffer:: descerPagina()
 {

@@ -208,9 +208,9 @@ void _subir(){
 }
 
 void _breakLine(){
+  char c = buf_g.deletarAEsquerda();
   buf_g.inserirLinha();
-  cout << '\n';
-  
+  buf_g.inserirCaracter(c);
 }
 
 
@@ -311,6 +311,10 @@ void _default(unsigned short int i){
 
   pilha_acoes.push(a);
 
+  if (buf_g.tamanhoLinha() - 1 == buf_g.tamanhoMax() && buf_g.getPosX() == buf_g.tamanhoLinha())
+  {
+    _breakLine();
+  }
   cout << (char)i;
 }
 
@@ -399,7 +403,7 @@ int main(int argc, char **args){
   kr_g[28]  = &_pgDown;  //Ctrl + '\'
   kr_g[15] = &_delete;   //Ctrl + 'o'
   kr_g[16] = &_insert;   //Ctrl + 'p'
-  buf_g = Buffer();
+  buf_g = Buffer(80);
 
   pilha_acoes = PilhaAcao();
   acoes_opostas_g = AcoesRelacionais();
