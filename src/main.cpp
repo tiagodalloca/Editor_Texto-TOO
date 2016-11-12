@@ -208,9 +208,7 @@ void _subir(){
 }
 
 void _breakLine(){
-  char c = buf_g.deletarAEsquerda();
   buf_g.inserirLinha();
-  buf_g.inserirCaracter(c);
 }
 
 
@@ -277,6 +275,11 @@ void _backspace()
 }
 
 void _default(unsigned short int i){
+
+	if (buf_g.tamanhoLinha() == buf_g.tamanhoMax()-1 && buf_g.getPosX() == buf_g.tamanhoLinha())
+	{
+		_breakLine();
+	}
   char c = 0;
   if(insertAtivo){
     int len = buf_g.tamanhoLinha();
@@ -311,10 +314,7 @@ void _default(unsigned short int i){
 
   pilha_acoes.push(a);
 
-  if (buf_g.tamanhoLinha() - 1 == buf_g.tamanhoMax() && buf_g.getPosX() == buf_g.tamanhoLinha())
-  {
-    _breakLine();
-  }
+
   cout << (char)i;
 }
 

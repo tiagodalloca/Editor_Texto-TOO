@@ -181,10 +181,11 @@ void MyString::insere(unsigned int pos, char c)
 char* MyString::copiarChar(char* outro) const
 {
     char* ret = (char*)malloc(strlen(outro)+1*sizeof(char));
-    for(int i = 0; i <= strlen(outro);i++)
+    for(int i = 0; i < strlen(outro);i++)
     {
         *(ret + i) = *(outro + i);
     }
+	*(ret + strlen(outro)) = '\0';
 
     return ret;
 
