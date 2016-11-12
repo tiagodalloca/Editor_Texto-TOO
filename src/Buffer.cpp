@@ -210,6 +210,18 @@ char Buffer::deletarADireita()
 
   return 0;
 }
+
+char Buffer::charADireita()
+{
+	if (coluna <= linhas->infoAtual()->length()) {
+		MyString *infoAtual = linhas->infoAtual();
+		char ret = (*infoAtual)[coluna];
+		return ret;
+	}
+
+	return 0;
+}
+
 char Buffer::deletarAEsquerda()
 {
   if(coluna > 0){

@@ -248,38 +248,78 @@ void _backspace()
   int x = buf_g.getPosX() + 1;
 
   //Deleta o caracter no buffer
-  char c = buf_g.deletarAEsquerda();
+	if (x == 1 && y != 1)
+	{
+		buf_g.setY(y - 2);
+		buf_g.setX(buf_g.tamanhoLinha());
+		_backspace();
 
-  if (c){
-    movetext(x,
-             y,
-             len + 1,
-             y,
-             x - 1,
-             y);
-      
-    //Põe o cursor no lugar certo
-    atualizarCursor();
+		atualizarCursor();
 
-    void **args = (void**) malloc(sizeof(char*));
-    args[0] = (void*) malloc(sizeof(char));
+				
+	}
+	else
+	{
+		char c = buf_g.deletarAEsquerda();
 
-    *((char*)args[0]) = c;
-    
-    AcaoEncapsulada *a = new AcaoEncapsulada;
-    a->acao = backdel;
-    a->args = args;
+		if (c) {
+			movetext(x,
+				y,
+				len + 1,
+				y,
+				x - 1,
+				y);
 
-    pilha_acoes.push(a);
-  }    
+			//Põe o cursor no lugar certo
+			atualizarCursor();
+
+			void **args = (void**)malloc(sizeof(char*));
+			args[0] = (void*)malloc(sizeof(char));
+
+			*((char*)args[0]) = c;
+
+			AcaoEncapsulada *a = new AcaoEncapsulada;
+			a->acao = backdel;
+			a->args = args;
+
+			pilha_acoes.push(a);
+		}
+	}
+
+  
 }
 
 void _default(unsigned short int i){
-
-	if (buf_g.tamanhoLinha() == buf_g.tamanhoMax()-1 && buf_g.getPosX() == buf_g.tamanhoLinha())
+	bool voltar = false;
+	int x = buf_g.getPosX();
+	int y = buf_g.getPosY();
+	if (buf_g.tamanhoLinha() == buf_g.tamanhoMax() - 1)
 	{
-		_breakLine();
+
+		if (buf_g.getPosX() == buf_g.tamanhoLinha())
+		{
+			_breakLine();
+		}
+		else
+		{
+
+			buf_g.setX(buf_g.tamanhoMax() - 2);
+			atualizarCursor();
+			char c = buf_g.charADireita();
+			_delete();
+			buf_g.setX(x);
+			buf_g.setY(y);
+			atualizarCursor();
+			_default(i);
+			buf_g.setX(buf_g.tamanhoLinha());
+			_breakLine();
+			atualizarCursor();
+			i = c;
+			voltar = true;
+		}
+		
 	}
+
   char c = 0;
   if(insertAtivo){
     int len = buf_g.tamanhoLinha();
@@ -316,6 +356,13 @@ void _default(unsigned short int i){
 
 
   cout << (char)i;
+
+	if (voltar)
+	{
+		buf_g.setY(y);
+		buf_g.setX(x+1);
+		atualizarCursor();
+	}
 }
 
 char* _saveFileDialog(){

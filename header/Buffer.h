@@ -18,6 +18,7 @@ public:
   void inserirLinha(MyString* linha);
   void inserirLinha();
   char deletarADireita();
+	char charADireita();
   char deletarAEsquerda();
   char* getLinha(unsigned int);
   int getPosY();
