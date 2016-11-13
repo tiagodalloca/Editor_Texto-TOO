@@ -28,11 +28,13 @@ public:
   void descerPagina();
   void subirPagina();
   void inserirLinhaDepois();
+  void inserirLinhaDepois(MyString* ms);
   int tamanhoMax();
   int tamanhoLinha();
   int quantasLinhas();
   void setX(unsigned int i);
   void setY(unsigned int i);
+	char* getRestoLinha();
   
 private:
   ListaCD<MyString*>* linhas;

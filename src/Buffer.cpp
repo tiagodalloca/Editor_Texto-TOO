@@ -85,10 +85,33 @@ int Buffer::tamanhoMax()
 
 void Buffer::inserirLinhaDepois()
 {
-  MyString* ms = new MyString(' ');
-  linhas->insiraDepois(ms);
+	MyString* ms = new MyString();
+	linhas->insiraDepois(ms);
+	linhas->avance();
+	voltarAoInicioDaLinha();
 }
 
+void Buffer::inserirLinhaDepois(MyString* linha)
+{
+	linhas->insiraDepois(linha);
+	linhas->avance();
+	voltarAoInicioDaLinha();
+}
+
+
+char* Buffer::getRestoLinha()
+{
+	char* ret = (char*)malloc(tamanhoLinha()*sizeof(char));
+	int i2 = 0;
+	for (int i = getPosX(); i < tamanhoLinha();)
+	{
+		*(ret + i2) = (*(linhas->infoAtual()))[i];
+		linhas->infoAtual()->deletaCharAt(i);
+		i2++;
+	}
+	*(ret + i2) = '\0';
+	return ret;
+}
 void Buffer:: subirPagina()
 {
   int i = 0;

@@ -208,8 +208,19 @@ void _subir(){
 }
 
 void _breakLine(){
-  buf_g.inserirLinha();
-  atualizarCursor();
+	for (int i = buf_g.getPosX(); i < buf_g.tamanhoLinha(); i++)
+		cout << ' ';
+	atualizarCursor();
+	char* c = buf_g.getRestoLinha();
+	MyString* ms = new MyString(c);
+  buf_g.inserirLinhaDepois(ms);
+	atualizarCursor();
+	insline();
+	atualizarCursor();
+	cout << ms->toString();
+	atualizarCursor();
+	
+  
 }
 
 
