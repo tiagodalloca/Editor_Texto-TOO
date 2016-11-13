@@ -209,6 +209,7 @@ void _subir(){
 
 void _breakLine(){
   buf_g.inserirLinha();
+  atualizarCursor();
 }
 
 
