@@ -22,10 +22,10 @@ void _backspace();
 
 void gotoXY(int x, int y)
 {
-    static HANDLE h = NULL;
-    if(!h)
-        h=GetStdHandle(STD_OUTPUT_HANDLE);
-    COORD c = {x , y}; SetConsoleCursorPosition(h,c);
+  static HANDLE h = NULL;
+  if(!h)
+    h=GetStdHandle(STD_OUTPUT_HANDLE);
+  COORD c = {x , y}; SetConsoleCursorPosition(h,c);
 }
 
 
@@ -213,7 +213,7 @@ void _breakLine(){
 
 
 void _delete(){
-int len = buf_g.tamanhoLinha();
+  int len = buf_g.tamanhoLinha();
   int y = buf_g.getPosY() + 1;
   int x = buf_g.getPosX() + 1;
 
@@ -248,77 +248,77 @@ void _backspace()
   int x = buf_g.getPosX() + 1;
 
   //Deleta o caracter no buffer
-	if (x == 1 && y != 1)
-	{
-		buf_g.setY(y - 2);
-		buf_g.setX(buf_g.tamanhoLinha());
-		_backspace();
+  if (x == 1 && y != 1)
+    {
+      buf_g.setY(y - 2);
+      buf_g.setX(buf_g.tamanhoLinha());
+      _backspace();
 
-		atualizarCursor();
+      atualizarCursor();
 
 				
-	}
-	else
-	{
-		char c = buf_g.deletarAEsquerda();
+    }
+  else
+    {
+      char c = buf_g.deletarAEsquerda();
 
-		if (c) {
-			movetext(x,
-				y,
-				len + 1,
-				y,
-				x - 1,
-				y);
+      if (c) {
+        movetext(x,
+                 y,
+                 len + 1,
+                 y,
+                 x - 1,
+                 y);
 
-			//Põe o cursor no lugar certo
-			atualizarCursor();
+        //Põe o cursor no lugar certo
+        atualizarCursor();
 
-			void **args = (void**)malloc(sizeof(char*));
-			args[0] = (void*)malloc(sizeof(char));
+        void **args = (void**)malloc(sizeof(char*));
+        args[0] = (void*)malloc(sizeof(char));
 
-			*((char*)args[0]) = c;
+        *((char*)args[0]) = c;
 
-			AcaoEncapsulada *a = new AcaoEncapsulada;
-			a->acao = backdel;
-			a->args = args;
+        AcaoEncapsulada *a = new AcaoEncapsulada;
+        a->acao = backdel;
+        a->args = args;
 
-			pilha_acoes.push(a);
-		}
-	}
+        pilha_acoes.push(a);
+      }
+    }
 
   
 }
 
 void _default(unsigned short int i){
-	bool voltar = false;
-	int x = buf_g.getPosX();
-	int y = buf_g.getPosY();
-	if (buf_g.tamanhoLinha() == buf_g.tamanhoMax() - 1)
-	{
+  bool voltar = false;
+  int x = buf_g.getPosX();
+  int y = buf_g.getPosY();
+  if (buf_g.tamanhoLinha() == buf_g.tamanhoMax() - 1)
+    {
 
-		if (buf_g.getPosX() == buf_g.tamanhoLinha())
-		{
-			_breakLine();
-		}
-		else
-		{
+      if (buf_g.getPosX() == buf_g.tamanhoLinha())
+        {
+          _breakLine();
+        }
+      else
+        {
 
-			buf_g.setX(buf_g.tamanhoMax() - 2);
-			atualizarCursor();
-			char c = buf_g.charADireita();
-			_delete();
-			buf_g.setX(x);
-			buf_g.setY(y);
-			atualizarCursor();
-			_default(i);
-			buf_g.setX(buf_g.tamanhoLinha());
-			_breakLine();
-			atualizarCursor();
-			i = c;
-			voltar = true;
-		}
+          buf_g.setX(buf_g.tamanhoMax() - 2);
+          atualizarCursor();
+          char c = buf_g.charADireita();
+          _delete();
+          buf_g.setX(x);
+          buf_g.setY(y);
+          atualizarCursor();
+          _default(i);
+          buf_g.setX(buf_g.tamanhoLinha());
+          _breakLine();
+          atualizarCursor();
+          i = c;
+          voltar = true;
+        }
 		
-	}
+    }
 
   char c = 0;
   if(insertAtivo){
@@ -340,7 +340,7 @@ void _default(unsigned short int i){
   else {
     c = buf_g.deletarADireita();
     buf_g.inserirCaracter(i);
-   }
+  }
 
   void **args = (void**) malloc(sizeof(bool*) + sizeof(char*));
   args[0] = (void*)malloc(sizeof(bool));
@@ -357,12 +357,12 @@ void _default(unsigned short int i){
 
   cout << (char)i;
 
-	if (voltar)
-	{
-		buf_g.setY(y);
-		buf_g.setX(x+1);
-		atualizarCursor();
-	}
+  if (voltar)
+    {
+      buf_g.setY(y);
+      buf_g.setX(x+1);
+      atualizarCursor();
+    }
 }
 
 char* _saveFileDialog(){
@@ -411,26 +411,26 @@ void _exit(){
 
 void _begin()
 {
-    buf_g.voltarAoInicioDaLinha();
-    atualizarCursor();
+  buf_g.voltarAoInicioDaLinha();
+  atualizarCursor();
 }
 
 void _pgDown()
 {
-    buf_g.descerPagina();
-    atualizarCursor();
+  buf_g.descerPagina();
+  atualizarCursor();
 }
 
 void _pgUp()
 {
-    buf_g.subirPagina();
-    atualizarCursor();
+  buf_g.subirPagina();
+  atualizarCursor();
 }
 
 void _end()
 {
-    buf_g.irAoFimDaLinha();
-    atualizarCursor();
+  buf_g.irAoFimDaLinha();
+  atualizarCursor();
 }
 
 int main(int argc, char **args){
@@ -470,4 +470,3 @@ int main(int argc, char **args){
   }
   return 0;
 }
-

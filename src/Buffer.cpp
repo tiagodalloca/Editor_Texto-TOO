@@ -213,13 +213,13 @@ char Buffer::deletarADireita()
 
 char Buffer::charADireita()
 {
-	if (coluna <= linhas->infoAtual()->length()) {
-		MyString *infoAtual = linhas->infoAtual();
-		char ret = (*infoAtual)[coluna];
-		return ret;
-	}
+  if (coluna <= linhas->infoAtual()->length()) {
+    MyString *infoAtual = linhas->infoAtual();
+    char ret = (*infoAtual)[coluna];
+    return ret;
+  }
 
-	return 0;
+  return 0;
 }
 
 char Buffer::deletarAEsquerda()
