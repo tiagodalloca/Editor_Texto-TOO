@@ -16,5 +16,11 @@ typedef struct{
   void **args;
 }AcaoEncapsulada;
 
-typedef map<const Acao, void(*)(void**)> AcoesRelacionais;
+typedef enum{
+  desfazer, refazer
+}DesfazerRefazer;
+
+typedef map<const Acao,
+            void(*)(void**, DesfazerRefazer)>
+AcoesRelacionais;
 typedef Pilha<AcaoEncapsulada*> PilhaAcao;

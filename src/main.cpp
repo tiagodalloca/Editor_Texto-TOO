@@ -13,12 +13,17 @@
 KeyResolver kr_g;
 Buffer buf_g;
 PilhaAcao pilha_acoes;
+PilhaAcao pilha_reacoes;
 AcoesRelacionais acoes_opostas_g;
 char quit;
 bool insertAtivo;
 
 void _default(unsigned short int i);
 void _backspace();
+void _descer();
+void _subir();
+void _esquerda();
+void _direita();
 
 void gotoXY(int x, int y)
 {
@@ -32,19 +37,41 @@ void gotoXY(int x, int y)
 
 void atualizarCursor(){
   gotoXY(buf_g.getPosX(), buf_g.getPosY());
+} 
+
+void _desfazerDescer(void **args, DesfazerRefazer dr){
+  _subir();
+  if(dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }
 }
 
-void _voltar(void **args){
-  int *x = (int*) args[0];
-  int *y = (int*) args[1];
-  gotoXY(*x, *y);
-  buf_g.setX(*x);
-  buf_g.setY(*y);
-  free(x);
-  free(y);
+void _desfazerSubir(void **args, DesfazerRefazer dr){
+  _descer();
+  if(dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }  
 }
 
-void _desfazerInserir(void **args){
+void _desfazerEsquerda(void **args, DesfazerRefazer dr){
+  _direita();
+  if(dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }
+}
+
+void _desfazerDireita(void **args, DesfazerRefazer dr){
+  _esquerda();
+  if(dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }  
+}
+
+void _desfazerInserir(void **args, DesfazerRefazer dr){
   bool* insert = (bool*)args[0];
   if (*insert)
     _backspace();
@@ -63,14 +90,13 @@ void _desfazerInserir(void **args){
     atualizarCursor();
   }
   
-  AcaoEncapsulada *a = pilha_acoes.pop();
-  free(a->args);
-  free(a);
-  
-  free(args);
+  if(dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }
 }
 
-void _desfazerBackDel(void **args){
+void _desfazerBackDel(void **args, DesfazerRefazer dr){
   char *i = (char*) args[0];
   bool aux = insertAtivo;
   
@@ -79,14 +105,13 @@ void _desfazerBackDel(void **args){
 
   insertAtivo = aux;
   
-  AcaoEncapsulada *a = pilha_acoes.pop();
-  free(a->args);
-  free(a);
-  free(i);
-  free(args);
+  if(dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }
 }
 
-void _desfazerFrontDel(void **args){
+void _desfazerFrontDel(void **args, DesfazerRefazer dr){
   char *i = (char*) args[0];
   bool aux = insertAtivo;
 
@@ -98,43 +123,38 @@ void _desfazerFrontDel(void **args){
 
   insertAtivo = aux; 
   
-  AcaoEncapsulada *a = pilha_acoes.pop();
-  free(a->args);
-  free(a);
-  free(i);
-  free(args);
+  if(dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }
 }
 
 
-void _desfazerNovaLinha(void **args){
+void _desfazerNovaLinha(void **args, DesfazerRefazer dr){
   // aqui é a parte difícil do bagui
 }
 
 void _desfazer(){
   if (pilha_acoes.getQuantos() > 0){
     AcaoEncapsulada *a = pilha_acoes.pop();
-    acoes_opostas_g[a->acao](a->args);
+    acoes_opostas_g[a->acao](a->args, desfazer);
     free(a);
   }
 }
 
+void _refazer(){
+  if (pilha_reacoes.getQuantos() > 0){
+    AcaoEncapsulada *a = pilha_reacoes.pop();
+    acoes_opostas_g[a->acao](a->args, refazer);
+    free(a);
+  }
+}
 
 void _direita(){
-  void **args = (void**) malloc(sizeof(int*)*2);
-  int x = buf_g.getPosX();
-  int y = buf_g.getPosY();
-
-  args[0] = (void*) malloc(sizeof(int));
-  args[1] = (void*) malloc(sizeof(int));
-
-
-  *((int*) args[0]) = x;
-  *((int*) args[1]) = y;
-
+  void **args = (void**) malloc(0);
   AcaoEncapsulada *a = new AcaoEncapsulada;
   a->acao = direita;
   a->args = args;
-  
   pilha_acoes.push(a);
   buf_g.irParaDireita();
   atualizarCursor();
@@ -142,20 +162,10 @@ void _direita(){
 
 
 void _esquerda(){
-  void **args = (void**) malloc(sizeof(int*)*2);
-  int x = buf_g.getPosX();
-  int y = buf_g.getPosY();
-
-  args[0] = (void*) malloc(sizeof(int));
-  args[1] = (void*) malloc(sizeof(int));
-  
-  *((int*) args[0]) = x;
-  *((int*) args[1]) = y;
-
+  void **args = (void**) malloc(0);
   AcaoEncapsulada *a = new AcaoEncapsulada;
-  a->acao = esquerda;
+  a->acao = direita;
   a->args = args;
-  
   pilha_acoes.push(a);
   buf_g.irParaEsquerda();
   atualizarCursor();
@@ -163,47 +173,25 @@ void _esquerda(){
 
 void _descer(){
   if(buf_g.getPosY() < buf_g.quantasLinhas() - 1){
-    void **args = (void**) malloc(sizeof(int*)*2);
-    int x = buf_g.getPosX();
-    int y = buf_g.getPosY();
-
-    args[0] = (void*) malloc(sizeof(int));
-    args[1] = (void*) malloc(sizeof(int));
-  
-    *((int*) args[0]) = x;
-    *((int*) args[1]) = y;
-
-    AcaoEncapsulada *a = new AcaoEncapsulada;
-    a->acao = subir;
-    a->args = args;
-  
-    pilha_acoes.push(a);
-    
-    buf_g.descerLinha();
-    atualizarCursor();
+  void **args = (void**) malloc(0);
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = direita;
+  a->args = args;
+  pilha_acoes.push(a);
+  buf_g.descerLinha();
+  atualizarCursor();
   }
 }
 
 void _subir(){
   if(buf_g.getPosY() > 0){
-    void **args = (void**) malloc(sizeof(int*)*2);
-    int x = buf_g.getPosX();
-    int y = buf_g.getPosY();
-
-    args[0] = (void*) malloc(sizeof(int));
-    args[1] = (void*) malloc(sizeof(int));
-  
-    *((int*) args[0]) = x;
-    *((int*) args[1]) = y;
-
-    AcaoEncapsulada *a = new AcaoEncapsulada;
-    a->acao = subir;
-    a->args = args;
-  
-    pilha_acoes.push(a);
-      
-    buf_g.subirLinha();
-    atualizarCursor();
+  void **args = (void**) malloc(0);
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = direita;
+  a->args = args;
+  pilha_acoes.push(a);
+  buf_g.subirLinha();
+  atualizarCursor();
   }
 }
 
@@ -260,45 +248,39 @@ void _backspace()
   int x = buf_g.getPosX() + 1;
 
   //Deleta o caracter no buffer
-  if (x == 1 && y != 1)
-    {
+  if (x == 1 && y != 1){
       buf_g.setY(y - 2);
       buf_g.setX(buf_g.tamanhoLinha());
       _backspace();
 
+      atualizarCursor();				
+  }
+  else{
+    char c = buf_g.deletarAEsquerda();
+
+    if (c){
+      movetext(x,
+               y,
+               len + 1,
+               y,
+               x - 1,
+               y);
+
+      //Põe o cursor no lugar certo
       atualizarCursor();
 
-				
+      void **args = (void**)malloc(sizeof(char*));
+      args[0] = (void*)malloc(sizeof(char));
+
+      *((char*)args[0]) = c;
+
+      AcaoEncapsulada *a = new AcaoEncapsulada;
+      a->acao = backdel;
+      a->args = args;
+
+      pilha_acoes.push(a);
     }
-  else
-    {
-      char c = buf_g.deletarAEsquerda();
-
-      if (c) {
-        movetext(x,
-                 y,
-                 len + 1,
-                 y,
-                 x - 1,
-                 y);
-
-        //Põe o cursor no lugar certo
-        atualizarCursor();
-
-        void **args = (void**)malloc(sizeof(char*));
-        args[0] = (void*)malloc(sizeof(char));
-
-        *((char*)args[0]) = c;
-
-        AcaoEncapsulada *a = new AcaoEncapsulada;
-        a->acao = backdel;
-        a->args = args;
-
-        pilha_acoes.push(a);
-      }
-    }
-
-  
+  }
 }
 
 void _default(unsigned short int i){
@@ -308,28 +290,24 @@ void _default(unsigned short int i){
   if (buf_g.tamanhoLinha() == buf_g.tamanhoMax() - 1)
     {
 
-      if (buf_g.getPosX() == buf_g.tamanhoLinha())
-        {
-          _breakLine();
-        }
-      else
-        {
-
-          buf_g.setX(buf_g.tamanhoMax() - 2);
-          atualizarCursor();
-          char c = buf_g.charADireita();
-          _delete();
-          buf_g.setX(x);
-          buf_g.setY(y);
-          atualizarCursor();
-          _default(i);
-          buf_g.setX(buf_g.tamanhoLinha());
-          _breakLine();
-          atualizarCursor();
-          i = c;
-          voltar = true;
-        }
-		
+      if (buf_g.getPosX() == buf_g.tamanhoLinha()){
+        _breakLine();
+      }
+      else{
+        buf_g.setX(buf_g.tamanhoMax() - 2);
+        atualizarCursor();
+        char c = buf_g.charADireita();
+        _delete();
+        buf_g.setX(x);
+        buf_g.setY(y);
+        atualizarCursor();
+        _default(i);
+        buf_g.setX(buf_g.tamanhoLinha());
+        _breakLine();
+        atualizarCursor();
+        i = c;
+        voltar = true;
+      }		
     }
 
   char c = 0;
@@ -369,12 +347,11 @@ void _default(unsigned short int i){
 
   cout << (char)i;
 
-  if (voltar)
-    {
-      buf_g.setY(y);
-      buf_g.setX(x+1);
-      atualizarCursor();
-    }
+  if (voltar){
+    buf_g.setY(y);
+    buf_g.setX(x+1);
+    atualizarCursor();
+  }
 }
 
 char* _saveFileDialog(){
@@ -445,7 +422,7 @@ void _end()
   atualizarCursor();
 }
 
-int main(int argc, char **args){
+void config(){
   kr_g = KeyResolver(&_default);
   kr_g[19] = &_salvar;   //Ctrl + 's'
   kr_g[8] = &_backspace; //Backspace
@@ -455,6 +432,7 @@ int main(int argc, char **args){
   kr_g[9] = &_subir;     //Ctrl + 'i'
   kr_g[12] = &_direita;  //Ctrl + 'l'
   kr_g[26] = &_desfazer; //Ctrl + 'z'
+  kr_g[25] = &_refazer;  //Ctrl + 'y'
   kr_g[17] = &_exit;     //Ctrl + 'q'
   kr_g[2]  = &_begin;    //Ctrl + 'b'
   kr_g[14] = &_end;      //Ctrl + 'n'
@@ -465,18 +443,23 @@ int main(int argc, char **args){
   buf_g = Buffer(80);
 
   pilha_acoes = PilhaAcao();
+  pilha_reacoes = PilhaAcao();
   acoes_opostas_g = AcoesRelacionais();
   insertAtivo = true;
   
-  acoes_opostas_g[subir] = &_voltar;
-  acoes_opostas_g[descer] = &_voltar;
-  acoes_opostas_g[esquerda] = &_voltar;
-  acoes_opostas_g[direita] = &_voltar;
+  acoes_opostas_g[subir] = &_desfazerSubir;
+  acoes_opostas_g[descer] = &_desfazerDescer;
+  acoes_opostas_g[esquerda] = &_desfazerEsquerda;
+  acoes_opostas_g[direita] = &_desfazerDireita;
   acoes_opostas_g[inserirCaracter] = &_desfazerInserir;
   acoes_opostas_g[backdel] = &_desfazerBackDel;
   acoes_opostas_g[frontdel] = &_desfazerFrontDel;
   acoes_opostas_g[novaLinha] = &_desfazerNovaLinha;
+}
 
+int main(int argc, char **args){
+  config();
+  
   while(!quit){
     kr_g.resolver();
   }

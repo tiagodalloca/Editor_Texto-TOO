@@ -14,45 +14,44 @@ public:
   void push(T info);
   bool vazia();
 private:
-  ListaSimples<T> *lista;
+  ListaSimples<T> lista;
 };
 
 template<typename T>
 Pilha<T>::Pilha(){
-  lista = new ListaSimples<T>;
+  lista = ListaSimples<T>();
 }
 
 template<typename T>
 Pilha<T>::~Pilha(){
-  delete lista;
 }
 
 template<typename T>
 unsigned int Pilha<T>::getQuantos(){
-  return lista->getQuantos();
+  return lista.getQuantos();
 }
 
 template<typename T>
 T Pilha<T>::peek(){
-  return lista->getPrimeiro();
+  return lista.getPrimeiro();
 }
 
 template<typename T>
 void Pilha<T>::push(T info){
-  lista->adicionarComeco(info);
+  lista.adicionarComeco(info);
 }
 
 template<typename T>
 T Pilha<T>::pop(){
   if (!this->vazia())
-    return lista->retirarComeco();
+    return lista.retirarComeco();
   else
     throw "Underflow";
 }
 
 template<typename T>
 bool Pilha<T>::vazia(){
-  return getQuantos() == 0;
+  return lista.getQuantos() == 0;
 }
 
 #endif
