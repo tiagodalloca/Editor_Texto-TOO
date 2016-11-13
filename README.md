@@ -1,4 +1,4 @@
-# Editor de texto
+﻿# Editor de texto
 
 Super editor de texto básico feito em C++
 
@@ -93,6 +93,12 @@ lugar via métodos que faremos
 ---
 
 ## COMANDOS
+
+
+### AINDA FALTA(Além dos mínimos):
+- [ ] sincronizar as teclas certas às funções(em vez de usar Ctrl a toda hora)
+- [ ] poder deletar no final da linha,fazendo com que a linha de baixo suba
+
 
 ### MÍNIMOS:
 - [x] sobe linha (normalmente, seta)
