@@ -149,11 +149,38 @@ void  Buffer::irParaEsquerda()
 {
   if(coluna > 0)
     coluna--;
+	else
+	{
+		if (getPosY() != 0)
+		{
+			linhas->retroceda();
+			coluna = linhas->infoAtual()->length();
+		}
+	}
+
 }
 void  Buffer::irParaDireita()
 {
-  if(coluna<255 && coluna < linhas->infoAtual()->length())
-    coluna++;
+	if (coluna < 255 )
+	{
+		if (coluna == linhas->infoAtual()->length())
+		{
+			if (getPosY() != quantasLinhas() - 1)
+			{
+				linhas->avance();
+				voltarAoInicioDaLinha();
+			}
+
+		}
+		else
+		{
+			if(coluna < linhas->infoAtual()->length())
+				coluna++;
+		}
+			
+	}
+	
+	
 }
 bool  Buffer::inserirCaracter(char c)
 {
