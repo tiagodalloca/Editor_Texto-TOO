@@ -173,40 +173,40 @@ void _esquerda(){
 
 void _descer(){
   if(buf_g.getPosY() < buf_g.quantasLinhas() - 1){
-  void **args = (void**) malloc(0);
-  AcaoEncapsulada *a = new AcaoEncapsulada;
-  a->acao = direita;
-  a->args = args;
-  pilha_acoes.push(a);
-  buf_g.descerLinha();
-  atualizarCursor();
+    void **args = (void**) malloc(0);
+    AcaoEncapsulada *a = new AcaoEncapsulada;
+    a->acao = direita;
+    a->args = args;
+    pilha_acoes.push(a);
+    buf_g.descerLinha();
+    atualizarCursor();
   }
 }
 
 void _subir(){
   if(buf_g.getPosY() > 0){
-  void **args = (void**) malloc(0);
-  AcaoEncapsulada *a = new AcaoEncapsulada;
-  a->acao = direita;
-  a->args = args;
-  pilha_acoes.push(a);
-  buf_g.subirLinha();
-  atualizarCursor();
+    void **args = (void**) malloc(0);
+    AcaoEncapsulada *a = new AcaoEncapsulada;
+    a->acao = direita;
+    a->args = args;
+    pilha_acoes.push(a);
+    buf_g.subirLinha();
+    atualizarCursor();
   }
 }
 
 void _breakLine(){
-	for (int i = buf_g.getPosX(); i < buf_g.tamanhoLinha(); i++)
-		cout << ' ';
-	atualizarCursor();
-	char* c = buf_g.getRestoLinha();
-	MyString* ms = new MyString(c);
+  for (int i = buf_g.getPosX(); i < buf_g.tamanhoLinha(); i++)
+    cout << ' ';
+  atualizarCursor();
+  char* c = buf_g.getRestoLinha();
+  MyString* ms = new MyString(c);
   buf_g.inserirLinhaDepois(ms);
-	atualizarCursor();
-	insline();
-	atualizarCursor();
-	cout << ms->toString();
-	atualizarCursor();
+  atualizarCursor();
+  insline();
+  atualizarCursor();
+  cout << ms->toString();
+  atualizarCursor();
 	
   
 }
@@ -249,11 +249,11 @@ void _backspace()
 
   //Deleta o caracter no buffer
   if (x == 1 && y != 1){
-      buf_g.setY(y - 2);
-      buf_g.setX(buf_g.tamanhoLinha());
-      _backspace();
+    buf_g.setY(y - 2);
+    buf_g.setX(buf_g.tamanhoLinha());
+    _backspace();
 
-      atualizarCursor();				
+    atualizarCursor();				
   }
   else{
     char c = buf_g.deletarAEsquerda();
