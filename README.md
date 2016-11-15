@@ -98,6 +98,12 @@ lugar via métodos que faremos
 ### AINDA FALTA(além dos mínimos):
 - [ ] sincronizar as teclas certas às funções(em vez de usar Ctrl a toda hora )
 - [ ] poder deletar no final da linha,fazendo com que a linha de baixo suba
+- [ ] Ctrl + Z para END
+- [ ] Ctrl + Z para HOME
+- [ ] Ctrl + Z para PGUP
+- [ ] Ctrl + Z para PGDOWN
+- [ ] Ctrl + Z para delete no final
+- [ ] Backspace e delete deletar linhas
 
 
 ### MÍNIMOS:
@@ -111,8 +117,8 @@ lugar via métodos que faremos
 - [x] vai para o fim da linha (normalmente, END)
 - [x] apaga char no cursor (normalmente, DELETE)
 - [x] apaga char antes do cursor (normalmente, BACKSPACE)
-- [ ] desfazer (normalmente, CONTROL Z)
-- [ ] refazer (normalmente, CONTROL Y)
+- [x] desfazer (normalmente, CONTROL Z)
+- [x] refazer (normalmente, CONTROL Y)
 - [x] salvar (normalmente, CONTROL S)
 - [x] salvar como
   perguntar se quer sobrescrever arquivo existente
