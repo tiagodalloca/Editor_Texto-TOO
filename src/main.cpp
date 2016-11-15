@@ -131,7 +131,15 @@ void _desfazerFrontDel(void **args, DesfazerRefazer dr){
 
 
 void _desfazerNovaLinha(void **args, DesfazerRefazer dr){
-  // aqui é a parte difícil do bagui
+	delline();
+	buf_g.deletarLinha();
+	buf_g.setY(buf_g.getPosY() - 1);
+	buf_g.setX(buf_g.tamanhoLinha());
+	atualizarCursor();
+	char* c = (char*)args[0];
+	buf_g.inserirCaracteres(c);
+	cout << c;
+	atualizarCursor();
 }
 
 void _desfazer(){
@@ -200,6 +208,16 @@ void _breakLine(){
     cout << ' ';
   atualizarCursor();
   char* c = buf_g.getRestoLinha();
+
+	void **args = (void**)malloc(sizeof(char*));
+	args[0] = (void*)malloc(sizeof(char));
+
+	strcpy((char*)args[0], c);
+	AcaoEncapsulada *a = new AcaoEncapsulada;
+	a->acao = novaLinha;
+	a->args = args;
+
+	pilha_acoes.push(a);
   MyString* ms = new MyString(c);
   buf_g.inserirLinhaDepois(ms);
   atualizarCursor();

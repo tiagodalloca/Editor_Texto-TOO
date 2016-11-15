@@ -35,6 +35,8 @@ public:
   void setX(unsigned int i);
   void setY(unsigned int i);
 	char* getRestoLinha();
+	void deletarLinha();
+	void inserirCaracteres(char* c);
   
 private:
   ListaCD<MyString*>* linhas;

@@ -205,6 +205,20 @@ void  Buffer::irParaDireita()
 	
 	
 }
+
+void Buffer::deletarLinha()
+{
+	linhas->remova();
+}
+
+
+void Buffer::inserirCaracteres(char* c)
+{
+	for (int i = 0; i < strlen(c); i++)
+	{
+		inserirCaracter(*(c + i));
+	}
+}
 bool  Buffer::inserirCaracter(char c)
 {
   if(coluna < 255)
