@@ -172,7 +172,7 @@ void _direita(){
 void _esquerda(){
   void **args = (void**) malloc(0);
   AcaoEncapsulada *a = new AcaoEncapsulada;
-  a->acao = direita;
+  a->acao = esquerda;
   a->args = args;
   pilha_acoes.push(a);
   buf_g.irParaEsquerda();
@@ -183,7 +183,7 @@ void _descer(){
   if(buf_g.getPosY() < buf_g.quantasLinhas() - 1){
     void **args = (void**) malloc(0);
     AcaoEncapsulada *a = new AcaoEncapsulada;
-    a->acao = direita;
+    a->acao = descer;
     a->args = args;
     pilha_acoes.push(a);
     buf_g.descerLinha();
@@ -195,7 +195,7 @@ void _subir(){
   if(buf_g.getPosY() > 0){
     void **args = (void**) malloc(0);
     AcaoEncapsulada *a = new AcaoEncapsulada;
-    a->acao = direita;
+    a->acao = subir;
     a->args = args;
     pilha_acoes.push(a);
     buf_g.subirLinha();

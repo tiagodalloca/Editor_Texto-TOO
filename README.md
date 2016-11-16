@@ -103,7 +103,8 @@ lugar via métodos que faremos
 - [ ] Ctrl + Z para PGUP
 - [ ] Ctrl + Z para PGDOWN
 - [ ] Ctrl + Z para delete no final
-- [ ] Backspace e delete deletar linhas
+- [ ] Backspace para deletar linha
+- [ ] Subir e descer do Ctrl+Z
 
 
 ### MÍNIMOS:
