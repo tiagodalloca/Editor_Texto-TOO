@@ -153,6 +153,7 @@ void MyString::append(char c)
 {
     int dpsDoFim = length();
     *(this->conteudo + dpsDoFim) = c;
+    *(this->conteudo + dpsDoFim + 1) = '\0';
 }
 
 

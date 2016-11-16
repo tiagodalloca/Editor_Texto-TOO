@@ -24,6 +24,7 @@ void _descer();
 void _subir();
 void _esquerda();
 void _direita();
+void _breakLine();
 
 void gotoXY(int x, int y)
 {
@@ -140,6 +141,14 @@ void _desfazerNovaLinha(void **args, DesfazerRefazer dr){
   // aqui é a parte difícil do bagui
 }
 
+void _desfazerExcluirLinha(void **args, DesfazerRefazer dr){
+  _breakLine();
+//   if(dr == desfazer){
+//     AcaoEncapsulada *a = pilha_acoes.pop();
+//     pilha_reacoes.push(a);
+//   } breakline não está empilhando nada ainda
+}
+
 void _desfazer(){
   if (pilha_acoes.getQuantos() > 0){
     AcaoEncapsulada *a = pilha_acoes.pop();
@@ -229,7 +238,11 @@ void _delete(){
   int y = buf_g.getPosY() + 1;
   int x = buf_g.getPosX() + 1;
 
-  //Deleta o caracter no buffer
+  if (x == len){
+    //
+  }
+    else{
+    //Deleta o caracter no buffer
   char c = buf_g.deletarADireita();
 
   if (c){
@@ -250,7 +263,7 @@ void _delete(){
     a->args = args;
 
     pilha_acoes.push(a);
-  }
+  }}
 }
 
 void _backspace()
@@ -259,15 +272,33 @@ void _backspace()
   int y = buf_g.getPosY() + 1;
   int x = buf_g.getPosX() + 1;
 
-  //Deleta o caracter no buffer
   if (x == 1 && y != 1){
-    buf_g.setY(y - 2);
-    buf_g.setX(buf_g.tamanhoLinha());
-    _backspace();
+    MyString s = buf_g.deletarLinha();
+    int lenDeCima = buf_g.tamanhoLinha();
+    buf_g.inserirCaracteresNoFinal(s.toString());
+    
+    movetext(1,
+             y,
+             len + 1,
+             y,
+             lenDeCima + 1,
+             y - 1);
 
-    atualizarCursor();				
+    gotoXY(0, y - 1);
+    for (int i = 0; i<len; i++)
+      cout << ' ';
+
+    buf_g.setX(lenDeCima);
+    atualizarCursor();
+
+    void **args =(void**)malloc(0);
+    AcaoEncapsulada *a = new AcaoEncapsulada;
+    a->acao = excluirLinha;
+    a->args = args;
+    pilha_acoes.push(a);
   }
   else{
+    //Deleta o caracter no buffer
     char c = buf_g.deletarAEsquerda();
 
     if (c){
@@ -467,6 +498,7 @@ void config(){
   acoes_opostas_g[backdel] = &_desfazerBackDel;
   acoes_opostas_g[frontdel] = &_desfazerFrontDel;
   acoes_opostas_g[novaLinha] = &_desfazerNovaLinha;
+  acoes_opostas_g[excluirLinha] = &_desfazerExcluirLinha;
 }
 
 int main(int argc, char **args){

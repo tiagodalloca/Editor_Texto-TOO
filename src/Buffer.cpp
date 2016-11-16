@@ -85,32 +85,32 @@ int Buffer::tamanhoMax()
 
 void Buffer::inserirLinhaDepois()
 {
-	MyString* ms = new MyString();
-	linhas->insiraDepois(ms);
-	linhas->avance();
-	voltarAoInicioDaLinha();
+  MyString* ms = new MyString();
+  linhas->insiraDepois(ms);
+  linhas->avance();
+  voltarAoInicioDaLinha();
 }
 
 void Buffer::inserirLinhaDepois(MyString* linha)
 {
-	linhas->insiraDepois(linha);
-	linhas->avance();
-	voltarAoInicioDaLinha();
+  linhas->insiraDepois(linha);
+  linhas->avance();
+  voltarAoInicioDaLinha();
 }
 
 
 char* Buffer::getRestoLinha()
 {
-	char* ret = (char*)malloc(tamanhoLinha()*sizeof(char));
-	int i2 = 0;
-	for (int i = getPosX(); i < tamanhoLinha();)
-	{
-		*(ret + i2) = (*(linhas->infoAtual()))[i];
-		linhas->infoAtual()->deletaCharAt(i);
-		i2++;
-	}
-	*(ret + i2) = '\0';
-	return ret;
+  char* ret = (char*)malloc(tamanhoLinha()*sizeof(char));
+  int i2 = 0;
+  for (int i = getPosX(); i < tamanhoLinha();)
+    {
+      *(ret + i2) = (*(linhas->infoAtual()))[i];
+      linhas->infoAtual()->deletaCharAt(i);
+      i2++;
+    }
+  *(ret + i2) = '\0';
+  return ret;
 }
 void Buffer:: subirPagina()
 {
@@ -206,19 +206,31 @@ void  Buffer::irParaDireita()
 	
 }
 
-void Buffer::deletarLinha()
+MyString Buffer::deletarLinha()
 {
-	linhas->remova();
+  MyString ret = *(linhas->infoAtual());
+  linhas->remova();
+  return ret;
 }
 
 
 void Buffer::inserirCaracteres(char* c)
 {
-	for (int i = 0; i < strlen(c); i++)
-	{
-		inserirCaracter(*(c + i));
-	}
+  for (int i = 0; i < strlen(c); i++)
+    {
+      inserirCaracter(*(c + i));
+    }
 }
+
+void Buffer::inserirCaracteresNoFinal(char*c ){
+  for(unsigned short int i = 0;
+      c[i] != '\0';
+      i++)
+    linhas->infoAtual()->append(c[i]);
+
+  linhas->infoAtual()->append('\0');
+}
+
 bool  Buffer::inserirCaracter(char c)
 {
   if(coluna < 255)

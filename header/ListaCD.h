@@ -282,6 +282,7 @@ void ListaCD<Dado>::remova()
                 aux->prox->ant = aux->ant;
             }
 
+        posAtual--;
         quantosNos--;
       }
 }
