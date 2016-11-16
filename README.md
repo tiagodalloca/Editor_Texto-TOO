@@ -104,7 +104,7 @@ lugar via métodos que faremos
 - [ ] Ctrl + Z para PGDOWN  - Régis
 - [ ] Ctrl + Z para delete no final - Dall'Oca
 - [ ] Backspace para deletar linha - Dall'Oca
-- [ ] Subir e descer do Ctrl+Z - Dall'Oca
+- [x] Subir e descer do Ctrl+Z - Dall'Oca
 
 
 ### MÍNIMOS:

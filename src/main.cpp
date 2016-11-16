@@ -41,6 +41,9 @@ void atualizarCursor(){
 
 void _desfazerDescer(void **args, DesfazerRefazer dr){
   _subir();
+  int *x = (int*) args[0];
+  buf_g.setX(*x);
+  atualizarCursor();
   if(dr == desfazer){
     AcaoEncapsulada *a = pilha_acoes.pop();
     pilha_reacoes.push(a);
@@ -49,6 +52,9 @@ void _desfazerDescer(void **args, DesfazerRefazer dr){
 
 void _desfazerSubir(void **args, DesfazerRefazer dr){
   _descer();
+  int *x = (int*) args[0];
+  buf_g.setX(*x);
+  atualizarCursor();
   if(dr == desfazer){
     AcaoEncapsulada *a = pilha_acoes.pop();
     pilha_reacoes.push(a);
@@ -131,15 +137,7 @@ void _desfazerFrontDel(void **args, DesfazerRefazer dr){
 
 
 void _desfazerNovaLinha(void **args, DesfazerRefazer dr){
-	delline();
-	buf_g.deletarLinha();
-	buf_g.setY(buf_g.getPosY() - 1);
-	buf_g.setX(buf_g.tamanhoLinha());
-	atualizarCursor();
-	char* c = (char*)args[0];
-	buf_g.inserirCaracteres(c);
-	cout << c;
-	atualizarCursor();
+  // aqui é a parte difícil do bagui
 }
 
 void _desfazer(){
@@ -181,7 +179,9 @@ void _esquerda(){
 
 void _descer(){
   if(buf_g.getPosY() < buf_g.quantasLinhas() - 1){
-    void **args = (void**) malloc(0);
+    void **args = (void**) malloc(sizeof(int*));
+    args[0] = (void*) malloc(sizeof(int));
+    *((int*)args[0]) = buf_g.getPosX();
     AcaoEncapsulada *a = new AcaoEncapsulada;
     a->acao = descer;
     a->args = args;
@@ -193,7 +193,9 @@ void _descer(){
 
 void _subir(){
   if(buf_g.getPosY() > 0){
-    void **args = (void**) malloc(0);
+    void **args = (void**) malloc(sizeof(int*));
+    args[0] = (void*) malloc(sizeof(int));
+    *((int*)args[0]) = buf_g.getPosX();
     AcaoEncapsulada *a = new AcaoEncapsulada;
     a->acao = subir;
     a->args = args;
@@ -208,16 +210,6 @@ void _breakLine(){
     cout << ' ';
   atualizarCursor();
   char* c = buf_g.getRestoLinha();
-
-	void **args = (void**)malloc(sizeof(char*));
-	args[0] = (void*)malloc(sizeof(char));
-
-	strcpy((char*)args[0], c);
-	AcaoEncapsulada *a = new AcaoEncapsulada;
-	a->acao = novaLinha;
-	a->args = args;
-
-	pilha_acoes.push(a);
   MyString* ms = new MyString(c);
   buf_g.inserirLinhaDepois(ms);
   atualizarCursor();
@@ -226,7 +218,9 @@ void _breakLine(){
   cout << ms->toString();
   atualizarCursor();
 	
-  
+  // falta empilhar uma acao aqui!
+  // criar um desfazer!
+  // criar
 }
 
 
