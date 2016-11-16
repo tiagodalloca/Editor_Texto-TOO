@@ -97,14 +97,14 @@ lugar via métodos que faremos
 
 ### AINDA FALTA(além dos mínimos):
 - [ ] sincronizar as teclas certas às funções(em vez de usar Ctrl a toda hora )
-- [ ] poder deletar no final da linha,fazendo com que a linha de baixo suba
-- [ ] Ctrl + Z para END
-- [ ] Ctrl + Z para HOME
-- [ ] Ctrl + Z para PGUP
-- [ ] Ctrl + Z para PGDOWN
-- [ ] Ctrl + Z para delete no final
-- [ ] Backspace para deletar linha
-- [ ] Subir e descer do Ctrl+Z
+- [ ] poder deletar no final da linha,fazendo com que a linha de baixo suba - Dall'Oca
+- [ ] Ctrl + Z para END - Régis
+- [ ] Ctrl + Z para HOME - Régis
+- [ ] Ctrl + Z para PGUP  - Régis
+- [ ] Ctrl + Z para PGDOWN  - Régis
+- [ ] Ctrl + Z para delete no final - Dall'Oca
+- [ ] Backspace para deletar linha - Dall'Oca
+- [ ] Subir e descer do Ctrl+Z - Dall'Oca
 
 
 ### MÍNIMOS:
