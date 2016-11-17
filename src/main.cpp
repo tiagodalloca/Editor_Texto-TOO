@@ -149,6 +149,15 @@ void _desfazerExcluirLinha(void **args, DesfazerRefazer dr){
 //   } breakline não está empilhando nada ainda
 }
 
+
+void _desfazerExcluirLinhaEmbaixo(void **args, DesfazerRefazer dr){
+  _breakLine();
+//   if(dr == desfazer){
+//     AcaoEncapsulada *a = pilha_acoes.pop();
+//     pilha_reacoes.push(a);
+//   } breakline não está empilhando nada ainda
+}
+
 void _desfazer(){
   if (pilha_acoes.getQuantos() > 0){
     AcaoEncapsulada *a = pilha_acoes.pop();
@@ -238,8 +247,30 @@ void _delete(){
   int y = buf_g.getPosY() + 1;
   int x = buf_g.getPosX() + 1;
 
-  if (x == len){
-    //
+  if (x-1 == len && y <= buf_g.quantasLinhas()){
+    buf_g.descerLinha();
+    int slen = buf_g.tamanhoLinha();
+    MyString s = buf_g.deletarLinha();
+    buf_g.inserirCaracteresNoFinal(s.toString());
+    
+    movetext(1,
+             y + 1,
+             slen + 1,
+             y + 1,
+             len + 1,
+             y);
+
+    gotoXY(0, y);
+    for (int i = 0; i<slen; i++)
+      cout << ' ';
+
+    atualizarCursor();
+    
+    void **args =(void**)malloc(0);
+    AcaoEncapsulada *a = new AcaoEncapsulada;
+    a->acao = excluirLinha;
+    a->args = args;
+    pilha_acoes.push(a);
   }
     else{
     //Deleta o caracter no buffer
@@ -499,6 +530,8 @@ void config(){
   acoes_opostas_g[frontdel] = &_desfazerFrontDel;
   acoes_opostas_g[novaLinha] = &_desfazerNovaLinha;
   acoes_opostas_g[excluirLinha] = &_desfazerExcluirLinha;
+  acoes_opostas_g[excluirLinhaEmbaixo] =
+    &_desfazerExcluirLinhaEmbaixo;
 }
 
 int main(int argc, char **args){
