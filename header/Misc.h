@@ -8,7 +8,8 @@ typedef enum{
   esquerda, direita,
   inserirCaracter, backdel, frontdel,
   descer, subir,
-  excluirLinhaEmbaixo, excluirLinha, novaLinha
+  excluirLinhaEmbaixo, excluirLinha, novaLinha,
+  endHome, upDown
 }Acao;
 
 typedef struct{

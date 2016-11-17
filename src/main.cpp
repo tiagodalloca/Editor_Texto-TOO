@@ -62,6 +62,30 @@ void _desfazerSubir(void **args, DesfazerRefazer dr){
   }  
 }
 
+void _desfazerEndHome(void** args, DesfazerRefazer dr)
+{
+  int i = *((int*)args[0]);
+  buf_g.setX(i);
+  atualizarCursor();
+  if (dr == desfazer){
+    /*AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);*/
+  } 
+}
+
+void _desfazerUpDown(void** args, DesfazerRefazer dr)
+{
+  int x = *((int*)args[0]);
+  int y = *((int*)args[1]);
+  buf_g.setY(y);
+  buf_g.setX(x);
+  atualizarCursor();
+  if (dr == desfazer){
+    /*AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);*/
+  }
+}
+
 void _desfazerEsquerda(void **args, DesfazerRefazer dr){
   _direita();
   if(dr == desfazer){
@@ -138,24 +162,28 @@ void _desfazerFrontDel(void **args, DesfazerRefazer dr){
 
 
 void _desfazerNovaLinha(void **args, DesfazerRefazer dr){
-  // aqui é a parte difícil do bagui
+  _backspace();
+  if (dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }
 }
 
 void _desfazerExcluirLinha(void **args, DesfazerRefazer dr){
   _breakLine();
-//   if(dr == desfazer){
-//     AcaoEncapsulada *a = pilha_acoes.pop();
-//     pilha_reacoes.push(a);
-//   } breakline não está empilhando nada ainda
+   if(dr == desfazer){
+     AcaoEncapsulada *a = pilha_acoes.pop();
+     pilha_reacoes.push(a);
+   }
 }
 
 
 void _desfazerExcluirLinhaEmbaixo(void **args, DesfazerRefazer dr){
   _breakLine();
-//   if(dr == desfazer){
-//     AcaoEncapsulada *a = pilha_acoes.pop();
-//     pilha_reacoes.push(a);
-//   } breakline não está empilhando nada ainda
+   if(dr == desfazer){
+     AcaoEncapsulada *a = pilha_acoes.pop();
+     pilha_reacoes.push(a);
+   }
 }
 
 void _desfazer(){
@@ -228,6 +256,17 @@ void _breakLine(){
     cout << ' ';
   atualizarCursor();
   char* c = buf_g.getRestoLinha();
+
+  void **args = (void**)malloc(sizeof(char*));
+  args[0] = (void*)malloc(sizeof(char));
+
+  strcpy((char*)args[0], c);
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = novaLinha;
+  a->args = args;
+
+  pilha_acoes.push(a);
+
   MyString* ms = new MyString(c);
   buf_g.inserirLinhaDepois(ms);
   atualizarCursor();
@@ -235,11 +274,10 @@ void _breakLine(){
   atualizarCursor();
   cout << ms->toString();
   atualizarCursor();
-	
-  // falta empilhar uma acao aqui!
-  // criar um desfazer!
-  // criar
+
+
 }
+
 
 
 void _delete(){
@@ -248,22 +286,17 @@ void _delete(){
   int x = buf_g.getPosX() + 1;
 
   if (x-1 == len && y <= buf_g.quantasLinhas()){
+
+    gotoXY(x - 1, y);
+    delline();
+
     buf_g.descerLinha();
     int slen = buf_g.tamanhoLinha();
     MyString s = buf_g.deletarLinha();
     buf_g.inserirCaracteresNoFinal(s.toString());
     
-    movetext(1,
-             y + 1,
-             slen + 1,
-             y + 1,
-             len + 1,
-             y);
-
-    gotoXY(0, y);
-    for (int i = 0; i<slen; i++)
-      cout << ' ';
-
+    atualizarCursor();
+    cout << s.toString();
     atualizarCursor();
     
     void **args =(void**)malloc(0);
@@ -304,22 +337,20 @@ void _backspace()
   int x = buf_g.getPosX() + 1;
 
   if (x == 1 && y != 1){
-    MyString s = buf_g.deletarLinha();
-    int lenDeCima = buf_g.tamanhoLinha();
-    buf_g.inserirCaracteresNoFinal(s.toString());
-    
-    movetext(1,
-             y,
-             len + 1,
-             y,
-             lenDeCima + 1,
-             y - 1);
 
-    gotoXY(0, y - 1);
-    for (int i = 0; i<len; i++)
-      cout << ' ';
+    buf_g.subirLinha();
+    unsigned int slen = buf_g.tamanhoLinha();
+    buf_g.descerLinha();
 
-    buf_g.setX(lenDeCima);
+    delline();
+    MyString s = buf_g.deletarLinha();    
+    buf_g.setX(buf_g.tamanhoLinha());
+    atualizarCursor();
+    char* c = s.toString();
+    buf_g.inserirCaracteres(c);
+    cout << c;
+
+    buf_g.setX(slen);
     atualizarCursor();
 
     void **args =(void**)malloc(0);
@@ -474,24 +505,68 @@ void _exit(){
 
 void _begin()
 {
+  void **args = (void**)malloc(sizeof(char*));
+  args[0] = (void*)malloc(sizeof(int));
+
+  *((int*)args[0]) = buf_g.getPosX();
+
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = endHome;
+  a->args = args;
+  pilha_acoes.push(a);
+
   buf_g.voltarAoInicioDaLinha();
   atualizarCursor();
 }
 
 void _pgDown()
 {
+  void **args = (void**)malloc(sizeof(char*));
+  args[0] = (void*)malloc(sizeof(int));
+  args[1] = (void*)malloc(sizeof(int));
+
+  *((int*)args[0]) = buf_g.getPosX();
+  *((int*)args[1]) = buf_g.getPosY();
+
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = upDown;
+  a->args = args;
+  pilha_acoes.push(a);
+
   buf_g.descerPagina();
   atualizarCursor();
 }
 
 void _pgUp()
 {
+  void **args = (void**)malloc(sizeof(char*));
+  args[0] = (void*)malloc(sizeof(int));
+  args[1] = (void*)malloc(sizeof(int));
+
+  *((int*)args[0]) = buf_g.getPosX();
+  *((int*)args[1]) = buf_g.getPosY();
+
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = upDown;
+  a->args = args;
+  pilha_acoes.push(a);
+
   buf_g.subirPagina();
   atualizarCursor();
 }
 
 void _end()
 {
+  void **args = (void**)malloc(sizeof(char*));
+  args[0] = (void*)malloc(sizeof(int));
+
+  *((int*)args[0]) = buf_g.getPosX();
+
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = endHome;
+  a->args = args;
+  pilha_acoes.push(a);
+
   buf_g.irAoFimDaLinha();
   atualizarCursor();
 }
@@ -532,6 +607,8 @@ void config(){
   acoes_opostas_g[excluirLinha] = &_desfazerExcluirLinha;
   acoes_opostas_g[excluirLinhaEmbaixo] =
     &_desfazerExcluirLinhaEmbaixo;
+  acoes_opostas_g[endHome] = &_desfazerEndHome;
+  acoes_opostas_g[upDown] = &_desfazerUpDown;
 }
 
 int main(int argc, char **args){
