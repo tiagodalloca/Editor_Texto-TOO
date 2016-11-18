@@ -44,3 +44,4 @@ endforeach (FILE)
 
 add_executable(et src/main.cpp)
 target_link_libraries(et lib)
+

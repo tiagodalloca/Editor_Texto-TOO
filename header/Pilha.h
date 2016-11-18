@@ -12,6 +12,7 @@ public:
   T peek();
   T pop();
   void push(T info);
+  void esvaziar();
   bool vazia();
 private:
   ListaSimples<T> lista;
@@ -47,6 +48,11 @@ T Pilha<T>::pop(){
     return lista.retirarComeco();
   else
     throw "Underflow";
+}
+
+template<typename T>
+void Pilha<T>::esvaziar(){
+  lista.esvaziar();
 }
 
 template<typename T>

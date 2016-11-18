@@ -23,6 +23,7 @@ public:
   void adicionarFinal(T&);
   T retirarComeco();
   T retirarFinal();
+  void esvaziar();
   T getPrimeiro() const;
   T getUltimo() const;
   void percorrer(void (*f)(T)) const;
@@ -130,10 +131,26 @@ T ListaSimples<T>::retirarFinal(){
     throw "Underflow";
 }
 
+
+template<typename T>
+void ListaSimples<T>::esvaziar(){
+  struct NoLista *atual;
+  struct NoLista *aux;
+  atual = primeiro;
+  while (atual != ultimo){
+    aux = atual;
+    atual = atual->prox;
+    delete aux;
+  }
+  delete atual; 
+}
+
+
 template<typename T>
 T ListaSimples<T>::getPrimeiro() const{
   return this->primeiro->info;
 }
+
 
 template<typename T>
 T ListaSimples<T>::getUltimo() const{
