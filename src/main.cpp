@@ -85,6 +85,8 @@ void _desfazerSubir(void **args, DesfazerRefazer dr){
   podeDesempilhar = true;
 }
 
+
+
 void _desfazerEndHome(void** args, DesfazerRefazer dr)
 {
   int i = *((int*)args[0]);
@@ -137,58 +139,46 @@ void _desfazerDireita(void **args, DesfazerRefazer dr){
   podeDesempilhar = true;
 }
 
-void _delete(){
-  talvezEsvaziarCY();
+void _deleteSemEmpilhar(){
+	talvezEsvaziarCY();
 
-  int len = buf_g.tamanhoLinha();
-  int y = buf_g.getPosY() + 1;
-  int x = buf_g.getPosX() + 1;
+	int len = buf_g.tamanhoLinha();
+	int y = buf_g.getPosY() + 1;
+	int x = buf_g.getPosX() + 1;
 
-  if (x - 1 == len && y <= buf_g.quantasLinhas()){
+	if (x - 1 == len && y <= buf_g.quantasLinhas()){
 
-    gotoXY(x - 1, y);
-    delline();
+		gotoXY(x - 1, y);
+		delline();
 
-    buf_g.descerLinha();
-    int slen = buf_g.tamanhoLinha();
-    MyString s = buf_g.deletarLinha();
-    buf_g.inserirCaracteresNoFinal(s.toString());
+		buf_g.descerLinha();
+		int slen = buf_g.tamanhoLinha();
+		MyString s = buf_g.deletarLinha();
+		buf_g.inserirCaracteresNoFinal(s.toString());
 
-    atualizarCursor();
-    cout << s.toString();
-    atualizarCursor();
+		atualizarCursor();
+		cout << s.toString();
+		atualizarCursor();
 
-    void **args = (void**)malloc(0);
-    AcaoEncapsulada *a = new AcaoEncapsulada;
-    a->acao = excluirLinha;
-    a->args = args;
-    pilha_acoes.push(a);
-  }
-  else{
-    //Deleta o caracter no buffer
-    char c = buf_g.deletarADireita();
+	}
+	else{
+		//Deleta o caracter no buffer
+		char c = buf_g.deletarADireita();
 
-    if (c){
-      movetext(x + 1,
-        y,
-        len + 1,
-        y,
-        x,
-        y);
+		if (c){
+			movetext(x + 1,
+				y,
+				len + 1,
+				y,
+				x,
+				y);
 
-      void **args = (void**)malloc(sizeof(char*));
-      args[0] = (void*)malloc(sizeof(char));
 
-      *((char*)args[0]) = c;
-
-      AcaoEncapsulada *a = new AcaoEncapsulada;
-      a->acao = frontdel;
-      a->args = args;
-
-      pilha_acoes.push(a);
-    }
-  }
+		}
+	}
 }
+
+
 
 void _desfazerInserir(void **args, DesfazerRefazer dr){
   bool* insert = (bool*)args[0];
@@ -199,11 +189,11 @@ void _desfazerInserir(void **args, DesfazerRefazer dr){
   {
     int x = buf_g.getPosX();
     int y = buf_g.getPosY();
-    _delete();
+    _deleteSemEmpilhar();
     buf_g.setX(0);
     buf_g.setY(y + 1);
     char c = buf_g.charADireita();
-    _delete();
+    _deleteSemEmpilhar();
     buf_g.setY(y);
     buf_g.setX(buf_g.tamanhoLinha());
     atualizarCursor();
@@ -231,17 +221,39 @@ void _desfazerInserir(void **args, DesfazerRefazer dr){
       buf_g.irParaEsquerda();
       atualizarCursor();
     }
-
-    if (dr == desfazer){
-      AcaoEncapsulada *a = pilha_acoes.pop();
-      pilha_reacoes.push(a);
-    }
-
-    podeDesempilhar = true;
-
   }
+
+  podeDesempilhar = true;
   
+  if (dr == desfazer){
+	  AcaoEncapsulada *a = pilha_acoes.pop();
+	  pilha_reacoes.push(a);
+  }
 }
+
+
+void _breakLineSemEmpilhar(){
+	talvezEsvaziarCY();
+
+	podeAdicionar = false;
+
+	for (int i = buf_g.getPosX(); i < buf_g.tamanhoLinha(); i++)
+		cout << ' ';
+	atualizarCursor();
+	char* c = buf_g.getRestoLinha();
+
+
+	MyString* ms = new MyString(c);
+	buf_g.inserirLinhaDepois(ms);
+	atualizarCursor();
+	insline();
+	atualizarCursor();
+	cout << ms->toString();
+	atualizarCursor();
+
+
+}
+
 
 void _desfazerBackDel(void **args, DesfazerRefazer dr){
   podeDesempilhar = false;
@@ -424,8 +436,58 @@ void _breakLine(){
 }
 
 
+void _delete(){
+	talvezEsvaziarCY();
 
+	int len = buf_g.tamanhoLinha();
+	int y = buf_g.getPosY() + 1;
+	int x = buf_g.getPosX() + 1;
 
+	if (x - 1 == len && y <= buf_g.quantasLinhas()){
+
+		gotoXY(x - 1, y);
+		delline();
+
+		buf_g.descerLinha();
+		int slen = buf_g.tamanhoLinha();
+		MyString s = buf_g.deletarLinha();
+		buf_g.inserirCaracteresNoFinal(s.toString());
+
+		atualizarCursor();
+		cout << s.toString();
+		atualizarCursor();
+
+		void **args = (void**)malloc(0);
+		AcaoEncapsulada *a = new AcaoEncapsulada;
+		a->acao = excluirLinha;
+		a->args = args;
+		pilha_acoes.push(a);
+	}
+	else{
+		//Deleta o caracter no buffer
+		char c = buf_g.deletarADireita();
+
+		if (c){
+			movetext(x + 1,
+				y,
+				len + 1,
+				y,
+				x,
+				y);
+
+			void **args = (void**)malloc(sizeof(char*));
+			args[0] = (void*)malloc(sizeof(char));
+
+			*((char*)args[0]) = c;
+
+			AcaoEncapsulada *a = new AcaoEncapsulada;
+			a->acao = frontdel;
+			a->args = args;
+
+			pilha_acoes.push(a);
+		}
+	}
+}
 
 void _backspace()
 {
@@ -505,14 +567,14 @@ void _default(unsigned short int i){
           buf_g.setX(buf_g.tamanhoMax() - 2);
           atualizarCursor();
           char c = buf_g.charADireita();
-          _delete();
+          _deleteSemEmpilhar();
           buf_g.setX(x);
           buf_g.setY(y);
           atualizarCursor();
           _default(i);
           buf_g.setX(buf_g.tamanhoLinha());
           if (!podeAdicionar)
-            _breakLine();
+            _breakLineSemEmpilhar();
           else
           {
             buf_g.setY(y + 1);
