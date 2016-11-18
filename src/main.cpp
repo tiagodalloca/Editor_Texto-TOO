@@ -179,7 +179,25 @@ void _deleteSemEmpilhar(){
 }
 
 
-
+void puxarParaCima()
+{
+	int x = buf_g.getPosX();
+	int y = buf_g.getPosY();
+	buf_g.setX(x - 1);
+	_deleteSemEmpilhar();
+	buf_g.setX(0);
+	buf_g.setY(y + 1);
+	char c = buf_g.charADireita();
+	_deleteSemEmpilhar();
+	buf_g.setY(y);
+	buf_g.setX(buf_g.tamanhoLinha());
+	atualizarCursor();
+	buf_g.inserirCaracter(c);
+	cout << c;
+	buf_g.setX(x - 1);
+	buf_g.setY(y);
+	atualizarCursor();
+}
 void _desfazerInserir(void **args, DesfazerRefazer dr){
   bool* insert = (bool*)args[0];
   bool podeDeletar = *((bool*)args[2]);
@@ -187,21 +205,7 @@ void _desfazerInserir(void **args, DesfazerRefazer dr){
 
   if (podeDeletar)
   {
-    int x = buf_g.getPosX();
-    int y = buf_g.getPosY();
-    _deleteSemEmpilhar();
-    buf_g.setX(0);
-    buf_g.setY(y + 1);
-    char c = buf_g.charADireita();
-    _deleteSemEmpilhar();
-    buf_g.setY(y);
-    buf_g.setX(buf_g.tamanhoLinha());
-    atualizarCursor();
-    buf_g.inserirCaracter(c);
-    cout << c;
-    buf_g.setX(x);
-    buf_g.setY(y);
-    atualizarCursor();
+		puxarParaCima();
   }
   else
   {
