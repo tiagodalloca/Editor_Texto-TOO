@@ -1,4 +1,0 @@
-F:/EditorTexto/CMakeFiles/lib.dir
-F:/EditorTexto/CMakeFiles/et.dir
-F:/EditorTexto/CMakeFiles/ALL_BUILD.dir
-F:/EditorTexto/CMakeFiles/ZERO_CHECK.dir
