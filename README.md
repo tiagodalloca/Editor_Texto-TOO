@@ -96,14 +96,14 @@ lugar via métodos que faremos
 
 
 ### AINDA FALTA(além dos mínimos):
-- [ ] sincronizar as teclas certas às funções(em vez de usar Ctrl a toda hora )
-- [ ] poder deletar no final da linha,fazendo com que a linha de baixo suba - Dall'Oca
-- [ ] Ctrl + Z para END - Régis
-- [ ] Ctrl + Z para HOME - Régis
+- [x] poder deletar no final da linha,fazendo com que a linha de baixo suba - Dall'Oca
+- [x] Ctrl + Z para END - Régis
+- [x] Ctrl + Z para HOME - Régis
 - [ ] Ctrl + Z para PGUP  - Régis
 - [ ] Ctrl + Z para PGDOWN  - Régis
-- [ ] Ctrl + Z para delete no final - Dall'Oca
-- [ ] Backspace para deletar linha - Dall'Oca
+- [ ] Ctrl + Y caso o default seja executado quando o cursor não está no final da linha e a linha atinja um tamanho maior que 80   - Dall'Oca
+- [x] Ctrl + Z para delete no final - Dall'Oca
+- [x] Backspace para deletar linha - Dall'Oca
 - [x] Subir e descer do Ctrl+Z - Dall'Oca
 
 
