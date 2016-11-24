@@ -39,9 +39,9 @@ void gotoXY(int x, int y)
 void talvezEsvaziarCY(){
   if (podeDesempilhar){
     while(pilha_reacoes.getQuantos() > 0){
-      AcaoEncapsulada *a = pilha_reacoes.pop();
-      delete[] a->args;
-      delete a;
+      pilha_reacoes.pop();
+      //delete[] a->args;
+      //delete a;
       // switch(a){
       // case novaLinha:
       //   delete[][] n
@@ -85,17 +85,44 @@ void _desfazerSubir(void **args, DesfazerRefazer dr){
   podeDesempilhar = true;
 }
 
-
-
-void _desfazerEndHome(void** args, DesfazerRefazer dr)
+void meioEnd(int i)
 {
-  int i = *((int*)args[0]);
+  void **args = (void**)malloc(sizeof(int*));
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = meioEndi;
+  pilha_acoes.push(a);
   buf_g.setX(i);
   atualizarCursor();
+}
+
+void _desfazerEnd(void** args, DesfazerRefazer dr)
+{
+  int i = *((int*)args[0]);
+  meioEnd(i);
   if (dr == desfazer){
-    /*AcaoEncapsulada *a = pilha_acoes.pop();
-    pilha_reacoes.push(a);*/
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
   } 
+}
+
+void meioHome(int i)
+{
+  void **args = (void**)malloc(sizeof(int*));
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = meioHomi;
+  pilha_acoes.push(a);
+  buf_g.setX(i);
+  atualizarCursor();
+}
+
+void _desfazerHome(void** args, DesfazerRefazer dr)
+{
+  int i = *((int*)args[0]);
+  meioHome(i);
+  if (dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }
 }
 
 void _desfazerUpDown(void** args, DesfazerRefazer dr)
@@ -107,10 +134,12 @@ void _desfazerUpDown(void** args, DesfazerRefazer dr)
   buf_g.setY(y);
   buf_g.setX(x);
   atualizarCursor();
-  if (dr == desfazer){
-    /*AcaoEncapsulada *a = pilha_acoes.pop();
-    pilha_reacoes.push(a);*/
-  }
+ /* if (dr == desfazer){
+    AcaoEncapsulada *a;
+    a->args = args;
+    a->acao = 
+    pilha_reacoes.push(a);
+  }*/
 
   podeDesempilhar = true;
 }
@@ -376,6 +405,10 @@ void _esquerda(){
   atualizarCursor();
 }
 
+
+
+
+
 void _descer(){
   talvezEsvaziarCY();
   
@@ -447,25 +480,13 @@ void _delete(){
 	int y = buf_g.getPosY() + 1;
 	int x = buf_g.getPosX() + 1;
 
-	if (x - 1 == len && y <= buf_g.quantasLinhas()){
+	if (x - 1 == len && y < buf_g.quantasLinhas()){
+    buf_g.setY(y);
+    buf_g.setX(0);
+    atualizarCursor();
+    _backspace();
 
-		gotoXY(x - 1, y);
-		delline();
 
-		buf_g.descerLinha();
-		int slen = buf_g.tamanhoLinha();
-		MyString s = buf_g.deletarLinha();
-		buf_g.inserirCaracteresNoFinal(s.toString());
-
-		atualizarCursor();
-		cout << s.toString();
-		atualizarCursor();
-
-		void **args = (void**)malloc(0);
-		AcaoEncapsulada *a = new AcaoEncapsulada;
-		a->acao = excluirLinha;
-		a->args = args;
-		pilha_acoes.push(a);
 	}
 	else{
 		//Deleta o caracter no buffer
@@ -694,7 +715,7 @@ void _begin()
   *((int*)args[0]) = buf_g.getPosX();
 
   AcaoEncapsulada *a = new AcaoEncapsulada;
-  a->acao = endHome;
+  a->acao = homi;
   a->args = args;
   pilha_acoes.push(a);
 
@@ -741,6 +762,40 @@ void _pgUp()
   atualizarCursor();
 }
 
+void _desfazerMeioEnd(void** args, DesfazerRefazer dr)
+{
+
+  void **args2 = (void**)malloc(sizeof(char*));
+  args2[0] = (void*)malloc(sizeof(int));
+
+  *((int*)args2[0]) = buf_g.getPosX();
+
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = endi;
+  a->args = args2;
+  pilha_acoes.push(a);
+
+  buf_g.irAoFimDaLinha();
+  atualizarCursor();
+}
+
+void _desfazerMeioHome(void** args, DesfazerRefazer dr)
+{
+
+  void **args2 = (void**)malloc(sizeof(char*));
+  args2[0] = (void*)malloc(sizeof(int));
+
+  *((int*)args2[0]) = buf_g.getPosX();
+
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = homi;
+  a->args = args2;
+  pilha_acoes.push(a);
+
+  buf_g.voltarAoInicioDaLinha();
+  atualizarCursor();
+}
+
 void _end()
 {
   talvezEsvaziarCY();
@@ -751,7 +806,7 @@ void _end()
   *((int*)args[0]) = buf_g.getPosX();
 
   AcaoEncapsulada *a = new AcaoEncapsulada;
-  a->acao = endHome;
+  a->acao = endi;
   a->args = args;
   pilha_acoes.push(a);
 
@@ -797,7 +852,11 @@ void config(){
   acoes_opostas_g[excluirLinha] = &_desfazerExcluirLinha;
   acoes_opostas_g[excluirLinhaEmbaixo] =
     &_desfazerExcluirLinhaEmbaixo;
-  acoes_opostas_g[endHome] = &_desfazerEndHome;
+  acoes_opostas_g[endi] = &_desfazerEnd;
+  acoes_opostas_g[homi] = &_desfazerHome;
+  acoes_opostas_g[meioEndi] = &_desfazerMeioEnd;
+  acoes_opostas_g[meioHomi] = &_desfazerMeioHome;
+  
   acoes_opostas_g[upDown] = &_desfazerUpDown;
 }
 
