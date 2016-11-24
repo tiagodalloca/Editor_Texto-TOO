@@ -99,8 +99,8 @@ lugar via métodos que faremos
 - [x] poder deletar no final da linha,fazendo com que a linha de baixo suba - Dall'Oca
 - [x] Ctrl + Z para END - Régis
 - [x] Ctrl + Z para HOME - Régis
-- [ ] Ctrl + Z para PGUP  - Régis
-- [ ] Ctrl + Z para PGDOWN  - Régis
+- [x] Ctrl + Z para PGUP  - Régis
+- [x] Ctrl + Z para PGDOWN  - Régis
 - [ ] Ctrl + Y caso o default seja executado quando o cursor não está no final da linha e a linha atinja um tamanho maior que 80   - Dall'Oca
 - [x] Ctrl + Z para delete no final - Dall'Oca
 - [x] Backspace para deletar linha - Dall'Oca
