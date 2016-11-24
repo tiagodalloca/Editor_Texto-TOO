@@ -105,6 +105,28 @@ void _desfazerEnd(void** args, DesfazerRefazer dr)
   } 
 }
 
+void meioup(int x, int y)
+{
+  void **args = (void**)malloc(sizeof(int*));
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = meioUp;
+  pilha_acoes.push(a);
+  buf_g.setY(y);
+  buf_g.setX(x);
+  atualizarCursor();
+}
+
+void meiodown(int x, int y)
+{
+  void **args = (void**)malloc(sizeof(int*));
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = meioDown;
+  pilha_acoes.push(a);
+  buf_g.setY(y);
+  buf_g.setX(x);
+  atualizarCursor();
+}
+
 void meioHome(int i)
 {
   void **args = (void**)malloc(sizeof(int*));
@@ -125,21 +147,31 @@ void _desfazerHome(void** args, DesfazerRefazer dr)
   }
 }
 
-void _desfazerUpDown(void** args, DesfazerRefazer dr)
+void _desfazerUp(void** args, DesfazerRefazer dr)
 {
   podeDesempilhar = false;
-  
   int x = *((int*)args[0]);
   int y = *((int*)args[1]);
-  buf_g.setY(y);
-  buf_g.setX(x);
-  atualizarCursor();
- /* if (dr == desfazer){
-    AcaoEncapsulada *a;
-    a->args = args;
-    a->acao = 
+  meioup(x,y);
+  if (dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
     pilha_reacoes.push(a);
-  }*/
+  }
+
+  podeDesempilhar = true;
+}
+
+void _desfazerDown(void** args, DesfazerRefazer dr)
+{
+  podeDesempilhar = false;
+
+  int x = *((int*)args[0]);
+  int y = *((int*)args[1]);
+  meiodown(x, y);
+   if (dr == desfazer){
+     AcaoEncapsulada *a = pilha_acoes.pop();
+     pilha_reacoes.push(a);
+  }
 
   podeDesempilhar = true;
 }
@@ -735,7 +767,7 @@ void _pgDown()
   *((int*)args[1]) = buf_g.getPosY();
 
   AcaoEncapsulada *a = new AcaoEncapsulada;
-  a->acao = upDown;
+  a->acao = down;
   a->args = args;
   pilha_acoes.push(a);
 
@@ -754,12 +786,22 @@ void _pgUp()
   *((int*)args[0]) = buf_g.getPosX();
   *((int*)args[1]) = buf_g.getPosY();
   AcaoEncapsulada *a = new AcaoEncapsulada;
-  a->acao = upDown;
+  a->acao = up;
   a->args = args;
   pilha_acoes.push(a);
 
   buf_g.subirPagina();
   atualizarCursor();
+}
+
+void _desfazerMeioDown(void** args, DesfazerRefazer dr)
+{
+  _pgDown();
+}
+
+void _desfazerMeioUp(void** args, DesfazerRefazer dr)
+{
+  _pgUp();
 }
 
 void _desfazerMeioEnd(void** args, DesfazerRefazer dr)
@@ -857,7 +899,10 @@ void config(){
   acoes_opostas_g[meioEndi] = &_desfazerMeioEnd;
   acoes_opostas_g[meioHomi] = &_desfazerMeioHome;
   
-  acoes_opostas_g[upDown] = &_desfazerUpDown;
+  acoes_opostas_g[up] = &_desfazerUp;
+  acoes_opostas_g[down] = &_desfazerDown;
+  acoes_opostas_g[meioUp] = &_desfazerMeioUp;
+  acoes_opostas_g[meioDown] = &_desfazerMeioDown;
 }
 
 int main(int argc, char **args){
