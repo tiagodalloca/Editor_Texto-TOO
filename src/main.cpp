@@ -504,6 +504,84 @@ void _breakLine(){
 
 }
 
+void parteDoBackspace()
+{
+  char c = buf_g.charADireita();
+  _deleteSemEmpilhar();
+  buf_g.subirLinha();
+  buf_g.setX(buf_g.tamanhoLinha());
+  atualizarCursor();
+  buf_g.inserirCaracter(c);
+  cout << c;
+
+  atualizarCursor();
+
+
+}
+
+
+void _backspaceSemEmpilhar()
+{
+  talvezEsvaziarCY();
+
+  int len = buf_g.tamanhoLinha();
+  int y = buf_g.getPosY() + 1;
+  int x = buf_g.getPosX() + 1;
+
+  if (x == 1 && y != 1){
+
+    buf_g.subirLinha();
+    unsigned int slen = buf_g.tamanhoLinha();
+    buf_g.descerLinha();
+
+    delline();
+    MyString s = buf_g.deletarLinha();
+    buf_g.setX(buf_g.tamanhoLinha());
+    atualizarCursor();
+    char* c = s.toString();
+    buf_g.inserirCaracteres(c);
+    cout << c;
+
+    buf_g.setX(slen);
+    atualizarCursor();
+
+    buf_g.setY(y - 2);
+    buf_g.setX(slen);
+    atualizarCursor();
+  }
+  else{
+    //Deleta o caracter no buffer
+    char c = buf_g.deletarAEsquerda();
+
+    if (c){
+      movetext(x,
+        y,
+        len + 1,
+        y,
+        x - 1,
+        y);
+
+      //Põe o cursor no lugar certo
+      //atualizarCursor();
+      if (buf_g.tamanhoLinha() + 2 == buf_g.tamanhoMax() && buf_g.getPosY() < buf_g.quantasLinhas() - 1)
+      {
+        buf_g.setY(y);
+        if (buf_g.tamanhoLinha() > 0)
+        {
+          buf_g.setY(y - 1);
+          int x = buf_g.getPosX();
+          int y = buf_g.getPosY();
+          buf_g.setY(y + 1);
+          buf_g.setX(0);
+          atualizarCursor();
+          parteDoBackspace();
+        }
+
+      }
+    
+    }
+  }
+}
 
 void _delete(){
 	talvezEsvaziarCY();
@@ -522,16 +600,16 @@ void _delete(){
 	}
 	else{
 		//Deleta o caracter no buffer
-		char c = buf_g.deletarADireita();
+		char c = buf_g.charADireita();
 
 		if (c){
-			movetext(x + 1,
-				y,
-				len + 1,
-				y,
-				x,
-				y);
-
+      buf_g.irParaDireita();
+      int x = buf_g.getPosX();
+      int y = buf_g.getPosY();
+      _backspaceSemEmpilhar();
+      buf_g.setX(x-1);
+      buf_g.setY(y);
+      atualizarCursor();
 			void **args = (void**)malloc(sizeof(char*));
 			args[0] = (void*)malloc(sizeof(char));
 
@@ -546,20 +624,7 @@ void _delete(){
 	}
 }
 
-void parteDoBackspace()
-{
-  char c = buf_g.charADireita();
-  _deleteSemEmpilhar();
-  buf_g.subirLinha();
-  buf_g.setX(buf_g.tamanhoLinha());
-  atualizarCursor();
-  buf_g.inserirCaracter(c);
-  cout << c;
 
-  atualizarCursor();
-  
-
-}
 
 void _backspace()
 {
