@@ -300,7 +300,6 @@ void _desfazerInserir(void **args, DesfazerRefazer dr){
 void _breakLineSemEmpilhar(){
 	talvezEsvaziarCY();
 
-	podeAdicionar = false;
 
 	for (int i = buf_g.getPosX(); i < buf_g.tamanhoLinha(); i++)
 		cout << ' ';
@@ -473,11 +472,40 @@ void _subir(){
   }
 }
 
+void _breakLine2(){
+  talvezEsvaziarCY();
+
+
+  for (int i = buf_g.getPosX(); i < buf_g.tamanhoLinha(); i++)
+    cout << ' ';
+  atualizarCursor();
+  char* c = buf_g.getRestoLinha();
+
+  void **args = (void**)malloc(sizeof(char*));
+  args[0] = (void*)malloc(sizeof(char));
+
+  strcpy((char*)args[0], c);
+  AcaoEncapsulada *a = new AcaoEncapsulada;
+  a->acao = novaLinha;
+  a->args = args;
+
+  pilha_acoes.push(a);
+
+  MyString* ms = new MyString(c);
+  buf_g.inserirLinhaDepois(ms);
+  atualizarCursor();
+  insline();
+  atualizarCursor();
+  cout << ms->toString();
+  atualizarCursor();
+
+
+}
+
 void _breakLine(){
   talvezEsvaziarCY();
 
-  podeAdicionar = false;
-
+  
   for (int i = buf_g.getPosX(); i < buf_g.tamanhoLinha(); i++)
     cout << ' ';
   atualizarCursor();
@@ -720,7 +748,7 @@ void _default(unsigned short int i){
     {
 
       if (buf_g.getPosX() == buf_g.tamanhoLinha()){
-        _breakLine();
+        _breakLine2();
       }
       else{
 
@@ -984,7 +1012,7 @@ void config(){
   acoes_opostas_g = AcoesRelacionais();
   insertAtivo = true;
   podeDesempilhar = true;
-  podeAdicionar = false;
+  podeAdicionar = true;
   
   acoes_opostas_g[subir] = &_desfazerSubir;
   acoes_opostas_g[descer] = &_desfazerDescer;
