@@ -546,6 +546,21 @@ void _delete(){
 	}
 }
 
+void parteDoBackspace()
+{
+  char c = buf_g.charADireita();
+  _deleteSemEmpilhar();
+  buf_g.subirLinha();
+  buf_g.setX(buf_g.tamanhoLinha());
+  atualizarCursor();
+  buf_g.inserirCaracter(c);
+  cout << c;
+
+  atualizarCursor();
+  
+
+}
+
 void _backspace()
 {
   talvezEsvaziarCY();
@@ -576,6 +591,10 @@ void _backspace()
     a->acao = excluirLinha;
     a->args = args;
     pilha_acoes.push(a);
+    
+    buf_g.setY(y - 2);
+    buf_g.setX(slen);
+    atualizarCursor();
   }
   else{
     //Deleta o caracter no buffer
@@ -590,7 +609,22 @@ void _backspace()
                y);
 
       //Põe o cursor no lugar certo
-      atualizarCursor();
+      //atualizarCursor();
+      if (buf_g.tamanhoLinha() + 2 == buf_g.tamanhoMax() && buf_g.getPosY() < buf_g.quantasLinhas()-1)
+      {
+        buf_g.setY(y);
+        if (buf_g.tamanhoLinha() > 0)
+        {
+          buf_g.setY(y - 1);
+          int x = buf_g.getPosX();
+          int y = buf_g.getPosY();
+          buf_g.setY(y + 1);
+          buf_g.setX(0);
+          atualizarCursor();
+          parteDoBackspace();
+        }
+        
+      }
 
       void **args = (void**)malloc(sizeof(char*));
       args[0] = (void*)malloc(sizeof(char));
@@ -602,6 +636,10 @@ void _backspace()
       a->args = args;
 
       pilha_acoes.push(a);
+
+      buf_g.setY(y - 1);
+      buf_g.setX(x - 2);
+      atualizarCursor();
     }
   }
 }
