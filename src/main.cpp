@@ -168,9 +168,9 @@ void _desfazerDown(void** args, DesfazerRefazer dr)
   int x = *((int*)args[0]);
   int y = *((int*)args[1]);
   meiodown(x, y);
-   if (dr == desfazer){
-     AcaoEncapsulada *a = pilha_acoes.pop();
-     pilha_reacoes.push(a);
+  if (dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
   }
 
   podeDesempilhar = true;
@@ -201,63 +201,63 @@ void _desfazerDireita(void **args, DesfazerRefazer dr){
 }
 
 void _deleteSemEmpilhar(){
-	talvezEsvaziarCY();
+  talvezEsvaziarCY();
 
-	int len = buf_g.tamanhoLinha();
-	int y = buf_g.getPosY() + 1;
-	int x = buf_g.getPosX() + 1;
+  int len = buf_g.tamanhoLinha();
+  int y = buf_g.getPosY() + 1;
+  int x = buf_g.getPosX() + 1;
 
-	if (x - 1 == len && y <= buf_g.quantasLinhas()){
+  if (x - 1 == len && y <= buf_g.quantasLinhas()){
 
-		gotoXY(x - 1, y);
-		delline();
+    gotoXY(x - 1, y);
+    delline();
 
-		buf_g.descerLinha();
-		int slen = buf_g.tamanhoLinha();
-		MyString s = buf_g.deletarLinha();
-		buf_g.inserirCaracteresNoFinal(s.toString());
+    buf_g.descerLinha();
+    int slen = buf_g.tamanhoLinha();
+    MyString s = buf_g.deletarLinha();
+    buf_g.inserirCaracteresNoFinal(s.toString());
 
-		atualizarCursor();
-		cout << s.toString();
-		atualizarCursor();
+    atualizarCursor();
+    cout << s.toString();
+    atualizarCursor();
 
-	}
-	else{
-		//Deleta o caracter no buffer
-		char c = buf_g.deletarADireita();
+  }
+  else{
+    //Deleta o caracter no buffer
+    char c = buf_g.deletarADireita();
 
-		if (c){
-			movetext(x + 1,
-				y,
-				len + 1,
-				y,
-				x,
-				y);
+    if (c){
+      movetext(x + 1,
+               y,
+               len + 1,
+               y,
+               x,
+               y);
 
 
-		}
-	}
+    }
+  }
 }
 
 
 void puxarParaCima()
 {
-	int x = buf_g.getPosX();
-	int y = buf_g.getPosY();
-	buf_g.setX(x - 1);
-	_deleteSemEmpilhar();
-	buf_g.setX(0);
-	buf_g.setY(y + 1);
-	char c = buf_g.charADireita();
-	_deleteSemEmpilhar();
-	buf_g.setY(y);
-	buf_g.setX(buf_g.tamanhoLinha());
-	atualizarCursor();
-	buf_g.inserirCaracter(c);
-	cout << c;
-	buf_g.setX(x - 1);
-	buf_g.setY(y);
-	atualizarCursor();
+  int x = buf_g.getPosX();
+  int y = buf_g.getPosY();
+  buf_g.setX(x - 1);
+  _deleteSemEmpilhar();
+  buf_g.setX(0);
+  buf_g.setY(y + 1);
+  char c = buf_g.charADireita();
+  _deleteSemEmpilhar();
+  buf_g.setY(y);
+  buf_g.setX(buf_g.tamanhoLinha());
+  atualizarCursor();
+  buf_g.inserirCaracter(c);
+  cout << c;
+  buf_g.setX(x - 1);
+  buf_g.setY(y);
+  atualizarCursor();
 }
 void _desfazerInserir(void **args, DesfazerRefazer dr){
   bool* insert = (bool*)args[0];
@@ -265,55 +265,55 @@ void _desfazerInserir(void **args, DesfazerRefazer dr){
   podeDesempilhar = false;
 
   if (podeDeletar)
-  {
-		puxarParaCima();
-  }
-  else
-  {
-    if (*insert)
-      _backspace();
-    else{
-      char* c = (char*)args[1];
-
-      bool aux = insertAtivo;
-      insertAtivo = false;
-
-      buf_g.irParaEsquerda();
-      atualizarCursor();
-      _default(*c);
-      insertAtivo = aux;
-
-      buf_g.irParaEsquerda();
-      atualizarCursor();
+    {
+      puxarParaCima();
     }
-  }
+  else
+    {
+      if (*insert)
+        _backspace();
+      else{
+        char* c = (char*)args[1];
+
+        bool aux = insertAtivo;
+        insertAtivo = false;
+
+        buf_g.irParaEsquerda();
+        atualizarCursor();
+        _default(*c);
+        insertAtivo = aux;
+
+        buf_g.irParaEsquerda();
+        atualizarCursor();
+      }
+    }
 
   podeDesempilhar = true;
   
   if (dr == desfazer){
-	  AcaoEncapsulada *a = pilha_acoes.pop();
-	  pilha_reacoes.push(a);
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
   }
 }
 
 
 void _breakLineSemEmpilhar(){
-	talvezEsvaziarCY();
+  talvezEsvaziarCY();
 
 
-	for (int i = buf_g.getPosX(); i < buf_g.tamanhoLinha(); i++)
-		cout << ' ';
-	atualizarCursor();
-	char* c = buf_g.getRestoLinha();
+  for (int i = buf_g.getPosX(); i < buf_g.tamanhoLinha(); i++)
+    cout << ' ';
+  atualizarCursor();
+  char* c = buf_g.getRestoLinha();
 
 
-	MyString* ms = new MyString(c);
-	buf_g.inserirLinhaDepois(ms);
-	atualizarCursor();
-	insline();
-	atualizarCursor();
-	cout << ms->toString();
-	atualizarCursor();
+  MyString* ms = new MyString(c);
+  buf_g.inserirLinhaDepois(ms);
+  atualizarCursor();
+  insline();
+  atualizarCursor();
+  cout << ms->toString();
+  atualizarCursor();
 
 
 }
@@ -380,21 +380,21 @@ void _desfazerExcluirLinha(void **args, DesfazerRefazer dr){
   podeDesempilhar = false;
   
   _breakLine();
-   if(dr == desfazer){
-     AcaoEncapsulada *a = pilha_acoes.pop();
-     pilha_reacoes.push(a);
-   }
+  if(dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }
 
-   podeDesempilhar = true;
+  podeDesempilhar = true;
 }
 
 
 void _desfazerExcluirLinhaEmbaixo(void **args, DesfazerRefazer dr){
   _breakLine();
-   if(dr == desfazer){
-     AcaoEncapsulada *a = pilha_acoes.pop();
-     pilha_reacoes.push(a);
-   }
+  if(dr == desfazer){
+    AcaoEncapsulada *a = pilha_acoes.pop();
+    pilha_reacoes.push(a);
+  }
 }
 
 void _desfazer(){
@@ -583,19 +583,17 @@ void _backspaceSemEmpilhar()
 
     if (c){
       movetext(x,
-        y,
-        len + 1,
-        y,
-        x - 1,
-        y);
+               y,
+               len + 1,
+               y,
+               x - 1,
+               y);
 
       //Põe o cursor no lugar certo
       //atualizarCursor();
-      if (buf_g.tamanhoLinha() + 2 == buf_g.tamanhoMax() && buf_g.getPosY() < buf_g.quantasLinhas() - 1)
-      {
+      if (buf_g.tamanhoLinha() + 2 == buf_g.tamanhoMax() && buf_g.getPosY() < buf_g.quantasLinhas() - 1){
         buf_g.setY(y);
-        if (buf_g.tamanhoLinha() > 0)
-        {
+        if (buf_g.tamanhoLinha() > 0){
           buf_g.setY(y - 1);
           int x = buf_g.getPosX();
           int y = buf_g.getPosY();
@@ -604,33 +602,31 @@ void _backspaceSemEmpilhar()
           atualizarCursor();
           parteDoBackspace();
         }
-
       }
-    
     }
   }
 }
 
 void _delete(){
-	talvezEsvaziarCY();
+  talvezEsvaziarCY();
 
-	int len = buf_g.tamanhoLinha();
-	int y = buf_g.getPosY() + 1;
-	int x = buf_g.getPosX() + 1;
+  int len = buf_g.tamanhoLinha();
+  int y = buf_g.getPosY() + 1;
+  int x = buf_g.getPosX() + 1;
 
-	if (x - 1 == len && y < buf_g.quantasLinhas()){
+  if (x - 1 == len && y < buf_g.quantasLinhas()){
     buf_g.setY(y);
     buf_g.setX(0);
     atualizarCursor();
     _backspace();
 
 
-	}
-	else{
-		//Deleta o caracter no buffer
-		char c = buf_g.charADireita();
+  }
+  else{
+    //Deleta o caracter no buffer
+    char c = buf_g.charADireita();
 
-		if (c){
+    if (c){
       buf_g.irParaDireita();
       int x = buf_g.getPosX();
       int y = buf_g.getPosY();
@@ -638,18 +634,18 @@ void _delete(){
       buf_g.setX(x-1);
       buf_g.setY(y);
       atualizarCursor();
-			void **args = (void**)malloc(sizeof(char*));
-			args[0] = (void*)malloc(sizeof(char));
+      void **args = (void**)malloc(sizeof(char*));
+      args[0] = (void*)malloc(sizeof(char));
 
-			*((char*)args[0]) = c;
+      *((char*)args[0]) = c;
 
-			AcaoEncapsulada *a = new AcaoEncapsulada;
-			a->acao = frontdel;
-			a->args = args;
+      AcaoEncapsulada *a = new AcaoEncapsulada;
+      a->acao = frontdel;
+      a->args = args;
 
-			pilha_acoes.push(a);
-		}
-	}
+      pilha_acoes.push(a);
+    }
+  }
 }
 
 
@@ -704,20 +700,20 @@ void _backspace()
       //Põe o cursor no lugar certo
       //atualizarCursor();
       if (buf_g.tamanhoLinha() + 2 == buf_g.tamanhoMax() && buf_g.getPosY() < buf_g.quantasLinhas()-1)
-      {
-        buf_g.setY(y);
-        if (buf_g.tamanhoLinha() > 0)
         {
-          buf_g.setY(y - 1);
-          int x = buf_g.getPosX();
-          int y = buf_g.getPosY();
-          buf_g.setY(y + 1);
-          buf_g.setX(0);
-          atualizarCursor();
-          parteDoBackspace();
-        }
+          buf_g.setY(y);
+          if (buf_g.tamanhoLinha() > 0)
+            {
+              buf_g.setY(y - 1);
+              int x = buf_g.getPosX();
+              int y = buf_g.getPosY();
+              buf_g.setY(y + 1);
+              buf_g.setX(0);
+              atualizarCursor();
+              parteDoBackspace();
+            }
         
-      }
+        }
 
       void **args = (void**)malloc(sizeof(char*));
       args[0] = (void*)malloc(sizeof(char));
@@ -752,26 +748,26 @@ void _default(unsigned short int i){
       }
       else{
 
-          buf_g.setX(buf_g.tamanhoMax() - 2);
-          atualizarCursor();
-          char c = buf_g.charADireita();
-          _deleteSemEmpilhar();
-          buf_g.setX(x);
-          buf_g.setY(y);
-          atualizarCursor();
-          _default(i);
-          buf_g.setX(buf_g.tamanhoLinha());
-          if (!podeAdicionar)
-            _breakLineSemEmpilhar();
-          else
+        buf_g.setX(buf_g.tamanhoMax() - 2);
+        atualizarCursor();
+        char c = buf_g.charADireita();
+        _deleteSemEmpilhar();
+        buf_g.setX(x);
+        buf_g.setY(y);
+        atualizarCursor();
+        _default(i);
+        buf_g.setX(buf_g.tamanhoLinha());
+        if (!podeAdicionar)
+          _breakLineSemEmpilhar();
+        else
           {
             buf_g.setY(y + 1);
             buf_g.setX(0);
           }
-          atualizarCursor();
-          i = c;
-          voltar = true;
-          podeAdicionar = true;
+        atualizarCursor();
+        i = c;
+        voltar = true;
+        podeAdicionar = true;
       }		
     }
 
@@ -852,6 +848,32 @@ void _salvar(){
     f = fopen(filename, "w");
     fprintf(f, "%s", buf_g.linhasAsString());
     fclose(f);
+  }
+}
+
+void _abrir(char *filename){
+  FILE *f = fopen(filename, "r");
+  if (f){
+    buf_g.deletarLinha();
+    
+    char linha[80];
+    while (fgets(linha, 80, f) != NULL){
+      char *c;
+      for(c = linha; *c != '\0'; c++){
+        if (*c == '\n'){
+          *c = '\0';
+          break;
+        }
+      }
+
+      buf_g.inserirLinha(new MyString(linha));
+      cout << linha << '\n';
+    }
+
+    buf_g.setY(0);
+    atualizarCursor();
+    
+    delete linha;
   }
 }
 
@@ -1038,6 +1060,10 @@ void config(){
 
 int main(int argc, char **args){
   config();
+
+  if (argc > 1){
+    _abrir(args[1]);
+  }
   
   while(!quit){
     kr_g.resolver();

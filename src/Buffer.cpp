@@ -34,10 +34,12 @@ char* Buffer::linhasAsString()
   char* laStr = (char*)malloc(tam*(256+1)*sizeof(char));
   *(laStr) = '\0';
 
+  linhas->iniciarPercurso();
+
   while(linhas->naoChegouAoFim()){
     char* temp = linhas->infoAtual()->toString();
     strcat(laStr, temp);
-    strcat(laStr, "\r\n");
+    strcat(laStr, "\n");
   }
   return laStr;
 }
