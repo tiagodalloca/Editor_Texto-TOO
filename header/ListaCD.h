@@ -8,96 +8,97 @@
 template<class Dado>
 class ListaCD
 {
-    struct NoLista{
+  struct NoLista{
     Dado info;
     struct NoLista *prox;
     struct NoLista *ant;
-    };
+  };
 
-    public:
-        ListaCD();
-        ~ListaCD();
-        ListaCD(const ListaCD& other);
-        ListaCD operator=(const ListaCD& other);
-        void insiraNoComeco(Dado novo);
-        void insiraNoMeio(Dado novo);
-        void insiraNoFim(const Dado &novo);
-        void insira(Dado novo);
-        void insiraDepois(Dado novo);
-        void remova();
-        void removaDepois();
-        bool naoChegouAoFim();
-        Dado infoAtual();
+public:
+  ListaCD();
+  ~ListaCD();
+  ListaCD(const ListaCD& other);
+  ListaCD operator=(const ListaCD& other);
+  void insiraNoComeco(Dado novo);
+  void insiraNoMeio(Dado novo);
+  void insiraNoFim(const Dado &novo);
+  void insira(Dado novo);
+  void insiraDepois(Dado novo);
+  void remova();
+  void removaDepois();
+  bool naoChegouAoFim();
+  Dado infoAtual();
         void avance();
         void retroceda();
-        int getPos();
-        int quantos();
-        bool estaVazia();
-        void printarLista();
-        void adicionarFinal(const Dado info,int pode);
-        void adicionarComeco(const Dado info, int pode);
-        char* todasAsStrings();
-        Dado getPrimeiro() const;
-        Dado getInfo(unsigned int);
+  void iniciarPercurso();
+  int getPos();
+  int quantos();
+  bool estaVazia();
+  void printarLista();
+  void adicionarFinal(const Dado info,int pode);
+  void adicionarComeco(const Dado info, int pode);
+  char* todasAsStrings();
+  Dado getPrimeiro() const;
+  Dado getInfo(unsigned int);
 
-    protected:
+protected:
 
-    private:
-        int posAtual = 0;
-        int quantosNos = 0;
-        bool primeiroAcesso = true;
-        NoLista *primeiro;
-        NoLista *ultimo;
-        int tam = 0;
-        int posAnt;
+private:
+  int posAtual = 0;
+  int quantosNos = 0;
+  bool primeiroAcesso = true;
+  NoLista *primeiro;
+  NoLista *ultimo;
+  int tam = 0;
+  int posAnt;
 };
 
 template <class Dado>
 ListaCD<Dado>::ListaCD()
 {
-    primeiro = ultimo = NULL;
+  primeiro = ultimo = NULL;
 }
 
 
 template <class Dado>
 ListaCD<Dado>::~ListaCD()
 {
-    if(primeiro)
-        delete[] primeiro;
-    if(ultimo)
-        delete[] ultimo;
+  if(primeiro)
+    delete[] primeiro;
+  if(ultimo)
+    delete[] ultimo;
 
 }
 
 template <class Dado>
 char* ListaCD<Dado>::todasAsStrings()
 {
-    char* laStr = (char*)malloc(2*sizeof(char));
-    char c;
-    this->posAtual = 0;
-    while(this->posAtual != quantosNos)
+  char* laStr = (char*)malloc(2*sizeof(char));
+  char c;
+  this->posAtual = 0;
+  while(this->posAtual != quantosNos)
     {
-        int len = this->infoAtual()->length();
-        laStr = (char*)malloc((tam)*sizeof(char));
-        *(laStr + tam) = '\0';
-        tam+=len;
-        for(int i = 0; i < len;i++)
+      int len = this->infoAtual()->length();
+      laStr = (char*)malloc((tam)*sizeof(char));
+      *(laStr + tam) = '\0';
+      tam+=len;
+      for(int i = 0; i < len;i++)
         {
-            MyString s(laStr);
-            int dpsDoFim = s.length();
-            c = *(this->infoAtual()->toString() + i);
-            *(laStr + dpsDoFim) = c;
-            *(laStr + dpsDoFim + 1) = '\0';
+          MyString s(laStr);
+          int dpsDoFim = s.length();
+          c = *(this->infoAtual()->toString() + i);
+          *(laStr + dpsDoFim) = c;
+          *(laStr + dpsDoFim + 1) = '\0';
         }
-        MyString s2(laStr);
-        *(laStr + s2.length()) = '\n';
-        *(laStr + s2.length()+1) = '\0';
-        tam++;
+      MyString s2(laStr);
+      *(laStr + s2.length()) = '\n';
+      *(laStr + s2.length()+1) = '\0';
+      tam++;
 
-        this->posAtual++;
+      this->posAtual++;
     }
 
-    return laStr;
+  return laStr;
 
 }
 
@@ -105,23 +106,23 @@ char* ListaCD<Dado>::todasAsStrings()
 template <class Dado>
 bool ListaCD<Dado>:: naoChegouAoFim()  //percorrer lista
 {
-    if(primeiroAcesso)
+  if(primeiroAcesso)
     {
-        posAnt = posAtual;
-        posAtual = 0;
-        primeiroAcesso = false;
-        return true;
+      posAnt = posAtual;
+      posAtual = 0;
+      primeiroAcesso = false;
+      return true;
     }
-    if(posAtual != quantosNos-1)
+  if(posAtual != quantosNos-1)
     {
-        posAtual++;
-        return true;
+      posAtual++;
+      return true;
     }
-    else
+  else
     {
-        primeiroAcesso = true;
-        posAtual = posAnt;
-        return false;
+      primeiroAcesso = true;
+      posAtual = posAnt;
+      return false;
     }
 }
 
@@ -135,25 +136,25 @@ void ListaCD<Dado>::adicionarComeco(const Dado info, int pode){
     ultimo = primeiro;
 
   if(pode)
-  quantosNos++;
+    quantosNos++;
 }
 
 template<class Dado>
 void ListaCD<Dado>::insiraNoComeco(Dado novoDado)
 {
-    struct NoLista* aux = new NoLista;
-    aux->info = novoDado;
-    if (estaVazia())
+  struct NoLista* aux = new NoLista;
+  aux->info = novoDado;
+  if (estaVazia())
     {
-    ultimo = primeiro = aux;
+      ultimo = primeiro = aux;
     }
 
-    aux->prox = primeiro;
-    aux->ant = ultimo;
-    primeiro->ant = aux;
-    ultimo->prox = aux;
-    primeiro = aux;
-    quantosNos++;
+  aux->prox = primeiro;
+  aux->ant = ultimo;
+  primeiro->ant = aux;
+  ultimo->prox = aux;
+  primeiro = aux;
+  quantosNos++;
 
 }
 
@@ -183,20 +184,20 @@ void ListaCD<Dado>::adicionarFinal(const Dado info, int pode){
 template <class Dado>
 void ListaCD<Dado>::insiraNoFim(const Dado &novoDado)
 {
-    if (estaVazia())
+  if (estaVazia())
     {
-        insiraNoComeco(novoDado);
+      insiraNoComeco(novoDado);
     }
-    else
+  else
     {
-        struct NoLista* aux = new NoLista;
-        aux->info = novoDado;
-        ultimo->prox = aux;
-        quantosNos++;
-        aux->ant = ultimo;
-        aux->prox = primeiro;
-        primeiro->ant = aux;
-        ultimo = aux;
+      struct NoLista* aux = new NoLista;
+      aux->info = novoDado;
+      ultimo->prox = aux;
+      quantosNos++;
+      aux->ant = ultimo;
+      aux->prox = primeiro;
+      primeiro->ant = aux;
+      ultimo = aux;
     }
 }
 
@@ -204,23 +205,23 @@ void ListaCD<Dado>::insiraNoFim(const Dado &novoDado)
 template <class Dado>
 void ListaCD<Dado>::insiraNoMeio(Dado novoDado)
 {
-    struct NoLista* aux  = new NoLista;
-    aux->info = novoDado;
-    struct NoLista* onde = primeiro;
-    for(int i = 0; i<posAtual;i++)
+  struct NoLista* aux  = new NoLista;
+  aux->info = novoDado;
+  struct NoLista* onde = primeiro;
+  for(int i = 0; i<posAtual;i++)
     {
-        onde = onde->prox;
+      onde = onde->prox;
     }
-    onde->ant->prox = aux;
-    aux->prox = onde;
-    aux->ant = onde->ant;
-    onde->ant = aux;
+  onde->ant->prox = aux;
+  aux->prox = onde;
+  aux->ant = onde->ant;
+  onde->ant = aux;
 
 
-    if (onde == primeiro)
-       primeiro = aux;
+  if (onde == primeiro)
+    primeiro = aux;
 
-    quantosNos++;
+  quantosNos++;
 }
 
 
@@ -230,22 +231,22 @@ void ListaCD<Dado>::insiraNoMeio(Dado novoDado)
 template<class Dado>
 void ListaCD<Dado>::insira(Dado novoDado)
 {
-    if(posAtual == 0)
+  if(posAtual == 0)
     insiraNoComeco(novoDado);
-    else
+  else
     insiraNoMeio(novoDado);
 }
 
 template<class Dado>
 void ListaCD<Dado>::insiraDepois(Dado novoDado)
 {
-    if(posAtual == quantosNos - 1)
+  if(posAtual == quantosNos - 1)
     insiraNoFim(novoDado);
-    else
+  else
     {
-        posAtual++;
-        insiraNoMeio(novoDado);
-        posAtual--;
+      posAtual++;
+      insiraNoMeio(novoDado);
+      posAtual--;
     }
 
 }
@@ -253,45 +254,51 @@ void ListaCD<Dado>::insiraDepois(Dado novoDado)
 template<class Dado>
 void ListaCD<Dado>::remova()
 {
-    struct NoLista* aux = primeiro;
-    for(int i = 0; i <posAtual;i++)
-        aux = aux->prox;
-    if (!estaVazia())
-      {
-        if (aux == primeiro)
+  struct NoLista* aux = primeiro;
+  for(int i = 0; i <posAtual;i++)
+    aux = aux->prox;
+  if (!estaVazia())
+    {
+      if (aux == primeiro)
         {
-            primeiro = primeiro->prox;
-            if (estaVazia())
-                ultimo = NULL;
-            else
+          primeiro = primeiro->prox;
+
+          if (primeiro == primeiro->prox){
+            ultimo = NULL;
+            primeiro = NULL;
+          }
+            
+          if (estaVazia())
+            ultimo = NULL;
+          else
             {
-                ultimo->prox = primeiro;
-                primeiro->ant = ultimo;
+              ultimo->prox = primeiro;
+              primeiro->ant = ultimo;
             }
         }
+      else
+        if (aux == ultimo)
+          {
+            ultimo = aux->ant;
+            ultimo->prox = primeiro;
+            primeiro->ant = ultimo;
+          }
         else
-            if (aux == ultimo)
-            {
-                ultimo = aux->ant;
-                ultimo->prox = primeiro;
-                primeiro->ant = ultimo;
-            }
-            else
-            {
-                aux->ant->prox = aux->prox;
-                aux->prox->ant = aux->ant;
-            }
+          {
+            aux->ant->prox = aux->prox;
+            aux->prox->ant = aux->ant;
+          }
 
-        posAtual--;
-        quantosNos--;
-      }
+      posAtual--;
+      quantosNos--;
+    }
 }
 
 template<class Dado>
 void ListaCD<Dado>::removaDepois()
 {
-    posAtual++;
-    remova();
+  posAtual++;
+  remova();
     posAtual--;
 }
 
@@ -325,6 +332,12 @@ void ListaCD<Dado>::avance()
         posAtual = 0;
     else
     posAtual++;
+}
+
+
+template <class Dado>
+void ListaCD<Dado>::iniciarPercurso(){
+  posAtual = 0;
 }
 
 template <class Dado>

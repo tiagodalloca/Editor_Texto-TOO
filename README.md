@@ -122,6 +122,7 @@ lugar via métodos que faremos
 - [x] refazer (normalmente, CONTROL Y)
 - [x] salvar (normalmente, CONTROL S)
 - [x] salvar como
+- [x] abrir arquivos
   perguntar se quer sobrescrever arquivo existente
 - [x] sair (normalmente, ESC)
  perguntar se quer sair sem salvar
